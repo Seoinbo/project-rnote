@@ -15,3 +15,5 @@ out
 # jetBrains
 .idea
 platforms
+.sass-cache
+*.css.map

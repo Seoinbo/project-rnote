@@ -16,4 +16,4 @@ out
 .idea
 platforms
 .sass-cache
-*.css.map
+node_modules

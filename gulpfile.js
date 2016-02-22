@@ -7,6 +7,10 @@ var uglifycss = require('gulp-uglifycss');
 var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 
+var buildOpt = {
+    argv: ["--release","--gradleArg=--no-daemon"]
+};
+
 // make:
 //   - index.css
 //   - index.min.css
@@ -24,7 +28,7 @@ gulp.task('sass2css', function() {
 //   - index.js
 //   - index.min.js
 gulp.task('es6to5', function() {
-    gulp.src('www/js/**/*.es6')
+    gulp.src('www/es6/**/*.js')
         .pipe(babel({presets:['es2015']}))
         .pipe(concat('index.js'))
         .pipe(gulp.dest('www/js/'))
@@ -33,31 +37,26 @@ gulp.task('es6to5', function() {
         .pipe(gulp.dest('www/js/'));
 });
 
+
 gulp.task('build-browser', function() {
     cordova.build({
         "platforms": ["browser"],
-        "options": {
-            argv: ["--release","--gradleArg=--no-daemon"]
-        }
+        "options": buildOpt
     });
 });
 
 gulp.task('build-aos', function() {
     cordova.build({
         "platforms": ["android"],
-        "options": {
-            argv: ["--release","--gradleArg=--no-daemon"]
-        }
+        "options": buildOpt
     });
 });
 
 gulp.task('build-ios', function() {
     cordova.build({
         "platforms": ["ios"],
-        "options": {
-            argv: ["--release","--gradleArg=--no-daemon"]
-        }
-    }, callback);
+        "options": buildOpt
+    });
 });
 
 gulp.task('convert', ['sass2css', 'es6to5']);
@@ -65,6 +64,6 @@ gulp.task('default', ['convert']);
 
 gulp.task('watch', function() {
     gulp.watch('www/sass/**/*.sass', ['sass2css']);
-    gulp.watch('www/js/**/*.es6', ['es6to5']);
-    gulp.watch('www/js/**/*.es6', ['es6to5']);
+    gulp.watch('www/es6/**/*.js', ['es6to5']);
+    gulp.watch('www/es6/**/*.js', ['es6to5']);
 });

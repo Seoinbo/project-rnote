@@ -1,11 +1,12 @@
 {
   "name": "recipenote",
-  "description": "List of npm dev-dependencies",
+  "description": "",
   "repository": "https://github.com/Seoinbo/project-rnote.git",
   "version": "0.0.1",
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-preset-es2015": "^6.5.0",
+    "bower": "^1.7.7",
     "cordova": "^6.0.0",
     "cordova-lib": "^6.0.0",
     "gulp": "^3.9.1",

@@ -19,26 +19,28 @@
         <title>rnote</title>
         <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
         <link rel="import" href="bower_components/polymer/polymer.html">
-        <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+    
+        <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+
+        <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <link rel="import" href="elements/icon-button.html">
     </head>
     <body>
         <div id="app">
             <div id="sidebar" active="off">
                 <button class="sidebar-close">메뉴닫기</button>
+                <icon-button icon="favorite" title="heart"></icon-button>
                 side-bar
             </div>
             <div id="container">
                 <header id="navigation">
-                    <!-- <div class="panel">
+                    <div class="panel">
                         <button class="box sidebar-open">메뉴호출</button>
                         <div class="box label-title">navigation</div>
                         <button class="box view-open">상세화면호출</button>
-                    </div> -->
-                    <paper-toolbar>
-                      <paper-icon-button icon="menu" on-tap="menuAction"></paper-icon-button>
-                      <div class="title">Title</div>
-                      <paper-icon-button icon="more-vert" on-tap="moreAction"></paper-icon-button>
-                    </paper-toolbar>
+                        <paper-button>Say Hello</paper-button>
+                    </div>
+                    
                 </header>
                 <div id="content">
                     <div id="list">

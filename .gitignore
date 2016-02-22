@@ -17,3 +17,4 @@ out
 platforms
 .sass-cache
 node_modules
+bower_components

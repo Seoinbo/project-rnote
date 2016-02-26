@@ -17,13 +17,14 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
         <title>rnote</title>
-        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
-        <link rel="import" href="bower_components/polymer/polymer.html">
-    
-        <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-
-        <link rel="import" href="bower_components/paper-button/paper-button.html">
-        <link rel="import" href="elements/icon-button.html">
+        <!-- IE required -->
+        <script src="js/external/es6-shim.js"></script>
+        <script src="js/external/system-polyfills.js"></script>
+        <!-- Angular2 -->
+        <script src="js/external/angular2-polyfills.js"></script>
+        <script src="js/external/system.src.js"></script>
+        <script src="js/external/Rx.js"></script>
+        <script src="js/external/angular2.dev.js"></script>
     </head>
     <body>
         <div id="app">
@@ -40,7 +41,7 @@
                         <button class="box view-open">상세화면호출</button>
                         <paper-button>Say Hello</paper-button>
                     </div>
-                    
+
                 </header>
                 <div id="content">
                     <div id="list">

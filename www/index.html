@@ -25,12 +25,24 @@
         <script src="js/external/system.src.js"></script>
         <script src="js/external/Rx.js"></script>
         <script src="js/external/angular2.dev.js"></script>
+        <!-- Configure SystemJS -->
+        <script>
+        System.config({
+            packages: {
+                app: {
+                    format: 'register',
+                    defaultExtension: 'js'
+                }
+            }
+        });
+        System.import('js/index')
+            .then(null, console.error.bind(console));
+        </script>
     </head>
     <body>
         <div id="app">
             <div id="sidebar" active="off">
                 <button class="sidebar-close">메뉴닫기</button>
-                <icon-button icon="favorite" title="heart"></icon-button>
                 side-bar
             </div>
             <div id="container">
@@ -39,7 +51,6 @@
                         <button class="box sidebar-open">메뉴호출</button>
                         <div class="box label-title">navigation</div>
                         <button class="box view-open">상세화면호출</button>
-                        <paper-button>Say Hello</paper-button>
                     </div>
 
                 </header>

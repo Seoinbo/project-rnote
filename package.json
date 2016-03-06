@@ -3,6 +3,15 @@
   "description": "",
   "version": "0.0.1",
   "repository": "https://github.com/Seoinbo/project-rnote.git",
+  "scripts": {
+    "postinstall": "npm run typings install",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "server": "lite-server",
+    "start": "concurrent \"npm run gulp watch\" \"npm run server -c bs-config.json\" ",
+    "typings": "typings",
+    "gulp": "gulp"
+  },
   "dependencies": {
     "angular2": "2.0.0-beta.7",
     "es6-promise": "^3.0.2",
@@ -13,19 +22,21 @@
     "zone.js": "0.5.15"
   },
   "devDependencies": {
+    "concurrently": "^2.0.0",
+    "cordova": "^6.0.0",
+    "cordova-lib": "^6.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
     "gulp-cli": "^1.2.1",
     "gulp-concat": "^2.6.0",
     "gulp-dest": "^0.2.3",
     "gulp-sass": "^2.2.0",
+    "gulp-typescript": "^2.12.1",
     "gulp-uglify": "^1.5.2",
     "gulp-uglifycss": "^1.0.5",
-    "cordova": "^6.0.0",
-    "cordova-lib": "^6.0.0",
-    "concurrently": "^2.0.0",
     "lite-server": "^2.1.0",
+    "run-sequence": "^1.1.5",
     "typescript": "^1.7.5",
-    "typings": "^0.6.8"
+    "typings": "^0.6.10"
   }
 }

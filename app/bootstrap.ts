@@ -1,4 +1,4 @@
 import {bootstrap}  from 'angular2/platform/browser';
-import {test} from './components/navigation/navigation';
+import {Index} from './index';
 
-bootstrap(test);
+bootstrap(Index);

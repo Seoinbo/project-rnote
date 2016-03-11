@@ -1,4 +1,4 @@
 import {bootstrap}  from 'angular2/platform/browser';
-import {Index} from './index';
+import {Recipenote} from './components/recipenote';
 
-bootstrap(Index);
+bootstrap(Recipenote);

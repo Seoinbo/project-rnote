@@ -1,0 +1,12 @@
+// Definitions
+$vendors: -webkit- -moz- -ms- -o-
+$sidebar_width: 230px
+$navbar_height: 50px
+$min_container_width: 360px
+$max_container_width: $min_container_width * 2
+
+// Mixin
+@mixin prefix($name, $value)
+    #{$name}: $value
+    @each $prefix in $vendors
+        #{$prefix}#{$name}: $value

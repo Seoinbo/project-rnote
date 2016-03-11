@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var ignore = require('gulp-ignore');
 var clean = require('gulp-clean');
 var runSequence = require('run-sequence');
 var cordova = require("cordova-lib").cordova;
@@ -17,7 +18,7 @@ var buildOpt = {
 
 // Main task
 gulp.task('compile', function() {
-    runSequence('ts2es5', 'sass2css', ['copyjs', 'copyhtml']);
+    runSequence('ts2es5', 'sass2css', ['copyjs', 'copymodules', 'copyhtml']);
 });
 gulp.task('default', function() {
     runSequence('clean', 'compile');
@@ -31,8 +32,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('clean', function () {
-  return gulp.src('www/**/*', {read: false})
-   .pipe(clean());
+    return gulp.src('www/**/*', {read: false})
+    .pipe(ignore(['index.html', 'styles.css']))
+    .pipe(clean());
+    
 });
 
 // make:
@@ -48,10 +51,11 @@ gulp.task('sass2css', function() {
 // Typescript trans-conpile ES5
 gulp.task('ts2es5', function() {
     var tsResult = tsProject.src()
-        .pipe(ts(tsProject));
+        .pipe(ts(tsProject))
+        .pipe(gulp.dest('www/'));
     return tsResult.js
         // .pipe(destopt({ext: '.min.js'}))
-        .pipe(gulp.dest('www/'));
+        
 });
 
 gulp.task('copyjs', function() {
@@ -62,6 +66,15 @@ gulp.task('copyjs', function() {
 gulp.task('copyhtml', function() {
     gulp.src('app/**/*.html')
     .pipe(gulp.dest('www/'));
+});
+
+gulp.task('copymodules', function() {
+    gulp.src('node_modules/angular2/**/*.js').pipe(gulp.dest('www/modules/angular2/'));
+    gulp.src('node_modules/rxjs/**/*.js').pipe(gulp.dest('www/modules/rxjs/'));
+    gulp.src('node_modules/es6-shim/**/*.js').pipe(gulp.dest('www/modules/es6-shim/'));
+    gulp.src('node_modules/systemjs/**/*.js').pipe(gulp.dest('www/modules/systemjs/'));
+    gulp.src('node_modules/zone.js/**/*.js').pipe(gulp.dest('www/modules/zone.js/'));
+    gulp.src('node_modules/reflect-metadata/**/*.js').pipe(gulp.dest('www/modules/reflect-metadata/'));
 });
 
 gulp.task('build-browser', function() {

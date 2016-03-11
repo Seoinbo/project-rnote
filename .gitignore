@@ -17,5 +17,6 @@ out
 platforms
 .sass-cache
 node_modules
+www/modules
 bower_components
 typings

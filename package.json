@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "server": "lite-server",
-    "start": "concurrent \"npm run gulp watch\" \"npm run server -c bs-config.json\" ",
+    "start": "concurrent \"npm run gulp compile\" \"npm run gulp watch\" \"npm run server -c bs-config.json\" ",
     "typings": "typings",
     "gulp": "gulp"
   },
@@ -30,6 +30,7 @@
     "gulp-cli": "^1.2.1",
     "gulp-concat": "^2.6.0",
     "gulp-dest": "^0.2.3",
+    "gulp-ignore": "^2.0.1",
     "gulp-sass": "^2.2.0",
     "gulp-typescript": "^2.12.1",
     "gulp-uglify": "^1.5.2",

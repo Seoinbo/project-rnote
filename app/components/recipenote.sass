@@ -50,7 +50,7 @@ content
         max-width: $max_container_width
         height: auto
         box-sizing: border-box
-        background-color: #333    
+        background-color: #333
     view
         position: relative
         display: flex
@@ -68,27 +68,29 @@ content
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)
-    view[active=on]
-        transform: translateX(-100%)
-    view
-        position: fixed
-        padding: 0
-        top: 0
-        height: 100%
-        transform: translateX(0)
-        transition: all 300ms ease
-    list
-        padding: 0
-        width: 100%
+    content
+        view[active=on]
+            transform: translateX(-100%)
+        view
+            position: fixed
+            padding: 0
+            top: 0
+            height: 100%
+            transform: translateX(0)
+            transition: all 300ms ease
+        list
+            padding: 0
+            width: 100%
 
 // under mobile
 @media screen and (min-width: $min_container_width * 2)
     navigation
         .view-open
             display: none
-    view
-        .nav-back
-            display: none
+    content
+        view
+            .nav-back
+                display: none
 
 // under mobile and tablet
 @media screen and (min-width: $sidebar_width + ($min_container_width * 2))

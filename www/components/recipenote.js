@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './navigation/navigation'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1;
+    var core_1, router_1, navigation_1;
     var Recipenote;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (navigation_1_1) {
+                navigation_1 = navigation_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
@@ -30,7 +33,10 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                         // templateUrl: 'recipenote.html',
                         templateUrl: 'components/recipenote.html',
                         styleUrls: ['components/recipenote.css'],
-                        directives: [router_1.ROUTER_DIRECTIVES],
+                        directives: [
+                            router_1.ROUTER_DIRECTIVES,
+                            navigation_1.Navigation
+                        ],
                         providers: [
                             router_1.ROUTER_PROVIDERS
                         ]

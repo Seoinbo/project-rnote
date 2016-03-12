@@ -18,7 +18,7 @@ var buildOpt = {
 
 // Main task
 gulp.task('compile', function() {
-    runSequence('ts2es5', 'sass2css', ['copyjs', 'copymodules', 'copyhtml']);
+    runSequence('ts2es5', 'sass2css', ['copymodules', 'copyhtml']);
 });
 gulp.task('default', function() {
     runSequence('clean', 'compile');
@@ -27,7 +27,7 @@ gulp.task('default', function() {
 gulp.task('watch', function() {
     gulp.watch('app/**/*.sass', ['sass2css']);
     gulp.watch('app/**/*.ts', ['ts2es5']);
-    gulp.watch('app/**/*.js', ['copyjs']);
+    // gulp.watch('app/**/*.js', ['copyjs']);
     gulp.watch('app/**/*.html', ['copyhtml']);
 });
 
@@ -35,7 +35,7 @@ gulp.task('clean', function () {
     return gulp.src('www/**/*', {read: false})
     .pipe(ignore(['index.html', 'styles.css']))
     .pipe(clean());
-    
+
 });
 
 // make:
@@ -55,13 +55,13 @@ gulp.task('ts2es5', function() {
         .pipe(gulp.dest('www/'));
     return tsResult.js
         // .pipe(destopt({ext: '.min.js'}))
-        
+
 });
 
-gulp.task('copyjs', function() {
-    gulp.src('app/**/*.js')
-    .pipe(gulp.dest('www/'));
-});
+// gulp.task('copyjs', function() {
+//     gulp.src('app/**/*.js')
+//     .pipe(gulp.dest('www/'));
+// });
 
 gulp.task('copyhtml', function() {
     gulp.src('app/**/*.html')

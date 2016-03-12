@@ -18,5 +18,7 @@ platforms
 .sass-cache
 node_modules
 www/modules
+app/*.js
+app/*.js.map
 bower_components
 typings

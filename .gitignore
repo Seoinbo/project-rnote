@@ -21,4 +21,5 @@ www/modules
 app/*.js
 app/*.js.map
 bower_components
+npm-debug.log*
 typings

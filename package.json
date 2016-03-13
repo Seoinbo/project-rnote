@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "server": "lite-server",
-    "start": "concurrent \"npm run gulp compile\" \"npm run gulp watch\" \"npm run server -c bs-config.json\" ",
+    "start": "concurrent \"npm run gulp dev\" \"npm run server -c bs-config.json\" ",
     "typings": "typings",
     "gulp": "gulp"
   },

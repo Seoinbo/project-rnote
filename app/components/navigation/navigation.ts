@@ -1,12 +1,13 @@
 import {Component} from 'angular2/core';
-import {DefaultButton} from '../button/default-button';
+import {NavButton} from '../button/nav-button/nav-button';
+import {Button} from '../button/button';
 
 @Component({
   selector: 'navigation',
   templateUrl: 'components/navigation/navigation.html',
   styleUrls: ['components/navigation/navigation.css'],
   directives: [
-      DefaultButton
+      NavButton
   ]
 })
 

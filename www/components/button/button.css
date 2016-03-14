@@ -1,0 +1,42 @@
+button {
+  border: 0;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 60px;
+  background: #43B6B9;
+  text-align: center;
+  font: inherit;
+  outline-width: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  cursor: pointer;
+  z-index: 0;
+  line-height: 40px;
+  font-size: inherit; }
+
+effect {
+  display: block;
+  position: absolute;
+  border-radius: inherit;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: #fff;
+  transition: all 250ms;
+  -webkit-transition: all 250ms;
+  -moz-transition: all 250ms;
+  -ms-transition: all 250ms;
+  -o-transition: all 250ms; }
+
+effect.bg-gray {
+  background-color: #999; }
+
+effect[active-effect] {
+  opacity: 0.3 !important; }

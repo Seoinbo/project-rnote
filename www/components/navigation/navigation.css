@@ -6,9 +6,5 @@
   box-sizing: border-box;
   height: 100%; }
 
-.btn-default default-button {
-  margin: 0 0.29em;
-  padding: 0.85em 0.57em; }
-
 .view-open {
   float: right; }

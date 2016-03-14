@@ -14,11 +14,12 @@ export class Button {
     private element: ElementRef;
     private elButton: any;
     private elEffect: any;
-    
+
     constructor (element: ElementRef) {
         this.element = element;
-        
+
     }
+    
     ngOnInit() {
         this.elButton = this.element.nativeElement;
         this.elEffect = this.elButton.querySelector('effect');
@@ -30,7 +31,7 @@ export class Button {
             e.preventDefault();
             this.activeEffect();
         }, true);
-        
+
         this.elEffect.addEventListener("transitionend", () => {
             this.onEffectComplete();
         });
@@ -39,7 +40,7 @@ export class Button {
     protected activeEffect() {
         this.elEffect.setAttribute('active-effect', '');
     }
-    
+
     protected onEffectComplete() {
         this.elEffect.removeAttribute('active-effect');
     }

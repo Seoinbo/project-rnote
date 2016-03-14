@@ -51,4 +51,3 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
         }
     }
 });
-//# sourceMappingURL=nav-button.js.map

@@ -1,12 +1,23 @@
 @import '../common'
 
 .panel
+    @include prefix(display, flex)
     height: 100%
-
 .nav-item
     display: inline-block
     box-sizing: border-box
     height: 100%
-
+.title
+    line-height: $navbar_height
+    background-color: #D1D0D1
+    padding: 0 15px
+.menu
+    width: 60px
+.sync
+    width: 72px
+.search
+    width: 60px
+.cart
+    width: 72px
 .view-open
     float: right

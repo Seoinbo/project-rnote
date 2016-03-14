@@ -3,6 +3,7 @@ button {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
+  width: inherit;
   min-width: 60px;
   background: #43B6B9;
   text-align: center;
@@ -16,7 +17,8 @@ button {
   cursor: pointer;
   z-index: 0;
   line-height: 40px;
-  font-size: inherit; }
+  font-size: inherit;
+  padding: 0 15px; }
 
 effect {
   display: block;
@@ -29,11 +31,11 @@ effect {
   bottom: 0;
   opacity: 0;
   background-color: #fff;
-  transition: all 250ms;
-  -webkit-transition: all 250ms;
-  -moz-transition: all 250ms;
-  -ms-transition: all 250ms;
-  -o-transition: all 250ms; }
+  transition: all 150ms;
+  -webkit-transition: all 150ms;
+  -moz-transition: all 150ms;
+  -ms-transition: all 150ms;
+  -o-transition: all 150ms; }
 
 effect.bg-gray {
   background-color: #999; }

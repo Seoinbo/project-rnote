@@ -5,6 +5,7 @@ button
     position: relative
     display: inline-block
     box-sizing: border-box
+    width: inherit
     min-width: 60px
     // background: transparent
     background: #43B6B9
@@ -16,6 +17,7 @@ button
     z-index: 0
     line-height: 40px
     font-size: inherit
+    padding: 0 15px
 
 effect
     display: block
@@ -28,7 +30,7 @@ effect
     bottom: 0
     opacity: 0
     background-color: #fff
-    @include prefix(transition, all 250ms)
+    @include prefix(transition, all 150ms)
 
 effect.bg-gray
     background-color: #999

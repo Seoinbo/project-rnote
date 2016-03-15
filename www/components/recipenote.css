@@ -93,7 +93,6 @@ content {
 @media screen and (max-width: 950px) {
   sidebar {
     position: fixed;
-    transform: translateX(-230px);
-    transition: all 300ms ease; }
+    transform: translateX(-230px); }
   sidebar[active=on] {
     transform: translateX(0); } }

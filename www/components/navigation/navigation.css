@@ -12,6 +12,7 @@
   height: 100%; }
 
 .title {
+  width: 100%;
   line-height: 50px;
   background-color: #D1D0D1;
   padding: 0 15px; }
@@ -19,14 +20,21 @@
 .menu {
   width: 60px; }
 
-.sync {
-  width: 72px; }
+.btn-group {
+  display: flex;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex; }
+  .btn-group .sync {
+    width: 60px; }
+  .btn-group .search {
+    width: 60px; }
+  .btn-group .cart {
+    width: 60px; }
+  .btn-group .view-open {
+    float: right; }
 
-.search {
-  width: 60px; }
-
-.cart {
-  width: 72px; }
-
-.view-open {
-  float: right; }
+@media screen and (min-width: 950px) {
+  .menu {
+    display: none; } }

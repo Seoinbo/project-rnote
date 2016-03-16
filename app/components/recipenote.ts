@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, ElementRef} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 
 import {Navigation} from './navigation/navigation';
@@ -21,5 +21,18 @@ import {Navigation} from './navigation/navigation';
 // ])
 
 export class Recipenote {
+    element: Element;
     title: 'rnote'
+    
+    constructor(elementRef: ElementRef) {
+        this.element = elementRef.nativeElement;
+    }
+    
+    showCloseArea(): void {
+        this.element.querySelector('.sidebar-close').setAttribute('active', 'on');
+    }
+    
+    hideCloseArea(): void {
+        this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
+    }
 }

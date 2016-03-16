@@ -15,7 +15,7 @@ import {Button} from '../button';
 })
 
 export class NavButton extends Button {
-    constructor (element: ElementRef) {
-        super(element);
+    constructor (elementRef: ElementRef) {
+        super(elementRef);
     }
 }

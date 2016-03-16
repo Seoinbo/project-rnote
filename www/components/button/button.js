@@ -19,18 +19,17 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }],
         execute: function() {
             Button = (function () {
-                function Button(element) {
+                function Button(elementRef) {
                     this.title = '';
-                    this.element = element;
+                    this.element = elementRef.nativeElement;
                 }
                 Button.prototype.ngOnInit = function () {
-                    this.elButton = this.element.nativeElement;
-                    this.elEffect = this.elButton.querySelector('effect');
+                    this.elEffect = this.element.querySelector('effect');
                     this.initEffect();
                 };
                 Button.prototype.initEffect = function () {
                     var _this = this;
-                    this.elButton.addEventListener('click', function (e) {
+                    this.element.addEventListener('click', function (e) {
                         e.preventDefault();
                         _this.activeEffect();
                     }, true);

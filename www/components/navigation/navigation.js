@@ -22,8 +22,19 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation() {
+                // sidebar: Sidebar = new Sidebar();
+                function Navigation(elementRef) {
+                    // console.log(document.querySelector('sidebar'));
+                    console.log(elementRef);
+                    // this.element = elementRef.nativeElement;
                 }
+                Navigation.prototype.ngOnInit = function () {
+                    // 네비게이션 버튼 바인딩
+                    // this.element.querySelector('.menu').addEventListener('click', (e: Event) => {
+                    //     e.preventDefault();
+                    //     // this.sidebar.toggle();
+                    // }, true);
+                };
                 Navigation = __decorate([
                     core_1.Component({
                         selector: 'navigation',
@@ -33,7 +44,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
                             nav_button_1.NavButton
                         ]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Navigation);
                 return Navigation;
             }());

@@ -10,24 +10,21 @@ import {Component, ElementRef} from 'angular2/core';
 })
 
 export class Button {
-    public title: string = '';
-    private element: ElementRef;
-    private elButton: any;
-    private elEffect: any;
+    title: string = '';
+    element: Element;
+    elEffect: Element;
 
-    constructor (element: ElementRef) {
-        this.element = element;
-
+    constructor(elementRef: ElementRef) {
+        this.element = elementRef.nativeElement;
     }
     
     ngOnInit() {
-        this.elButton = this.element.nativeElement;
-        this.elEffect = this.elButton.querySelector('effect');
+        this.elEffect = this.element.querySelector('effect');
         this.initEffect();
     }
 
     protected initEffect() {
-        this.elButton.addEventListener('click', (e: Event) => {
+        this.element.addEventListener('click', (e: Event) => {
             e.preventDefault();
             this.activeEffect();
         }, true);

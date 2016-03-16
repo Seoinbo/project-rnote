@@ -28,8 +28,8 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
         execute: function() {
             NavButton = (function (_super) {
                 __extends(NavButton, _super);
-                function NavButton(element) {
-                    _super.call(this, element);
+                function NavButton(elementRef) {
+                    _super.call(this, elementRef);
                 }
                 NavButton = __decorate([
                     core_1.Component({

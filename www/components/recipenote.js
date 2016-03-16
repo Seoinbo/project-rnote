@@ -25,8 +25,15 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation'],
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote() {
+                function Recipenote(elementRef) {
+                    this.element = elementRef.nativeElement;
                 }
+                Recipenote.prototype.showCloseArea = function () {
+                    this.element.querySelector('.sidebar-close').setAttribute('active', 'on');
+                };
+                Recipenote.prototype.hideCloseArea = function () {
+                    this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
+                };
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -41,7 +48,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation'],
                             router_1.ROUTER_PROVIDERS
                         ]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Recipenote);
                 return Recipenote;
             }());

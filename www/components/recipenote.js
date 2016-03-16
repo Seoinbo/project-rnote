@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './navigation/navigation'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './navigation/navigation', './sidebar/sidebar'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, navigation_1;
+    var core_1, router_1, navigation_1, sidebar_1;
     var Recipenote;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation'],
             },
             function (navigation_1_1) {
                 navigation_1 = navigation_1_1;
+            },
+            function (sidebar_1_1) {
+                sidebar_1 = sidebar_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
@@ -42,7 +45,8 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation'],
                         styleUrls: ['components/recipenote.css'],
                         directives: [
                             router_1.ROUTER_DIRECTIVES,
-                            navigation_1.Navigation
+                            navigation_1.Navigation,
+                            sidebar_1.Sidebar
                         ],
                         providers: [
                             router_1.ROUTER_PROVIDERS

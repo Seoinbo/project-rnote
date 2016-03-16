@@ -1,30 +1,33 @@
-import {Component, ElementRef} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Recipenote} from '../recipenote';
 
+@Component({
+  selector: 'sidebar',
+  templateUrl: 'components/sidebar/sidebar.html',
+  styleUrls: ['components/sidebar/sidebar.css']
+})
+
 export class Sidebar {
-    element: Element;
+    active: boolean = false;
     // recipenote: Recipenote;
-    
-    constructor(elementRef: ElementRef) {
-        this.element = elementRef.nativeElement;
-        // this.recipenote = new Recipenote();
+
+    constructor() {
     }
-    
+
     show(): void {
-        document.querySelector('sidebar').setAttribute('active', 'on');
-        // this.recipenote.showCloseArea();
+        this.active = true;
     }
-    
+
     hide(): void {
-        document.querySelector('sidebar').setAttribute('active', 'off');
+        this.active = false;
     }
-    
+
     toggle(): void {
-        let elSidebar: Element = document.querySelector('sidebar');
-        if (elSidebar.getAttribute('active') == 'off') {
-            this.show();
-        } else {
+        console.log(this.active);
+        if (this.active) {
             this.hide();
+        } else {
+            this.show();
         }
     }
 }

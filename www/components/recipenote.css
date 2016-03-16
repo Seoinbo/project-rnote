@@ -103,5 +103,5 @@ content {
   sidebar {
     position: fixed;
     transform: translateX(-230px); }
-  sidebar[active=on] {
+  sidebar.active {
     transform: translateX(0); } }

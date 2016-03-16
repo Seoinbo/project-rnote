@@ -21,6 +21,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             Button = (function () {
                 function Button(elementRef) {
                     this.title = '';
+                    this.animating = false;
                     this.element = elementRef.nativeElement;
                 }
                 Button.prototype.ngOnInit = function () {
@@ -31,17 +32,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     var _this = this;
                     this.element.addEventListener('click', function (e) {
                         e.preventDefault();
-                        _this.activeEffect();
+                        _this.animating = true;
                     }, true);
                     this.elEffect.addEventListener("transitionend", function () {
                         _this.onEffectComplete();
                     });
                 };
-                Button.prototype.activeEffect = function () {
-                    this.elEffect.setAttribute('active-effect', '');
-                };
                 Button.prototype.onEffectComplete = function () {
-                    this.elEffect.removeAttribute('active-effect');
+                    this.animating = false;
                 };
                 Button = __decorate([
                     core_1.Component({

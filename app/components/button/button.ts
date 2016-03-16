@@ -11,13 +11,14 @@ import {Component, ElementRef} from 'angular2/core';
 
 export class Button {
     title: string = '';
-    element: Element;
-    elEffect: Element;
+    animating: boolean = false;
+    protected element: Element;
+    protected elEffect: Element;
 
     constructor(elementRef: ElementRef) {
         this.element = elementRef.nativeElement;
     }
-    
+
     ngOnInit() {
         this.elEffect = this.element.querySelector('effect');
         this.initEffect();
@@ -26,7 +27,7 @@ export class Button {
     protected initEffect() {
         this.element.addEventListener('click', (e: Event) => {
             e.preventDefault();
-            this.activeEffect();
+            this.animating = true;
         }, true);
 
         this.elEffect.addEventListener("transitionend", () => {
@@ -34,11 +35,7 @@ export class Button {
         });
     }
 
-    protected activeEffect() {
-        this.elEffect.setAttribute('active-effect', '');
-    }
-
     protected onEffectComplete() {
-        this.elEffect.removeAttribute('active-effect');
+        this.animating = false;
     }
 }

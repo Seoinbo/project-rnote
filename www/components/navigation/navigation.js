@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/nav-button/nav-button'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/nav-button/nav-button', '../sidebar/sidebar'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, nav_button_1;
+    var core_1, nav_button_1, sidebar_1;
     var Navigation;
     return {
         setters:[
@@ -19,11 +19,14 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             },
             function (nav_button_1_1) {
                 nav_button_1 = nav_button_1_1;
+            },
+            function (sidebar_1_1) {
+                sidebar_1 = sidebar_1_1;
             }],
         execute: function() {
             Navigation = (function () {
-                // sidebar: Sidebar = new Sidebar();
                 function Navigation(elementRef) {
+                    this.sidebar = new sidebar_1.Sidebar();
                     // console.log(document.querySelector('sidebar'));
                     console.log(elementRef);
                     // this.element = elementRef.nativeElement;
@@ -34,6 +37,10 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
                     //     e.preventDefault();
                     //     // this.sidebar.toggle();
                     // }, true);
+                };
+                Navigation.prototype.toggleSidebar = function () {
+                    console.log(123);
+                    this.sidebar.toggle();
                 };
                 Navigation = __decorate([
                     core_1.Component({

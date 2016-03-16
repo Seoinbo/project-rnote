@@ -11,7 +11,6 @@ import {Button} from '../button';
   inputs: [
       'title'
   ]
-
 })
 
 export class NavButton extends Button {

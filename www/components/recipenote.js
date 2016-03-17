@@ -28,15 +28,11 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(sidebar) {
+                function Recipenote() {
+                    this.title = 'rnote';
+                    this.sidebarActive = false;
+                    this.onChangeSidebarDisplay = new core_1.EventEmitter();
                 }
-                // constructor(elementRef: ElementRef) {
-                //     this.element = elementRef.nativeElement;
-                // }
-                Recipenote.prototype.onMouseDown = function (btn) {
-                    // console.log(btn);
-                    console.log("bbbb");
-                };
                 Recipenote.prototype.ngOnInit = function () {
                     // @Query("side") items: QueryList<ElementRef>;
                 };
@@ -46,15 +42,28 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
                 Recipenote.prototype.hideCloseArea = function () {
                     // this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
                 };
-                Recipenote.prototype.activeSidebar = function (value) {
-                    console.log(value);
+                Recipenote.prototype.showSidebar = function () {
+                    this.sidebarActive = true;
+                    this.onChangeSidebarDisplay.emit(true);
+                    console.log("show~", this.sidebarActive);
+                };
+                Recipenote.prototype.hideSidebar = function () {
+                    this.sidebarActive = false;
+                    this.onChangeSidebarDisplay.emit(false);
+                    console.log("hide~", this.sidebarActive);
+                };
+                Recipenote.prototype.toggleSidebar = function () {
+                    if (this.sidebarActive) {
+                        this.hideSidebar();
+                    }
+                    else {
+                        this.showSidebar();
+                    }
                 };
                 __decorate([
-                    core_1.HostListener('onchangedisplay', ['$event.target']), 
-                    __metadata('design:type', Function), 
-                    __metadata('design:paramtypes', [Object]), 
-                    __metadata('design:returntype', void 0)
-                ], Recipenote.prototype, "onMouseDown", null);
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], Recipenote.prototype, "onChangeSidebarDisplay", void 0);
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -67,11 +76,10 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
                             sidebar_1.Sidebar
                         ],
                         providers: [
-                            router_1.ROUTER_PROVIDERS,
-                            sidebar_1.Sidebar
+                            router_1.ROUTER_PROVIDERS
                         ]
                     }), 
-                    __metadata('design:paramtypes', [sidebar_1.Sidebar])
+                    __metadata('design:paramtypes', [])
                 ], Recipenote);
                 return Recipenote;
             }());

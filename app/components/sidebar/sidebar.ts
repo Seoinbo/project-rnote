@@ -1,39 +1,24 @@
 import {
     Component,
     EventEmitter,
-    Output
+    Output,
+    ElementRef
 } from 'angular2/core';
 
 @Component({
   selector: 'sidebar',
   templateUrl: 'components/sidebar/sidebar.html',
-  styleUrls: ['components/sidebar/sidebar.css'],
-  events: [
-      'onChangeDisplay'
-  ]
+  styleUrls: ['components/sidebar/sidebar.css']
 })
 
 export class Sidebar {
-    protected active: boolean = false;
-    onChangeDisplay: EventEmitter<any> = new EventEmitter();
-    
-    show(): void {
-        console.log("show");
-        this.active = true;
-        this.onChangeDisplay.emit(true);
+    @Output() sidebarClose: EventEmitter<any> = new EventEmitter();
+
+    constructor() {
     }
 
-    hide(): void {
-        console.log("hide");
-        this.active = false;
-        this.onChangeDisplay.emit(false);
+    hide() {
+        this.sidebarClose.emit(null);
     }
 
-    toggle(): void {
-        if (this.active) {
-            this.hide();
-        } else {
-            this.show();
-        }
-    }
 }

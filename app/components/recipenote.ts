@@ -1,10 +1,12 @@
 import {
-    Component, 
-    Query, 
+    Component,
+    Query,
     QueryList,
     ElementRef,
     ViewChild,
-    HostListener
+    HostListener,
+    EventEmitter,
+    Output
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Navigation} from './navigation/navigation';
@@ -21,8 +23,7 @@ import {Sidebar} from './sidebar/sidebar';
         Sidebar
     ],
     providers: [
-        ROUTER_PROVIDERS,
-        Sidebar
+        ROUTER_PROVIDERS
     ]
 })
 
@@ -30,23 +31,17 @@ import {Sidebar} from './sidebar/sidebar';
 // ])
 
 export class Recipenote {
+    title: string = 'rnote';
     element: Element;
-    title: 'rnote'
 
-    // constructor(elementRef: ElementRef) {
-    //     this.element = elementRef.nativeElement;
-    // }
-    
-    @HostListener('onchangedisplay', ['$event.target'])
-    onMouseDown (btn: any) {
-        // console.log(btn);
-        console.log("bbbb");
+    sidebarActive: boolean = false;
+    @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
+
+    constructor() {
     }
-    
-    constructor(sidebar: Sidebar) {
-    }
-    
+
     ngOnInit() {
+
         // @Query("side") items: QueryList<ElementRef>;
     }
 
@@ -57,8 +52,25 @@ export class Recipenote {
     hideCloseArea(): void {
         // this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
     }
-    
-    activeSidebar(value: boolean): void {
-        console.log(value);
+
+    showSidebar(): void {
+        this.sidebarActive = true;
+        this.onChangeSidebarDisplay.emit(true);
+        console.log("show~", this.sidebarActive);
+    }
+
+    hideSidebar(): void {
+
+        this.sidebarActive = false;
+        this.onChangeSidebarDisplay.emit(false);
+        console.log("hide~", this.sidebarActive);
+    }
+
+    toggleSidebar(): void {
+        if (this.sidebarActive) {
+            this.hideSidebar();
+        } else {
+            this.showSidebar();
+        }
     }
 }

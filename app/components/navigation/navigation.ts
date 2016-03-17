@@ -1,12 +1,12 @@
 import {
-    Component, 
-    Query, 
+    Component,
+    Query,
     QueryList,
-    ElementRef
+    ElementRef,
+    EventEmitter,
+    Output
 } from 'angular2/core';
 import {NavButton} from '../button/nav-button/nav-button';
-import {Sidebar} from '../sidebar/sidebar';
-import {Recipenote} from '../recipenote';
 
 @Component({
   selector: 'navigation',
@@ -14,21 +14,20 @@ import {Recipenote} from '../recipenote';
   styleUrls: ['components/navigation/navigation.css'],
   directives: [
       NavButton
-  ],
-  providers: [
-      Sidebar
   ]
 })
 
 export class Navigation {
-    element: Element;
-    sidebar: Sidebar;
-    
-    constructor(sidebar: Sidebar) {
-        this.sidebar = sidebar;
+    @Output() menuClick: EventEmitter<any> = new EventEmitter();
+
+    constructor() {
+
     }
-    
-    toggleSidebar() {
-        this.sidebar.toggle();
+
+    click() {
+        this.menuClick.emit(null);
     }
+
+
+
 }

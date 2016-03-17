@@ -1,6 +1,6 @@
-<sidebar [class.active]="active" (onChangeDisplay)="activeSidebar($event);"></sidebar>
+<sidebar [class.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
 <container>
-    <navigation></navigation>
+    <navigation (menuClick)="toggleSidebar();"></navigation>
     <content>
         <list></list>
         <view edit="off" active="off"></view>

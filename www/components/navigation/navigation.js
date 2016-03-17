@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/nav-button/nav-button', '../sidebar/sidebar'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/nav-button/nav-button'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button', '../sidebar
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, nav_button_1, sidebar_1;
+    var core_1, nav_button_1;
     var Navigation;
     return {
         setters:[
@@ -19,18 +19,19 @@ System.register(['angular2/core', '../button/nav-button/nav-button', '../sidebar
             },
             function (nav_button_1_1) {
                 nav_button_1 = nav_button_1_1;
-            },
-            function (sidebar_1_1) {
-                sidebar_1 = sidebar_1_1;
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(sidebar) {
-                    this.sidebar = sidebar;
+                function Navigation() {
+                    this.menuClick = new core_1.EventEmitter();
                 }
-                Navigation.prototype.toggleSidebar = function () {
-                    this.sidebar.toggle();
+                Navigation.prototype.click = function () {
+                    this.menuClick.emit(null);
                 };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], Navigation.prototype, "menuClick", void 0);
                 Navigation = __decorate([
                     core_1.Component({
                         selector: 'navigation',
@@ -38,12 +39,9 @@ System.register(['angular2/core', '../button/nav-button/nav-button', '../sidebar
                         styleUrls: ['components/navigation/navigation.css'],
                         directives: [
                             nav_button_1.NavButton
-                        ],
-                        providers: [
-                            sidebar_1.Sidebar
                         ]
                     }), 
-                    __metadata('design:paramtypes', [sidebar_1.Sidebar])
+                    __metadata('design:paramtypes', [])
                 ], Navigation);
                 return Navigation;
             }());

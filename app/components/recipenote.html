@@ -1,4 +1,4 @@
-<sidebar #side [class.active]="active"></sidebar>
+<sidebar [class.active]="active" (onChangeDisplay)="activeSidebar($event);"></sidebar>
 <container>
     <navigation></navigation>
     <content>

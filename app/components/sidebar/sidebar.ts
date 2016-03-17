@@ -1,29 +1,35 @@
-import {Component} from 'angular2/core';
-import {Recipenote} from '../recipenote';
+import {
+    Component,
+    EventEmitter,
+    Output
+} from 'angular2/core';
 
 @Component({
   selector: 'sidebar',
   templateUrl: 'components/sidebar/sidebar.html',
-  styleUrls: ['components/sidebar/sidebar.css']
+  styleUrls: ['components/sidebar/sidebar.css'],
+  events: [
+      'onChangeDisplay'
+  ]
 })
 
 export class Sidebar {
-    active: boolean = false;
-    // recipenote: Recipenote;
-
-    constructor() {
-    }
-
+    protected active: boolean = false;
+    onChangeDisplay: EventEmitter<any> = new EventEmitter();
+    
     show(): void {
+        console.log("show");
         this.active = true;
+        this.onChangeDisplay.emit(true);
     }
 
     hide(): void {
+        console.log("hide");
         this.active = false;
+        this.onChangeDisplay.emit(false);
     }
 
     toggle(): void {
-        console.log(this.active);
         if (this.active) {
             this.hide();
         } else {

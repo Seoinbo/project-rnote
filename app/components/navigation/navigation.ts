@@ -1,6 +1,12 @@
-import {Component, ElementRef} from 'angular2/core';
+import {
+    Component, 
+    Query, 
+    QueryList,
+    ElementRef
+} from 'angular2/core';
 import {NavButton} from '../button/nav-button/nav-button';
 import {Sidebar} from '../sidebar/sidebar';
+import {Recipenote} from '../recipenote';
 
 @Component({
   selector: 'navigation',
@@ -8,30 +14,21 @@ import {Sidebar} from '../sidebar/sidebar';
   styleUrls: ['components/navigation/navigation.css'],
   directives: [
       NavButton
+  ],
+  providers: [
+      Sidebar
   ]
 })
 
 export class Navigation {
     element: Element;
-    sidebar: Sidebar = new Sidebar();
-
-    constructor(elementRef: ElementRef) {
-        // console.log(document.querySelector('sidebar'));
-        console.log(elementRef);
-        // this.element = elementRef.nativeElement;
+    sidebar: Sidebar;
+    
+    constructor(sidebar: Sidebar) {
+        this.sidebar = sidebar;
     }
-
-    ngOnInit() {
-        // 네비게이션 버튼 바인딩
-        // this.element.querySelector('.menu').addEventListener('click', (e: Event) => {
-        //     e.preventDefault();
-        //     // this.sidebar.toggle();
-        // }, true);
-    }
-
+    
     toggleSidebar() {
-        console.log(123);
         this.sidebar.toggle();
     }
-
 }

@@ -24,9 +24,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.animating = false;
                     this.element = elementRef.nativeElement;
                 }
+                Button.prototype.onMouseDown = function (btn) {
+                    // console.log(btn);
+                    this.fireEffect();
+                };
                 Button.prototype.ngOnInit = function () {
-                    this.elEffect = this.element.querySelector('effect');
                     this.initEffect();
+                };
+                Button.prototype.fireEffect = function () {
+                    this.animating = true;
                 };
                 Button.prototype.initEffect = function () {
                     var _this = this;
@@ -34,21 +40,25 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         e.preventDefault();
                         _this.animating = true;
                     }, true);
-                    this.elEffect.addEventListener("transitionend", function () {
-                        _this.onEffectComplete();
+                    this.element.querySelector('effect').addEventListener("transitionend", function () {
+                        _this.animating = false;
                     });
                 };
-                Button.prototype.onEffectComplete = function () {
-                    this.animating = false;
-                };
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], Button.prototype, "title", void 0);
+                __decorate([
+                    core_1.HostListener('mousedown', ['$event.target']), 
+                    __metadata('design:type', Function), 
+                    __metadata('design:paramtypes', [Object]), 
+                    __metadata('design:returntype', void 0)
+                ], Button.prototype, "onMouseDown", null);
                 Button = __decorate([
                     core_1.Component({
                         selector: '.btn-default',
                         templateUrl: 'components/button/button.html',
-                        styleUrls: ['components/button/button.css'],
-                        inputs: [
-                            'title'
-                        ]
+                        styleUrls: ['components/button/button.css']
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Button);

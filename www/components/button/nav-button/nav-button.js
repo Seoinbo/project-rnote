@@ -38,9 +38,6 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
                         styleUrls: [
                             'components/button/button.css',
                             'components/button/nav-button/nav-button.css'
-                        ],
-                        inputs: [
-                            'title'
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
@@ -51,3 +48,4 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
         }
     }
 });
+//# sourceMappingURL=nav-button.js.map

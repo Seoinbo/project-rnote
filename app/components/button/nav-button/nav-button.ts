@@ -7,14 +7,11 @@ import {Button} from '../button';
   styleUrls: [
       'components/button/button.css',
       'components/button/nav-button/nav-button.css'
-  ],
-  inputs: [
-      'title'
   ]
 })
 
 export class NavButton extends Button {
-    constructor (elementRef: ElementRef) {
+    constructor(elementRef: ElementRef) {
         super(elementRef);
     }
 }

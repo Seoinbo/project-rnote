@@ -19,18 +19,21 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }],
         execute: function() {
             Sidebar = (function () {
-                // recipenote: Recipenote;
                 function Sidebar() {
                     this.active = false;
+                    this.onChangeDisplay = new core_1.EventEmitter();
                 }
                 Sidebar.prototype.show = function () {
+                    console.log("show");
                     this.active = true;
+                    this.onChangeDisplay.emit(true);
                 };
                 Sidebar.prototype.hide = function () {
+                    console.log("hide");
                     this.active = false;
+                    this.onChangeDisplay.emit(false);
                 };
                 Sidebar.prototype.toggle = function () {
-                    console.log(this.active);
                     if (this.active) {
                         this.hide();
                     }
@@ -42,7 +45,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         selector: 'sidebar',
                         templateUrl: 'components/sidebar/sidebar.html',
-                        styleUrls: ['components/sidebar/sidebar.css']
+                        styleUrls: ['components/sidebar/sidebar.css'],
+                        events: [
+                            'onChangeDisplay'
+                        ]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Sidebar);

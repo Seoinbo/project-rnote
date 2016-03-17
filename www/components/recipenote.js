@@ -28,15 +28,33 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(elementRef) {
-                    this.element = elementRef.nativeElement;
+                function Recipenote(sidebar) {
                 }
+                // constructor(elementRef: ElementRef) {
+                //     this.element = elementRef.nativeElement;
+                // }
+                Recipenote.prototype.onMouseDown = function (btn) {
+                    // console.log(btn);
+                    console.log("bbbb");
+                };
+                Recipenote.prototype.ngOnInit = function () {
+                    // @Query("side") items: QueryList<ElementRef>;
+                };
                 Recipenote.prototype.showCloseArea = function () {
-                    this.element.querySelector('.sidebar-close').setAttribute('active', 'on');
+                    // this.element.querySelector('.sidebar-close').setAttribute('active', 'on');
                 };
                 Recipenote.prototype.hideCloseArea = function () {
-                    this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
+                    // this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
                 };
+                Recipenote.prototype.activeSidebar = function (value) {
+                    console.log(value);
+                };
+                __decorate([
+                    core_1.HostListener('onchangedisplay', ['$event.target']), 
+                    __metadata('design:type', Function), 
+                    __metadata('design:paramtypes', [Object]), 
+                    __metadata('design:returntype', void 0)
+                ], Recipenote.prototype, "onMouseDown", null);
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -49,10 +67,11 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
                             sidebar_1.Sidebar
                         ],
                         providers: [
-                            router_1.ROUTER_PROVIDERS
+                            router_1.ROUTER_PROVIDERS,
+                            sidebar_1.Sidebar
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef])
+                    __metadata('design:paramtypes', [sidebar_1.Sidebar])
                 ], Recipenote);
                 return Recipenote;
             }());

@@ -22,8 +22,9 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation() {
+                function Navigation(elementRef) {
                     this.menuClick = new core_1.EventEmitter();
+                    this.element = elementRef.nativeElement;
                 }
                 Navigation.prototype.click = function () {
                     this.menuClick.emit(null);
@@ -41,7 +42,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
                             nav_button_1.NavButton
                         ]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Navigation);
                 return Navigation;
             }());
@@ -49,3 +50,4 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
         }
     }
 });
+//# sourceMappingURL=navigation.js.map

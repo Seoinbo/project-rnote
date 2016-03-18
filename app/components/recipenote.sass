@@ -1,17 +1,19 @@
 @import 'common'
 
 sidebar
-    position: relative
+    position: fixed
+    z-index: 20
     flex: 0 0 auto
-    z-index: 100
-    width: 230px
-    height: 100%
-    background-color: #999
     bottom: 0
     box-sizing: border-box
+    width: 65%
+    min-width: $min_sidebar_width
+    height: 100%
+    background-color: #323943
 
 container
     position: relative
+    z-index: 30
     display: flex
     flex-direction: column
     flex: 1 1 auto
@@ -21,15 +23,15 @@ container
     background-color: #777
     box-sizing: border-box
     transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05)
-    .sidebar-close
+    .sidebar-close-area
         display: none
         position: absolute
         top: 0
         left: 0
         width: 100%
         height: 100%
-        opacity: .2
-        background-color: red
+        opacity: .7
+        background-color: #9BF0E9
 
 navigation
     position: relative
@@ -51,7 +53,6 @@ content
     list
         position: relative
         display: flex
-        padding: 7px
         flex-direction: column
         flex: 0 0 auto
         width: 50%
@@ -59,7 +60,8 @@ content
         max-width: $max_container_width
         height: auto
         box-sizing: border-box
-        background-color: #333
+        background-color: #EDE5E2
+        border-right: 1px solid #888
     view
         position: relative
         display: flex
@@ -70,10 +72,7 @@ content
         min-width: $min_container_width
         height: auto
         box-sizing: border-box
-        background-color: #444
-
-.test
-    transform: translate3d(60%, 0, 0) scale3d(0.85, 0.85, 1)
+        background-color: #EDE5E2
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)
@@ -88,7 +87,6 @@ content
             transform: translateX(0)
             transition: all 300ms ease
         list
-            padding: 0
             width: 100%
 
 // under mobile
@@ -101,19 +99,20 @@ content
             .nav-back
                 display: none
 
-// under mobile and tablet
+// for PC
 @media screen and (min-width: $sidebar_width + ($min_container_width * 2))
     sidebar
-        .sidebar-close
-            display: none
-    navigation
-        .sidebar-open
-            display: none
+        position: relative
+        width: $sidebar_width
 
 // for mobile and tablet
 @media screen and (max-width: $sidebar_width + ($min_container_width * 2))
-    sidebar
-        position: fixed
-        transform: translateX($sidebar_width * -1)
-    sidebar.active
-        transform: translateX(0)
+    // sidebar
+    //     transform: translateX($sidebar_width * -1)
+    // sidebar[active=true]
+    //     transform: translateX(0)
+    container
+        .sidebar-close-area[active=true]
+            display: block
+    container[active=true]
+        transform: translate3d(60%, 0, 0) scale3d(0.85, 0.85, 1)

@@ -16,7 +16,7 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, button_1;
-    var NavButton;
+    var SidebarButton;
     return {
         setters:[
             function (core_1_1) {
@@ -26,26 +26,26 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
                 button_1 = button_1_1;
             }],
         execute: function() {
-            NavButton = (function (_super) {
-                __extends(NavButton, _super);
-                function NavButton(elementRef) {
+            SidebarButton = (function (_super) {
+                __extends(SidebarButton, _super);
+                function SidebarButton(elementRef) {
                     _super.call(this, elementRef);
                 }
-                NavButton = __decorate([
+                SidebarButton = __decorate([
                     core_1.Component({
-                        selector: '.btn-nav',
-                        templateUrl: 'components/button/nav-button/nav-button.html',
+                        selector: '.btn-sidebar',
+                        templateUrl: 'components/button/sidebar-button/sidebar-button.html',
                         styleUrls: [
                             'components/button/button.css',
-                            'components/button/nav-button/nav-button.css'
+                            'components/button/sidebar-button/sidebar-button.css'
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], NavButton);
-                return NavButton;
+                ], SidebarButton);
+                return SidebarButton;
             }(button_1.Button));
-            exports_1("NavButton", NavButton);
+            exports_1("SidebarButton", SidebarButton);
         }
     }
 });
-//# sourceMappingURL=nav-button.js.map
+//# sourceMappingURL=sidebar-button.js.map

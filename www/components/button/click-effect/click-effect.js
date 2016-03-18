@@ -11,57 +11,51 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var Button;
+    var ClickEffect;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            Button = (function () {
-                function Button(_elementRef) {
-                    this.title = '';
+            ClickEffect = (function () {
+                function ClickEffect(_elementRef) {
+                    this._elementRef = _elementRef;
                     this.animating = false;
                     this._element = _elementRef.nativeElement;
                 }
-                Button.prototype.onMouseDown = function (btn) {
-                    this.fireEffect();
-                    // console.log(btn);
-                };
-                Button.prototype.ngOnInit = function () {
-                    this.initEffect();
-                };
-                Button.prototype.fireEffect = function () {
+                ClickEffect.prototype.onMouseDown = function (btn) {
                     this.animating = true;
                 };
-                Button.prototype.initEffect = function () {
-                    var _this = this;
-                    this._element.querySelector('effect').addEventListener("transitionend", function () {
-                        _this.animating = false;
-                    });
+                ClickEffect.prototype.onTransitionEnd = function () {
+                    this.animating = false;
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String)
-                ], Button.prototype, "title", void 0);
                 __decorate([
                     core_1.HostListener('mousedown', ['$event.target']), 
                     __metadata('design:type', Function), 
                     __metadata('design:paramtypes', [Object]), 
                     __metadata('design:returntype', void 0)
-                ], Button.prototype, "onMouseDown", null);
-                Button = __decorate([
+                ], ClickEffect.prototype, "onMouseDown", null);
+                __decorate([
+                    core_1.HostListener('transitionend'), 
+                    __metadata('design:type', Function), 
+                    __metadata('design:paramtypes', []), 
+                    __metadata('design:returntype', void 0)
+                ], ClickEffect.prototype, "onTransitionEnd", null);
+                ClickEffect = __decorate([
                     core_1.Component({
-                        selector: '.btn-default',
-                        templateUrl: 'components/button/button.html',
-                        styleUrls: ['components/button/button.css']
+                        selector: 'click-effect',
+                        template: '',
+                        styleUrls: ['components/button/click-effect/click-effect.css'],
+                        host: {
+                            '[attr.animating]': 'animating'
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], Button);
-                return Button;
+                ], ClickEffect);
+                return ClickEffect;
             }());
-            exports_1("Button", Button);
+            exports_1("ClickEffect", ClickEffect);
         }
     }
 });
-//# sourceMappingURL=button.js.map

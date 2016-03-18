@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/sidebar-button/sidebar-button'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,17 +10,21 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, sidebar_button_1;
     var Sidebar;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (sidebar_button_1_1) {
+                sidebar_button_1 = sidebar_button_1_1;
             }],
         execute: function() {
             Sidebar = (function () {
-                function Sidebar() {
+                function Sidebar(elementRef) {
                     this.sidebarClose = new core_1.EventEmitter();
+                    this.element = elementRef.nativeElement;
                 }
                 Sidebar.prototype.hide = function () {
                     this.sidebarClose.emit(null);
@@ -33,9 +37,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         selector: 'sidebar',
                         templateUrl: 'components/sidebar/sidebar.html',
-                        styleUrls: ['components/sidebar/sidebar.css']
+                        styleUrls: ['components/sidebar/sidebar.css'],
+                        directives: [
+                            sidebar_button_1.SidebarButton
+                        ]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Sidebar);
                 return Sidebar;
             }());
@@ -43,3 +50,4 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         }
     }
 });
+//# sourceMappingURL=sidebar.js.map

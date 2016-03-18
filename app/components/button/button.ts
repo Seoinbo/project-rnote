@@ -1,10 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    Input,
-    ViewChild,
-    HostListener
-} from 'angular2/core';
+import {Component, ElementRef, HostListener, Input} from 'angular2/core';
 
 @Component({
   selector: '.btn-default',
@@ -14,17 +8,18 @@ import {
 
 export class Button {
     @Input() title: string = '';
+    
     protected animating: boolean = false;
-    protected element: HTMLElement;
+    protected _element: HTMLElement;
     
     @HostListener('mousedown', ['$event.target'])
     onMouseDown (btn: any) {
-        // console.log(btn);
         this.fireEffect();
+        // console.log(btn);
     }
 
-    constructor(elementRef: ElementRef) {
-        this.element = elementRef.nativeElement;
+    constructor(_elementRef: ElementRef) {
+        this._element = _elementRef.nativeElement;
     }
     
     ngOnInit() {
@@ -36,12 +31,7 @@ export class Button {
     }
     
     protected initEffect() {
-        this.element.addEventListener('click', (e: Event) => {
-            e.preventDefault();
-            this.animating = true;
-        }, true);
-
-        this.element.querySelector('effect').addEventListener("transitionend", () => {
+        this._element.querySelector('effect').addEventListener("transitionend", () => {
             this.animating = false;
         });
     }

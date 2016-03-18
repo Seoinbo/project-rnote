@@ -10,7 +10,10 @@ import {
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Navigation} from './navigation/navigation';
+import {List} from './list/list';
 import {Sidebar} from './sidebar/sidebar';
+
+import {Button} from './button/button';
 
 @Component({
     selector: 'app',
@@ -20,7 +23,9 @@ import {Sidebar} from './sidebar/sidebar';
     directives: [
         ROUTER_DIRECTIVES,
         Navigation,
-        Sidebar
+        List,
+        Sidebar,
+        Button
     ],
     providers: [
         ROUTER_PROVIDERS
@@ -31,39 +36,26 @@ import {Sidebar} from './sidebar/sidebar';
 // ])
 
 export class Recipenote {
-    title: string = 'rnote';
-    element: Element;
-
-    sidebarActive: boolean = false;
     @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
-
-    constructor() {
+    
+    protected _element: HTMLElement;
+    private _sidebarActive: boolean = false;
+    
+    constructor(elementRef: ElementRef) {
+        this._element = elementRef.nativeElement;
     }
 
     ngOnInit() {
-
-        // @Query("side") items: QueryList<ElementRef>;
-    }
-
-    showCloseArea(): void {
-        // this.element.querySelector('.sidebar-close').setAttribute('active', 'on');
-    }
-
-    hideCloseArea(): void {
-        // this.element.querySelector('.sidebar-close').setAttribute('active', 'off');
     }
 
     showSidebar(): void {
         this.sidebarActive = true;
         this.onChangeSidebarDisplay.emit(true);
-        console.log("show~", this.sidebarActive);
     }
 
     hideSidebar(): void {
-
         this.sidebarActive = false;
         this.onChangeSidebarDisplay.emit(false);
-        console.log("hide~", this.sidebarActive);
     }
 
     toggleSidebar(): void {
@@ -71,6 +63,15 @@ export class Recipenote {
             this.hideSidebar();
         } else {
             this.showSidebar();
+            
         }
+    }
+    
+    set sidebarActive(value: boolean) {
+        this._sidebarActive = value;
+    }
+    
+    get sidebarActive():boolean {
+        return this._sidebarActive;
     }
 }

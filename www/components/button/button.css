@@ -40,5 +40,5 @@ effect {
 effect.bg-gray {
   background-color: #999; }
 
-effect.animating {
+effect[animating=true] {
   opacity: 0.3 !important; }

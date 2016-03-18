@@ -1,9 +1,9 @@
-<sidebar [class.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
-<container>
+<sidebar [attr.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
+<container [attr.active]="sidebarActive">
     <navigation (menuClick)="toggleSidebar();"></navigation>
     <content>
-        <list></list>
-        <view edit="off" active="off"></view>
+        <list>12345</list>
+        <view></view>
     </content>
-    <div class="sidebar-close"></div>
+    <div class="sidebar-close-area" [attr.active]="[sidebarActive]" (click)="hideSidebar();"></div>
 </container>

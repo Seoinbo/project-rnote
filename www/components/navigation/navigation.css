@@ -14,7 +14,7 @@
 .title {
   width: 100%;
   line-height: 50px;
-  background-color: #D1D0D1;
+  background-color: #EA3556;
   padding: 0 15px; }
 
 .menu {
@@ -35,6 +35,6 @@
   .btn-group .view-open {
     float: right; }
 
-@media screen and (min-width: 950px) {
+@media screen and (min-width: 1000px) {
   .menu {
     display: none; } }

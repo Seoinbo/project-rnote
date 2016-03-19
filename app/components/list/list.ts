@@ -12,6 +12,5 @@ import {ClickEffect} from '../button/click-effect/click-effect';
 
 export class List {
     constructor() {
-        console.log(1);
     }
 }

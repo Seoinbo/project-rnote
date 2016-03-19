@@ -22,11 +22,12 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(elementRef) {
+                function Navigation(_elementRef) {
                     this.menuClick = new core_1.EventEmitter();
-                    this.element = elementRef.nativeElement;
+                    this._element = _elementRef.nativeElement;
                 }
-                Navigation.prototype.click = function () {
+                Navigation.prototype.clickMenu = function () {
+                    console.log(e);
                     this.menuClick.emit(null);
                 };
                 __decorate([
@@ -50,4 +51,3 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
         }
     }
 });
-//# sourceMappingURL=navigation.js.map

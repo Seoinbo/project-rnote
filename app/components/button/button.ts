@@ -1,38 +1,28 @@
-import {Component, ElementRef, HostListener, Input} from 'angular2/core';
+import {Component, ElementRef, HostListener, EventEmitter, Input, Output} from 'angular2/core';
+import {ClickEffect} from './click-effect/click-effect';
 
 @Component({
   selector: '.btn-default',
   templateUrl: 'components/button/button.html',
-  styleUrls: ['components/button/button.css']
+  styleUrls: ['components/button/button.css'],
+  directives: [
+      ClickEffect
+  ]
 })
 
 export class Button {
     @Input() title: string = '';
-    
-    protected animating: boolean = false;
+    @Input() name: string = '';
+    @Output() btnClick: EventEmitter<any> = new EventEmitter();
+
     protected _element: HTMLElement;
-    
-    @HostListener('mousedown', ['$event.target'])
-    onMouseDown (btn: any) {
-        this.fireEffect();
-        // console.log(btn);
+
+    @HostListener('click', ['$event', 'name'])
+    onClick (e: any, n: string) {
+        this.btnClick.emit([e, n]);
     }
 
     constructor(_elementRef: ElementRef) {
         this._element = _elementRef.nativeElement;
-    }
-    
-    ngOnInit() {
-        this.initEffect();
-    }
-
-    fireEffect () {
-        this.animating = true;
-    }
-    
-    protected initEffect() {
-        this._element.querySelector('effect').addEventListener("transitionend", () => {
-            this.animating = false;
-        });
     }
 }

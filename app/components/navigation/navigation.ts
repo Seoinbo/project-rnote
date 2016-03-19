@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Output} from 'angular2/core';
+import {Component, ElementRef, HostListener, EventEmitter, Output} from 'angular2/core';
 import {NavButton} from '../button/nav-button/nav-button';
 
 @Component({
@@ -13,13 +13,14 @@ import {NavButton} from '../button/nav-button/nav-button';
 export class Navigation {
     @Output() menuClick: EventEmitter<any> = new EventEmitter();
 
-    protected element: HTMLElement;
-    
-    constructor(elementRef: ElementRef) {
-        this.element = elementRef.nativeElement;
+    protected _element: HTMLElement;
+
+    constructor(_elementRef: ElementRef) {
+        this._element = _elementRef.nativeElement;
     }
 
-    click() {
+    clickMenu() {
+        console.log(e);
         this.menuClick.emit(null);
     }
 }

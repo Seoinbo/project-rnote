@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './navigation/navigation', './list/list', './sidebar/sidebar', './button/button'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './navigation/navigation', './list/list', './view/view', './sidebar/sidebar', './button/button'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, navigation_1, list_1, sidebar_1, button_1;
+    var core_1, router_1, navigation_1, list_1, view_1, sidebar_1, button_1;
     var Recipenote;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
             },
             function (list_1_1) {
                 list_1 = list_1_1;
+            },
+            function (view_1_1) {
+                view_1 = view_1_1;
             },
             function (sidebar_1_1) {
                 sidebar_1 = sidebar_1_1;
@@ -81,6 +84,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
                             router_1.ROUTER_DIRECTIVES,
                             navigation_1.Navigation,
                             list_1.List,
+                            view_1.View,
                             sidebar_1.Sidebar,
                             button_1.Button
                         ],
@@ -96,4 +100,3 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
         }
     }
 });
-//# sourceMappingURL=recipenote.js.map

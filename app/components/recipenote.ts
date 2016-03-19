@@ -11,6 +11,7 @@ import {
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Navigation} from './navigation/navigation';
 import {List} from './list/list';
+import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
 
 import {Button} from './button/button';
@@ -24,6 +25,7 @@ import {Button} from './button/button';
         ROUTER_DIRECTIVES,
         Navigation,
         List,
+        View,
         Sidebar,
         Button
     ],
@@ -37,10 +39,10 @@ import {Button} from './button/button';
 
 export class Recipenote {
     @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
-    
+
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
-    
+
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;
     }
@@ -63,14 +65,14 @@ export class Recipenote {
             this.hideSidebar();
         } else {
             this.showSidebar();
-            
+
         }
     }
-    
+
     set sidebarActive(value: boolean) {
         this._sidebarActive = value;
     }
-    
+
     get sidebarActive():boolean {
         return this._sidebarActive;
     }

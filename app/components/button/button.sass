@@ -1,6 +1,6 @@
 @import '../common'
 
-button
+:host
     border: 0
     position: relative
     display: inline-block
@@ -18,22 +18,3 @@ button
     line-height: 40px
     font-size: inherit
     padding: 0 15px
-
-effect
-    display: block
-    position: absolute
-    border-radius: inherit
-    overflow: hidden
-    top: 0
-    left: 0
-    right: 0
-    bottom: 0
-    opacity: 0
-    background-color: #fff
-    @include prefix(transition, all 150ms)
-
-effect.bg-gray
-    background-color: #999
-
-effect[animating=true]
-    opacity: 0.3 !important

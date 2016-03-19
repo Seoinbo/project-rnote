@@ -5,24 +5,17 @@
   flex: 1 1 auto;
   width: 100%;
   height: auto; }
-  #view-inner #view-navbar {
-    position: relative;
-    flex: 0 0 auto;
-    width: 100%;
-    height: 50px;
-    background-color: #888; }
   #view-inner #view-content {
     position: relative;
     flex: 1 1 auto;
     width: 100%;
-    height: 100%;
-    background-color: #777; }
+    height: 100%; }
   #view-inner #view-toolbox {
     position: relative;
     flex: 0 0 auto;
     width: 100%;
     height: 50px;
-    background-color: #888; }
+    background-color: #999; }
 
 .box {
   display: inline-block;

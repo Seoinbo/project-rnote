@@ -23,7 +23,6 @@ System.register(['angular2/core', '../button/click-effect/click-effect'], functi
         execute: function() {
             List = (function () {
                 function List() {
-                    console.log(1);
                 }
                 List = __decorate([
                     core_1.Component({
@@ -42,4 +41,3 @@ System.register(['angular2/core', '../button/click-effect/click-effect'], functi
         }
     }
 });
-//# sourceMappingURL=list.js.map

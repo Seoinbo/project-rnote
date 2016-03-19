@@ -50,4 +50,3 @@ System.register(['angular2/core', '../button/sidebar-button/sidebar-button'], fu
         }
     }
 });
-//# sourceMappingURL=sidebar.js.map

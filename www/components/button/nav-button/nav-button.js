@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button', '../click-effect/click-effect'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, button_1;
+    var core_1, button_1, click_effect_1;
     var NavButton;
     return {
         setters:[
@@ -24,6 +24,9 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
             },
             function (button_1_1) {
                 button_1 = button_1_1;
+            },
+            function (click_effect_1_1) {
+                click_effect_1 = click_effect_1_1;
             }],
         execute: function() {
             NavButton = (function (_super) {
@@ -33,11 +36,14 @@ System.register(['angular2/core', '../button'], function(exports_1, context_1) {
                 }
                 NavButton = __decorate([
                     core_1.Component({
-                        selector: '.btn-nav',
+                        selector: 'nav-button',
                         templateUrl: 'components/button/nav-button/nav-button.html',
                         styleUrls: [
                             'components/button/button.css',
                             'components/button/nav-button/nav-button.css'
+                        ],
+                        directives: [
+                            click_effect_1.ClickEffect
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

@@ -5,36 +5,31 @@
   -ms-display: flex;
   -o-display: flex;
   height: 100%; }
+  .panel > * {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100%; }
 
-.nav-item {
-  display: inline-block;
-  box-sizing: border-box;
-  height: 100%; }
-
-.title {
+h2 {
   width: 100%;
   line-height: 50px;
   background-color: #EA3556;
   padding: 0 15px; }
 
-.menu {
+[name=back] {
   width: 60px; }
 
-.btn-group {
+right-panel {
   display: flex;
   -webkit-display: flex;
   -moz-display: flex;
   -ms-display: flex;
   -o-display: flex; }
-  .btn-group .sync {
+  right-panel .sync {
     width: 60px; }
-  .btn-group .search {
+  right-panel .search {
     width: 60px; }
-  .btn-group .cart {
+  right-panel .cart {
     width: 60px; }
-  .btn-group .view-open {
+  right-panel .view-open {
     float: right; }
-
-@media screen and (min-width: 1000px) {
-  .menu {
-    display: none; } }

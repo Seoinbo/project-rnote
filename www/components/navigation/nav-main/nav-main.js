@@ -23,17 +23,16 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
         execute: function() {
             Navigation = (function () {
                 function Navigation(_elementRef) {
-                    this.title = "TITLE";
-                    this.btnClick = new core_1.EventEmitter();
+                    this.menuClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
                 }
-                Navigation.prototype.onClick = function (e) {
-                    this.btnClick.emit(e);
+                Navigation.prototype.clickMenu = function () {
+                    this.menuClick.emit(null);
                 };
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
-                ], Navigation.prototype, "btnClick", void 0);
+                ], Navigation.prototype, "menuClick", void 0);
                 Navigation = __decorate([
                     core_1.Component({
                         selector: 'nav',

@@ -3,18 +3,18 @@
 .panel
     @include prefix(display, flex)
     height: 100%
-    > *
-        display: inline-block
-        box-sizing: border-box
-        height: 100%
-h2
+.nav-item
+    display: inline-block
+    box-sizing: border-box
+    height: 100%
+.title
     width: 100%
     line-height: $navbar_height
     background-color: #EA3556
     padding: 0 15px
-[name=back]
+.menu
     width: 60px
-right-panel
+.btn-group
     @include prefix(display, flex)
     .sync
         width: 60px
@@ -24,3 +24,8 @@ right-panel
         width: 60px
     .view-open
         float: right
+        
+// under mobile and tablet
+@media screen and (min-width: $sidebar_width + ($min_container_width * 2))
+    .menu
+        display: none

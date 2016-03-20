@@ -2,7 +2,7 @@ import {Component, ElementRef, HostListener, EventEmitter, Input, Output} from '
 import {ClickEffect} from './click-effect/click-effect';
 
 @Component({
-  selector: '.btn-default',
+  selector: 'button',
   templateUrl: 'components/button/button.html',
   styleUrls: ['components/button/button.css'],
   directives: [

@@ -10,6 +10,9 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
+    var __param = (this && this.__param) || function (paramIndex, decorator) {
+        return function (target, key) { decorator(target, key, paramIndex); }
+    };
     var core_1, nav_button_1;
     var Navigation;
     return {
@@ -22,13 +25,29 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(_elementRef) {
+                function Navigation(_elementRef, _allNavButton) {
+                    this._elementRef = _elementRef;
                     this.title = "TITLE";
                     this.btnClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
+                    this._allNavButton = _allNavButton;
                 }
+                Navigation.prototype.ngAfterContentInit = function () {
+                    this.initEvent();
+                };
+                Navigation.prototype.initEvent = function () {
+                    var _this = this;
+                    var elButtons = this._element.querySelectorAll('nav-button');
+                    for (var _i = 0, elButtons_1 = elButtons; _i < elButtons_1.length; _i++) {
+                        var elButton = elButtons_1[_i];
+                        elButton.addEventListener('btnclick', function (e) {
+                            console.log(e);
+                            _this.btnClick.emit(e);
+                        }, true);
+                    }
+                };
                 Navigation.prototype.onClick = function (e) {
-                    this.btnClick.emit(e);
+                    console.log('a:', e);
                 };
                 __decorate([
                     core_1.Output(), 
@@ -42,8 +61,9 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
                         directives: [
                             nav_button_1.NavButton
                         ]
-                    }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef])
+                    }),
+                    __param(1, core_1.Query(nav_button_1.NavButton)), 
+                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.QueryList])
                 ], Navigation);
                 return Navigation;
             }());

@@ -51,7 +51,7 @@ System.register(['angular2/core', './click-effect/click-effect'], function(expor
                 ], Button.prototype, "onClick", null);
                 Button = __decorate([
                     core_1.Component({
-                        selector: '.btn-default',
+                        selector: 'button',
                         templateUrl: 'components/button/button.html',
                         styleUrls: ['components/button/button.css'],
                         directives: [

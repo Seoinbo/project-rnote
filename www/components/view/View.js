@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../navigation/navigation'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,17 +10,15 @@ System.register(['angular2/core', '../navigation/navigation'], function(exports_
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, navigation_1;
+    var core_1;
     var View;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (navigation_1_1) {
-                navigation_1 = navigation_1_1;
             }],
         execute: function() {
+            // import {Navigation} from '../navigation/navigation';
             View = (function () {
                 function View(elementRef) {
                     this.element = elementRef.nativeElement;
@@ -30,9 +28,6 @@ System.register(['angular2/core', '../navigation/navigation'], function(exports_
                         selector: 'view',
                         templateUrl: 'components/view/view.html',
                         styleUrls: ['components/view/view.css'],
-                        directives: [
-                            navigation_1.Navigation
-                        ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], View);

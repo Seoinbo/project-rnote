@@ -1,39 +1,47 @@
-import {Component, ElementRef, HostListener, EventEmitter, Output, Query, QueryList} from 'angular2/core';
+import {Component, ElementRef, HostListener, EventEmitter, Output, Query, QueryList, ViewChildren} from 'angular2/core';
 import {NavButton} from '../button/nav-button/nav-button';
+import {Title} from './title/title';
 
 @Component({
     selector: 'nav',
     templateUrl: 'components/navigation/navigation.html',
     styleUrls: ['components/navigation/navigation.css'],
     directives: [
-        NavButton
+        NavButton,
+        Title
     ]
 })
 
 export class Navigation {
     title: string = "TITLE";
     protected _element: HTMLElement;
-    protected _allNavButton: QueryList<NavButton>;
+    protected _navButtons: QueryList<NavButton>;
+    protected _conNavItems: QueryList<NavButton>;
 
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
+    @ViewChildren(NavButton) protected _navButtons: QueryList<NavButton>;
 
-    constructor(protected _elementRef: ElementRef, @Query(NavButton) _allNavButton: QueryList<NavButton>) {
+    constructor(protected _elementRef: ElementRef, @Query(NavButton, {descendants: true}) _conNavItems: QueryList<any>) {
         this._element = _elementRef.nativeElement;
-        this._allNavButton = _allNavButton;
+        this._conNavItems = _conNavItems;
+
+        console.log(this._element);
     }
 
     ngAfterContentInit() {
+    }
+
+    ngAfterViewInit() {
         this.initEvent();
     }
 
     initEvent(): void {
-        let elButtons: any = this._element.querySelectorAll('nav-button');
-        for (let elButton of elButtons) {
-            elButton.addEventListener('btnclick', (e: Event) => {
+        this._navButtons.toArray().forEach(button => {
+            button.btnClick.subscribe( (e) => {
                 console.log(e);
-                this.btnClick.emit(e);
-            }, true);
-        }
+            })
+            // this.btnClick.emit(['$event']);
+        })
     }
 
     onClick(e: any) {

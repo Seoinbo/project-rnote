@@ -13,8 +13,7 @@ import {Navigation} from './navigation/navigation';
 import {List} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
-
-import {Button} from './button/button';
+import {NavButton} from './button/nav-button/nav-button';
 
 @Component({
     selector: 'app',
@@ -27,7 +26,7 @@ import {Button} from './button/button';
         List,
         View,
         Sidebar,
-        Button
+        NavButton
     ],
     providers: [
         ROUTER_PROVIDERS

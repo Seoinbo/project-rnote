@@ -1,4 +1,9 @@
 <div class="panel">
-    <nav-button name="back" title="back" (btnClick)="onClick($event);"></nav-button>
-    <h2>{{title}}</h2>
+    <button nav name="menu" title="M"></button>
+    <title nav title={{title}}></title>
+    <btn-group>
+        <button nav name="sync" title="Y"></button>
+        <button nav name="search" title="S"></button>
+        <button nav name="cart" title="C"></button>
+    </btn-group>
 </div>

@@ -1,8 +1,6 @@
 <sidebar [attr.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
 <container [attr.active]="sidebarActive">
-    <nav (btnClick)="toggleSidebar();">
-        <nav-button>123</nav-button>
-    </nav>
+    <nav (btnClick)="toggleSidebar();"></nav>
     <content>
         <list></list>
         <view></view>

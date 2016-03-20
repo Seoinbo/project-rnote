@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/nav-button/nav-button'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/nav-button/nav-button', './title/title'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, nav_button_1;
+    var core_1, nav_button_1, title_1;
     var Navigation;
     return {
         setters:[
@@ -22,29 +22,32 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
             },
             function (nav_button_1_1) {
                 nav_button_1 = nav_button_1_1;
+            },
+            function (title_1_1) {
+                title_1 = title_1_1;
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(_elementRef, _allNavButton) {
+                function Navigation(_elementRef, _conNavItems) {
                     this._elementRef = _elementRef;
                     this.title = "TITLE";
                     this.btnClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
-                    this._allNavButton = _allNavButton;
+                    this._conNavItems = _conNavItems;
+                    console.log(this._element);
                 }
                 Navigation.prototype.ngAfterContentInit = function () {
+                };
+                Navigation.prototype.ngAfterViewInit = function () {
                     this.initEvent();
                 };
                 Navigation.prototype.initEvent = function () {
-                    var _this = this;
-                    var elButtons = this._element.querySelectorAll('nav-button');
-                    for (var _i = 0, elButtons_1 = elButtons; _i < elButtons_1.length; _i++) {
-                        var elButton = elButtons_1[_i];
-                        elButton.addEventListener('btnclick', function (e) {
+                    this._navButtons.toArray().forEach(function (button) {
+                        button.btnClick.subscribe(function (e) {
                             console.log(e);
-                            _this.btnClick.emit(e);
-                        }, true);
-                    }
+                        });
+                        // this.btnClick.emit(['$event']);
+                    });
                 };
                 Navigation.prototype.onClick = function (e) {
                     console.log('a:', e);
@@ -53,16 +56,21 @@ System.register(['angular2/core', '../button/nav-button/nav-button'], function(e
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], Navigation.prototype, "btnClick", void 0);
+                __decorate([
+                    core_1.ViewChildren(nav_button_1.NavButton), 
+                    __metadata('design:type', core_1.QueryList)
+                ], Navigation.prototype, "_navButtons", void 0);
                 Navigation = __decorate([
                     core_1.Component({
                         selector: 'nav',
                         templateUrl: 'components/navigation/navigation.html',
                         styleUrls: ['components/navigation/navigation.css'],
                         directives: [
-                            nav_button_1.NavButton
+                            nav_button_1.NavButton,
+                            title_1.Title
                         ]
                     }),
-                    __param(1, core_1.Query(nav_button_1.NavButton)), 
+                    __param(1, core_1.Query(nav_button_1.NavButton, { descendants: true })), 
                     __metadata('design:paramtypes', [core_1.ElementRef, core_1.QueryList])
                 ], Navigation);
                 return Navigation;

@@ -10,26 +10,18 @@
     box-sizing: border-box;
     height: 100%; }
 
-h2 {
-  width: 100%;
-  line-height: 50px;
-  background-color: #EA3556;
-  padding: 0 15px; }
-
 [name=back] {
   width: 60px; }
 
-right-panel {
-  display: flex;
-  -webkit-display: flex;
-  -moz-display: flex;
-  -ms-display: flex;
-  -o-display: flex; }
-  right-panel .sync {
+btn-group {
+  display: flex !important;
+  -webkit-display: flex !important;
+  -moz-display: flex !important;
+  -ms-display: flex !important;
+  -o-display: flex !important; }
+  btn-group [name=sync] {
     width: 60px; }
-  right-panel .search {
+  btn-group [name=search] {
     width: 60px; }
-  right-panel .cart {
+  btn-group [name=cart] {
     width: 60px; }
-  right-panel .view-open {
-    float: right; }

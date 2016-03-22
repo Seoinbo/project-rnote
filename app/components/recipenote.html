@@ -1,6 +1,16 @@
 <sidebar [attr.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
 <container [attr.active]="sidebarActive">
-    <nav (btnClick)="toggleSidebar();"></nav>
+    <nav (btnClick)="toggleSidebar();">
+        <panel>
+            <button nav name="menu" title="M"></button>
+            <title nav title={{title}}></title>
+            <btn-group>
+                <button nav name="sync" title="Y"></button>
+                <button nav name="search" title="S"></button>
+                <button nav name="cart" title="C"></button>
+            </btn-group>
+        </panel>
+    </nav>
     <content>
         <list></list>
         <view></view>

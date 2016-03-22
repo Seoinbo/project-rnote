@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/nav-button/nav-button', './title/title'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/nav-button/nav-button', './title/title', '../../directives/panel/panel'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -13,7 +13,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
     var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-    var core_1, nav_button_1, title_1;
+    var core_1, nav_button_1, title_1, panel_1;
     var Navigation;
     return {
         setters:[
@@ -25,30 +25,33 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
             },
             function (title_1_1) {
                 title_1 = title_1_1;
+            },
+            function (panel_1_1) {
+                panel_1 = panel_1_1;
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(_elementRef, _conNavItems) {
+                function Navigation(_elementRef, _conPanels) {
                     this._elementRef = _elementRef;
                     this.title = "TITLE";
                     this.btnClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
-                    this._conNavItems = _conNavItems;
-                    console.log(this._element);
+                    this._conPanels = _conPanels;
                 }
                 Navigation.prototype.ngAfterContentInit = function () {
+                    console.log(this._conPanels);
                 };
-                Navigation.prototype.ngAfterViewInit = function () {
-                    this.initEvent();
-                };
-                Navigation.prototype.initEvent = function () {
-                    this._navButtons.toArray().forEach(function (button) {
-                        button.btnClick.subscribe(function (e) {
-                            console.log(e);
-                        });
-                        // this.btnClick.emit(['$event']);
-                    });
-                };
+                // ngAfterViewInit() {
+                //     this.initEvent();
+                // }
+                // initEvent(): void {
+                //     this._navButtons.toArray().forEach(button => {
+                //         button.btnClick.subscribe( () => {
+                //             console.log(e);
+                //         })
+                //         // this.btnClick.emit(['$event']);
+                //     })
+                // }
                 Navigation.prototype.onClick = function (e) {
                     console.log('a:', e);
                 };
@@ -66,11 +69,12 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
                         templateUrl: 'components/navigation/navigation.html',
                         styleUrls: ['components/navigation/navigation.css'],
                         directives: [
+                            panel_1.Panel,
                             nav_button_1.NavButton,
                             title_1.Title
                         ]
                     }),
-                    __param(1, core_1.Query(nav_button_1.NavButton, { descendants: true })), 
+                    __param(1, core_1.Query(panel_1.Panel, { descendants: true })), 
                     __metadata('design:paramtypes', [core_1.ElementRef, core_1.QueryList])
                 ], Navigation);
                 return Navigation;

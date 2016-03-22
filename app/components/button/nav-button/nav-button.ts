@@ -3,7 +3,7 @@ import {Button} from '../button';
 import {ClickEffect} from '../click-effect/click-effect';
 
 @Component({
-    selector: 'button[nav]',
+    selector: 'button[nav], panel button[nav]',
     templateUrl: 'components/button/nav-button/nav-button.html',
     styleUrls: [
         'components/button/button.css',

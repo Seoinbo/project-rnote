@@ -36,7 +36,7 @@ System.register(['angular2/core', '../button', '../click-effect/click-effect'], 
                 }
                 NavButton = __decorate([
                     core_1.Component({
-                        selector: 'button[nav]',
+                        selector: 'button[nav], panel button[nav]',
                         templateUrl: 'components/button/nav-button/nav-button.html',
                         styleUrls: [
                             'components/button/button.css',

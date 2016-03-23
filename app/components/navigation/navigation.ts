@@ -22,18 +22,21 @@ export class Navigation {
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
     @ViewChildren(NavButton) protected _navButtons: QueryList<NavButton>;
 
-    constructor(protected _elementRef: ElementRef, @Query(Panel, {descendants: true}) _conPanels: QueryList<Panel>) {
+    constructor(protected _elementRef: ElementRef, @Query(Panel) _conPanels: QueryList<Panel>) {
         this._element = _elementRef.nativeElement;
         this._conPanels = _conPanels;
     }
 
     ngAfterContentInit() {
-        console.log(this._conPanels);
+        window.setTimeout( () => {
+            console.log(this._conPanels);
+        }, 500);
     }
 
-    // ngAfterViewInit() {
-    //     this.initEvent();
-    // }
+    ngAfterViewInit() {
+        // this.initEvent();
+        console.log(this._conPanels);
+    }
 
     // initEvent(): void {
     //     this._navButtons.toArray().forEach(button => {

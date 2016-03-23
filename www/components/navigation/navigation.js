@@ -39,11 +39,15 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
                     this._conPanels = _conPanels;
                 }
                 Navigation.prototype.ngAfterContentInit = function () {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        console.log(_this._conPanels);
+                    }, 500);
+                };
+                Navigation.prototype.ngAfterViewInit = function () {
+                    // this.initEvent();
                     console.log(this._conPanels);
                 };
-                // ngAfterViewInit() {
-                //     this.initEvent();
-                // }
                 // initEvent(): void {
                 //     this._navButtons.toArray().forEach(button => {
                 //         button.btnClick.subscribe( () => {
@@ -74,7 +78,7 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
                             title_1.Title
                         ]
                     }),
-                    __param(1, core_1.Query(panel_1.Panel, { descendants: true })), 
+                    __param(1, core_1.Query(panel_1.Panel)), 
                     __metadata('design:paramtypes', [core_1.ElementRef, core_1.QueryList])
                 ], Navigation);
                 return Navigation;

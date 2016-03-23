@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './navigation/navigation', './list/list', './view/view', './sidebar/sidebar', './button/nav-button/nav-button'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './navigation/navigation', './list/list', './view/view', './sidebar/sidebar', './button/nav-button/nav-button', '../directives/panel/panel'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, navigation_1, list_1, view_1, sidebar_1, nav_button_1;
+    var core_1, router_1, navigation_1, list_1, view_1, sidebar_1, nav_button_1, panel_1;
     var Recipenote;
     return {
         setters:[
@@ -34,6 +34,9 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
             },
             function (nav_button_1_1) {
                 nav_button_1 = nav_button_1_1;
+            },
+            function (panel_1_1) {
+                panel_1 = panel_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
@@ -83,6 +86,7 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
                         directives: [
                             router_1.ROUTER_DIRECTIVES,
                             navigation_1.Navigation,
+                            panel_1.Panel,
                             list_1.List,
                             view_1.View,
                             sidebar_1.Sidebar,

@@ -14,6 +14,7 @@ import {List} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
 import {NavButton} from './button/nav-button/nav-button';
+import {Panel} from '../directives/panel/panel';
 
 @Component({
     selector: 'app',
@@ -23,6 +24,7 @@ import {NavButton} from './button/nav-button/nav-button';
     directives: [
         ROUTER_DIRECTIVES,
         Navigation,
+        Panel,
         List,
         View,
         Sidebar,

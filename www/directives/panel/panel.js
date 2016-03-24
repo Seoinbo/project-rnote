@@ -22,6 +22,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function Panel(_elementRef) {
                     this._element = _elementRef.nativeElement;
                 }
+                Object.defineProperty(Panel.prototype, "element", {
+                    get: function () {
+                        return this._element;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Panel = __decorate([
                     core_1.Directive({
                         selector: 'panel'

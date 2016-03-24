@@ -31,22 +31,21 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
             }],
         execute: function() {
             Navigation = (function () {
-                function Navigation(_elementRef, _conPanels) {
+                function Navigation(_elementRef, _renderer, _conPanels) {
                     this._elementRef = _elementRef;
+                    this._renderer = _renderer;
                     this.title = "TITLE";
                     this.btnClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
                     this._conPanels = _conPanels;
                 }
                 Navigation.prototype.ngAfterContentInit = function () {
-                    var _this = this;
-                    window.setTimeout(function () {
-                        console.log(_this._conPanels);
-                    }, 500);
+                    this._element.innerHTML = this._conPanels.first.element.outerHTML;
+                    // this._element.appendChild(this._conPanel._results[0]);
+                    console.log(this._conPanels);
                 };
                 Navigation.prototype.ngAfterViewInit = function () {
                     // this.initEvent();
-                    console.log(this._conPanels);
                 };
                 // initEvent(): void {
                 //     this._navButtons.toArray().forEach(button => {
@@ -78,8 +77,8 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
                             title_1.Title
                         ]
                     }),
-                    __param(1, core_1.Query(panel_1.Panel)), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.QueryList])
+                    __param(2, core_1.Query(panel_1.Panel)), 
+                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer, core_1.QueryList])
                 ], Navigation);
                 return Navigation;
             }());
@@ -87,3 +86,4 @@ System.register(['angular2/core', '../button/nav-button/nav-button', './title/ti
         }
     }
 });
+//# sourceMappingURL=navigation.js.map

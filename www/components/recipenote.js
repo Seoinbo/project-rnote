@@ -104,3 +104,4 @@ System.register(['angular2/core', 'angular2/router', './navigation/navigation', 
         }
     }
 });
+//# sourceMappingURL=recipenote.js.map

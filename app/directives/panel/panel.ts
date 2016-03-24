@@ -10,4 +10,8 @@ export class Panel {
     constructor(_elementRef: ElementRef) {
         this._element = _elementRef.nativeElement;
     }
+
+    get element():HTMLElement {
+        return this._element;
+    }
 }

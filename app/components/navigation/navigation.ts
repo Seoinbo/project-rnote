@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, EventEmitter, Output, Query, QueryList, ViewChildren} from 'angular2/core';
+import {Component, ElementRef, HostListener, EventEmitter, Output, Query, QueryList, ViewChildren, Renderer} from 'angular2/core';
 import {NavButton} from '../button/nav-button/nav-button';
 import {Title} from './title/title';
 import {Panel} from '../../directives/panel/panel';
@@ -22,20 +22,21 @@ export class Navigation {
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
     @ViewChildren(NavButton) protected _navButtons: QueryList<NavButton>;
 
-    constructor(protected _elementRef: ElementRef, @Query(Panel) _conPanels: QueryList<Panel>) {
+    constructor(protected _elementRef: ElementRef, private _renderer: Renderer, @Query(Panel) _conPanels: QueryList<Panel>) {
         this._element = _elementRef.nativeElement;
         this._conPanels = _conPanels;
     }
 
     ngAfterContentInit() {
-        window.setTimeout( () => {
-            console.log(this._conPanels);
-        }, 500);
+        this._element.innerHTML = this._conPanels.first.element.outerHTML;
+        // this._element.appendChild(this._conPanel._results[0]);
+        console.log(this._conPanels);
     }
 
     ngAfterViewInit() {
         // this.initEvent();
-        console.log(this._conPanels);
+
+
     }
 
     // initEvent(): void {

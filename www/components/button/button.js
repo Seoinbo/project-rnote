@@ -66,3 +66,4 @@ System.register(['angular2/core', './click-effect/click-effect'], function(expor
         }
     }
 });
+//# sourceMappingURL=button.js.map

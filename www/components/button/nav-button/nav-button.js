@@ -54,4 +54,3 @@ System.register(['angular2/core', '../button', '../click-effect/click-effect'], 
         }
     }
 });
-//# sourceMappingURL=nav-button.js.map

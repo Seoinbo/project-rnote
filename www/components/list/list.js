@@ -41,4 +41,3 @@ System.register(['angular2/core', '../button/click-effect/click-effect'], functi
         }
     }
 });
-//# sourceMappingURL=list.js.map

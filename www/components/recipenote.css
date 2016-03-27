@@ -31,12 +31,22 @@ container {
     opacity: .7;
     background-color: #9BF0E9; }
 
-navigation {
+nav {
   position: relative;
   background-color: #777;
   flex: 0 0 auto;
   width: 100%;
   height: 50px; }
+  nav panel {
+    line-height: 50px; }
+    nav panel [name=menu] {
+      width: 60px; }
+    nav panel [name=sync] {
+      width: 60px; }
+    nav panel [name=search] {
+      width: 60px; }
+    nav panel [name=cart] {
+      width: 60px; }
 
 content {
   position: relative;
@@ -84,7 +94,7 @@ content {
     width: 100%; } }
 
 @media screen and (min-width: 720px) {
-  navigation .view-open {
+  nav .view-open {
     display: none; }
   content view .nav-back {
     display: none; } }
@@ -92,7 +102,9 @@ content {
 @media screen and (min-width: 1000px) {
   sidebar {
     position: relative;
-    width: 280px; } }
+    width: 280px; }
+  nav panel [name=menu] {
+    display: none; } }
 
 @media screen and (max-width: 1000px) {
   container .sidebar-close-area[active=true] {

@@ -1,9 +1,9 @@
 <sidebar [attr.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
 <container [attr.active]="sidebarActive">
-    <nav (btnClick)="toggleSidebar();">
+    <nav>
         <panel>
-            <button nav name="menu" title="M"></button>
-            <title nav title={{title}}></title>
+            <button nav name="menu" title="M" (click)="showSidebar();"></button>
+            <title><!-- here main title--></title>
             <btn-group>
                 <button nav name="sync" title="Y"></button>
                 <button nav name="search" title="S"></button>

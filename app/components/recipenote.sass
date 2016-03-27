@@ -1,4 +1,4 @@
-@import 'common'
+@import '../common'
 
 sidebar
     position: fixed
@@ -33,12 +33,22 @@ container
         opacity: .7
         background-color: #9BF0E9
 
-navigation
+nav
     position: relative
     background-color: #777
     flex: 0 0 auto
     width: 100%
     height: $navbar_height
+    panel
+        line-height: $navbar_height
+        [name=menu]
+            width: 60px
+        [name=sync]
+            width: 60px
+        [name=search]
+            width: 60px
+        [name=cart]
+            width: 60px
 
 content
     position: relative
@@ -89,7 +99,7 @@ content
 
 // under mobile
 @media screen and (min-width: $min_container_width * 2)
-    navigation
+    nav
         .view-open
             display: none
     content
@@ -102,6 +112,10 @@ content
     sidebar
         position: relative
         width: $sidebar_width
+    nav
+        panel
+            [name=menu]
+                display: none
 
 // for mobile and tablet
 @media screen and (max-width: $sidebar_width + ($min_container_width * 2))

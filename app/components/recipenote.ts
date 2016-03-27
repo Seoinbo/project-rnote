@@ -9,21 +9,25 @@ import {
     Output
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import {Navigation} from './navigation/navigation';
 import {List} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
-import {NavButton} from './button/nav-button/nav-button';
+import {Nav, NavTitle} from '../directives/nav/nav';
 import {Panel} from '../directives/panel/panel';
+import {NavButton} from './button/nav-button/nav-button';
 
 @Component({
     selector: 'app',
-    // templateUrl: 'recipenote.html',
     templateUrl: 'components/recipenote.html',
-    styleUrls: ['components/recipenote.css'],
+    styleUrls: [
+        'components/recipenote.css',
+        'directives/nav/nav.css',
+        'directives/panel/panel.css'
+    ],
     directives: [
         ROUTER_DIRECTIVES,
-        Navigation,
+        Nav,
+        NavTitle,
         Panel,
         List,
         View,
@@ -40,15 +44,23 @@ import {Panel} from '../directives/panel/panel';
 
 export class Recipenote {
     @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
-
+    @ViewChild(NavTitle) navTitle: NavTitle;
+    // title: string = 'aaa';
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
 
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;
+
+
     }
 
     ngOnInit() {
+
+
+    }
+    ngAfterViewInit() {
+        this.navTitle.renderText();
     }
 
     showSidebar(): void {

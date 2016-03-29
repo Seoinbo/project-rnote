@@ -15,6 +15,7 @@ out
 # jetBrains
 .idea
 platforms
+plugins
 .sass-cache
 node_modules
 www/modules

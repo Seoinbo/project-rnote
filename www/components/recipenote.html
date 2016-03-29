@@ -1,9 +1,9 @@
 <sidebar [attr.active]="sidebarActive" (sidebarClose)="hideSidebar();"></sidebar>
 <container [attr.active]="sidebarActive">
     <nav>
-        <panel>
+        <panel id="main-header">
             <button nav name="menu" title="M" (click)="showSidebar();"></button>
-            <title><!-- here main title--></title>
+            <title nav><!-- here main title--></title>
             <btn-group>
                 <button nav name="sync" title="Y"></button>
                 <button nav name="search" title="S"></button>
@@ -12,8 +12,35 @@
         </panel>
     </nav>
     <content>
-        <list></list>
-        <view></view>
+        <panel id="main">
+            <list>
+                <div id="list-inner">
+                    <item 
+                    *ngFor="#recipe of recipes"
+                    [recipeData]="recipe"
+                    (click)="view.show();">
+                    </item>
+                </div>
+            </list>
+            <view>
+                <div id="view-inner">
+                    <panel id="view-header">
+                        <button nav name="menu" title="M" (click)="showSidebar();"></button>
+                        <title nav><!-- here main title--></title>
+                        <btn-group>
+                            <button nav name="sync" title="Y"></button>
+                            <button nav name="search" title="S"></button>
+                            <button nav name="cart" title="C"></button>
+                        </btn-group>
+                    </panel>
+                    <div id="view-content">view-content</div>
+                    <footer id="view-toolbox">view-toolbox</footer>
+                </div>
+            </view>
+        </panel>
+        <panel id="cart">
+            
+        </panel>
     </content>
     <div class="sidebar-close-area" [attr.active]="[sidebarActive]" (click)="hideSidebar();"></div>
 </container>

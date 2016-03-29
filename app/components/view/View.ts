@@ -1,19 +1,33 @@
-import {Component, ElementRef} from 'angular2/core';
+import {Directive, ElementRef} from 'angular2/core';
 // import {Navigation} from '../navigation/navigation';
 
-@Component({
+@Directive({
     selector: 'view',
-    templateUrl: 'components/view/view.html',
-    styleUrls: ['components/view/view.css'],
-    // directives: [
-    //     Navigation
-    // ]
+    host: {
+        '[attr.active]': 'active'
+    }
 })
 
 export class View {
-    protected element: HTMLElement;
+    protected _element: HTMLElement;
+    protected _active: boolean = false;
 
     constructor(elementRef: ElementRef) {
-        this.element = elementRef.nativeElement;
+        this._element = elementRef.nativeElement;
+    }
+    
+    public show(): void {
+        this._active = true;
+    }
+    
+    public hide(): void {
+        this._active = false;
+    }
+    
+    get active(): boolean {
+        return this._active;
+    }
+    set active(value: boolean) {
+        this._active = value;
     }
 }

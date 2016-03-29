@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>rnote</title>
     <!-- IE required -->
-    <script src="modules/es6-shim/es6-shim.js"></script>
+    <!-- <script src="modules/es6-shim/es6-shim.js"></script> -->
     <script src="modules/reflect-metadata/Reflect.js"></script>
     <script src="modules/systemjs/dist/system-polyfills.js"></script>
     <script src="modules/angular2/es6/dev/src/testing/shims_for_IE.js"></script>
@@ -27,6 +27,7 @@
     <script src="modules/rxjs/bundles/Rx.min.js"></script>
     <script src="modules/angular2/bundles/angular2.js"></script>
     <script src="modules/angular2/bundles/router.js"></script>
+    <base href="/" />
     <!-- Configure SystemJS -->
     <script>
         System.config({
@@ -36,13 +37,12 @@
                  "*": "/modules/*"
             }
         });
-        System.import('./bootstrap')
-            .then(null, console.error.bind(console));
+        // System.import('./bootstrap').then(null, console.error.bind(console));
+        System.import('./bootstrap');
     </script>
 </head>
-    <body>
-        <app>Loading...</app>
-        <!-- <script type="text/javascript" src="js/test.js"></script>
-        <script type="text/javascript" src="cordova.js"></script> -->
-    </body>
+<body>
+    <app>Loading...</app>
+    <script type="text/javascript" src="cordova.js"></script>
+</body>
 </html>

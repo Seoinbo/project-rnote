@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Output, ElementRef} from 'angular2/core';
-import {SidebarButton} from '../button/sidebar-button/sidebar-button';
+import {Button} from '../button/button';
 
 @Component({
     selector: 'sidebar',
     templateUrl: 'components/sidebar/sidebar.html',
     styleUrls: ['components/sidebar/sidebar.css'],
     directives: [
-        SidebarButton
+        Button
     ]
 })
 

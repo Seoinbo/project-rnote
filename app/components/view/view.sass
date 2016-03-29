@@ -1,23 +1,44 @@
 @import '../common'
 
-#view-inner
+view
     position: relative
     display: flex
     flex-direction: column
     flex: 1 1 auto
     width: 100%
+    min-width: $min_container_width
     height: auto
-    #view-content
+    box-sizing: border-box
+    background-color: #EDE5E2
+    #view-inner
         position: relative
+        display: flex
+        flex-direction: column
         flex: 1 1 auto
         width: 100%
+        height: auto
+        #view-content
+            position: relative
+            flex: 1 1 auto
+            width: 100%
+            height: 100%
+        #view-toolbox
+            position: relative
+            flex: 0 0 auto
+            width: 100%
+            height: 50px
+            background-color: #999
+    .box
+        display: inline-block
+        margin: 10px
+
+// above mobile
+@media screen and (max-width: $min_container_width * 2)
+    view[active=true]
+        transform: translateX(-100%)
+    view
+        position: fixed
+        top: 0
         height: 100%
-    #view-toolbox
-        position: relative
-        flex: 0 0 auto
-        width: 100%
-        height: 50px
-        background-color: #999
-.box
-    display: inline-block
-    margin: 10px
+        transform: translateX(0)
+        transition: all 300ms ease

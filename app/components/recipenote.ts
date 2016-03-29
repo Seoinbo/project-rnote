@@ -9,20 +9,23 @@ import {
     Output
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import {List} from './list/list';
+import {List, RecipeItem} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
-import {NavButton} from './button/nav-button/nav-button';
+import {Button} from './button/button';
+import {RecipeService, Recipe} from '../services/recipe';
 
 @Component({
     selector: 'app',
     templateUrl: 'components/recipenote.html',
     styleUrls: [
         'components/recipenote.css',
-        'directives/nav/nav.css',
-        'directives/panel/panel.css'
+        'components/nav/nav.css',
+        'components/panel/panel.css',
+        'components/view/view.css',
+        'components/list/list.css'
     ],
     directives: [
         ROUTER_DIRECTIVES,
@@ -30,29 +33,36 @@ import {NavButton} from './button/nav-button/nav-button';
         NavTitle,
         Panel,
         List,
+        RecipeItem,
         View,
         Sidebar,
-        NavButton
+        Button
     ],
     providers: [
-        ROUTER_PROVIDERS
+        ROUTER_PROVIDERS,
+        RecipeService
     ]
 })
 
 // @RouteConfig([
+//     path: '/menu',
+//     name: ''
 // ])
 
 export class Recipenote {
     @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
     @ViewChild(NavTitle) navTitle: NavTitle;
-    // title: string = 'aaa';
+    @ViewChild(View) view: View;
+    
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
+    public recipes: Recipe[] = [
+        {id: 0, name: 'itemA'},
+        {id: 0, name: 'itemB'}
+    ];
 
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;
-
-
     }
 
     ngOnInit() {
@@ -60,7 +70,7 @@ export class Recipenote {
 
     }
     ngAfterViewInit() {
-        this.navTitle.renderText();
+        this.navTitle.text = 'test';
     }
 
     showSidebar(): void {
@@ -89,4 +99,5 @@ export class Recipenote {
     get sidebarActive():boolean {
         return this._sidebarActive;
     }
+    
 }

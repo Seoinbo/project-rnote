@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './list/list', './view/view', './sidebar/sidebar', '../directives/nav/nav', '../directives/panel/panel', './button/nav-button/nav-button'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, list_1, view_1, sidebar_1, nav_1, panel_1, nav_button_1;
+    var core_1, router_1, list_1, view_1, sidebar_1, nav_1, panel_1, button_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -35,20 +35,27 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
             function (panel_1_1) {
                 panel_1 = panel_1_1;
             },
-            function (nav_button_1_1) {
-                nav_button_1 = nav_button_1_1;
+            function (button_1_1) {
+                button_1 = button_1_1;
+            },
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
                 function Recipenote(elementRef) {
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
+                    this.recipes = [
+                        { id: 0, name: 'itemA' },
+                        { id: 0, name: 'itemB' }
+                    ];
                     this._element = elementRef.nativeElement;
                 }
                 Recipenote.prototype.ngOnInit = function () {
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
-                    this.navTitle.renderText();
+                    this.navTitle.text = 'test';
                 };
                 Recipenote.prototype.showSidebar = function () {
                     this.sidebarActive = true;
@@ -84,14 +91,20 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
                     core_1.ViewChild(nav_1.NavTitle), 
                     __metadata('design:type', nav_1.NavTitle)
                 ], Recipenote.prototype, "navTitle", void 0);
+                __decorate([
+                    core_1.ViewChild(view_1.View), 
+                    __metadata('design:type', view_1.View)
+                ], Recipenote.prototype, "view", void 0);
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
                         templateUrl: 'components/recipenote.html',
                         styleUrls: [
                             'components/recipenote.css',
-                            'directives/nav/nav.css',
-                            'directives/panel/panel.css'
+                            'components/nav/nav.css',
+                            'components/panel/panel.css',
+                            'components/view/view.css',
+                            'components/list/list.css'
                         ],
                         directives: [
                             router_1.ROUTER_DIRECTIVES,
@@ -99,12 +112,14 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
                             nav_1.NavTitle,
                             panel_1.Panel,
                             list_1.List,
+                            list_1.RecipeItem,
                             view_1.View,
                             sidebar_1.Sidebar,
-                            nav_button_1.NavButton
+                            button_1.Button
                         ],
                         providers: [
-                            router_1.ROUTER_PROVIDERS
+                            router_1.ROUTER_PROVIDERS,
+                            recipe_1.RecipeService
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])

@@ -60,53 +60,35 @@ content
     width: 100%
     height: 100%
     background-color: #111
-    list
-        position: relative
-        display: flex
-        flex-direction: column
-        flex: 0 0 auto
-        width: 50%
-        min-width: $min_container_width
-        max-width: $max_container_width
-        height: auto
-        box-sizing: border-box
-        background-color: #EDE5E2
-        border-right: 1px solid #888
-    view
-        position: relative
-        display: flex
-        flex-direction: column
-        flex: 1 1 auto
-        width: 100%
-        min-width: $min_container_width
-        height: auto
-        box-sizing: border-box
-        background-color: #EDE5E2
+    panel[id=cart]
+        display: none
+    panel[id=main]
+        list
+            position: relative
+            display: flex
+            flex-direction: column
+            flex: 0 0 auto
+            width: 50%
+            min-width: $min_container_width
+            max-width: $max_container_width
+            height: auto
+            box-sizing: border-box
+            background-color: #EDE5E2
+            border-right: 1px solid #888
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)
     content
-        view[active=on]
-            transform: translateX(-100%)
-        view
-            position: fixed
-            top: 0
-            height: 100%
-            transform: translateX(0)
-            transition: all 300ms ease
-        list
-            width: 100%
+        panel[id=main]
+            list
+                width: 100%
 
 // under mobile
 @media screen and (min-width: $min_container_width * 2)
     nav
         .view-open
             display: none
-    content
-        view
-            .nav-back
-                display: none
-
+            
 // for PC
 @media screen and (min-width: $sidebar_width + ($min_container_width * 2))
     sidebar

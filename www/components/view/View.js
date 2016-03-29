@@ -21,13 +21,31 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             // import {Navigation} from '../navigation/navigation';
             View = (function () {
                 function View(elementRef) {
-                    this.element = elementRef.nativeElement;
+                    this._active = false;
+                    this._element = elementRef.nativeElement;
                 }
+                View.prototype.show = function () {
+                    this._active = true;
+                };
+                View.prototype.hide = function () {
+                    this._active = false;
+                };
+                Object.defineProperty(View.prototype, "active", {
+                    get: function () {
+                        return this._active;
+                    },
+                    set: function (value) {
+                        this._active = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 View = __decorate([
-                    core_1.Component({
+                    core_1.Directive({
                         selector: 'view',
-                        templateUrl: 'components/view/view.html',
-                        styleUrls: ['components/view/view.css'],
+                        host: {
+                            '[attr.active]': 'active'
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], View);

@@ -58,7 +58,9 @@ content {
   width: 100%;
   height: 100%;
   background-color: #111; }
-  content list {
+  content panel[id=cart] {
+    display: none; }
+  content panel[id=main] list {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -70,33 +72,13 @@ content {
     box-sizing: border-box;
     background-color: #EDE5E2;
     border-right: 1px solid #888; }
-  content view {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    width: 100%;
-    min-width: 360px;
-    height: auto;
-    box-sizing: border-box;
-    background-color: #EDE5E2; }
 
 @media screen and (max-width: 720px) {
-  content view[active=on] {
-    transform: translateX(-100%); }
-  content view {
-    position: fixed;
-    top: 0;
-    height: 100%;
-    transform: translateX(0);
-    transition: all 300ms ease; }
-  content list {
+  content panel[id=main] list {
     width: 100%; } }
 
 @media screen and (min-width: 720px) {
   nav .view-open {
-    display: none; }
-  content view .nav-back {
     display: none; } }
 
 @media screen and (min-width: 1000px) {

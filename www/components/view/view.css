@@ -1,22 +1,41 @@
-#view-inner {
+view {
   position: relative;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   width: 100%;
-  height: auto; }
-  #view-inner #view-content {
+  min-width: 360px;
+  height: auto;
+  box-sizing: border-box;
+  background-color: #EDE5E2; }
+  view #view-inner {
     position: relative;
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     width: 100%;
-    height: 100%; }
-  #view-inner #view-toolbox {
-    position: relative;
-    flex: 0 0 auto;
-    width: 100%;
-    height: 50px;
-    background-color: #999; }
+    height: auto; }
+    view #view-inner #view-content {
+      position: relative;
+      flex: 1 1 auto;
+      width: 100%;
+      height: 100%; }
+    view #view-inner #view-toolbox {
+      position: relative;
+      flex: 0 0 auto;
+      width: 100%;
+      height: 50px;
+      background-color: #999; }
+  view .box {
+    display: inline-block;
+    margin: 10px; }
 
-.box {
-  display: inline-block;
-  margin: 10px; }
+@media screen and (max-width: 720px) {
+  view[active=true] {
+    transform: translateX(-100%); }
+  view {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    transform: translateX(0);
+    transition: all 300ms ease; } }

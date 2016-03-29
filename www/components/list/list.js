@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/click-effect/click-effect'], function(exports_1, context_1) {
+System.register(['angular2/core', '../button/click-effect/click-effect', '../../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['angular2/core', '../button/click-effect/click-effect'], functi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, click_effect_1;
-    var List;
+    var core_1, click_effect_1, recipe_1;
+    var List, RecipeItem;
     return {
         setters:[
             function (core_1_1) {
@@ -19,25 +19,55 @@ System.register(['angular2/core', '../button/click-effect/click-effect'], functi
             },
             function (click_effect_1_1) {
                 click_effect_1 = click_effect_1_1;
+            },
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             }],
         execute: function() {
             List = (function () {
                 function List() {
                 }
                 List = __decorate([
-                    core_1.Component({
-                        selector: 'list',
-                        templateUrl: 'components/list/list.html',
-                        styleUrls: ['components/list/list.css'],
-                        directives: [
-                            click_effect_1.ClickEffect
-                        ]
+                    core_1.Directive({
+                        selector: 'list'
                     }), 
                     __metadata('design:paramtypes', [])
                 ], List);
                 return List;
             }());
             exports_1("List", List);
+            RecipeItem = (function () {
+                function RecipeItem(elementRef) {
+                    this._element = elementRef.nativeElement;
+                }
+                Object.defineProperty(RecipeItem.prototype, "recipe", {
+                    get: function () {
+                        return this._recipe;
+                    },
+                    set: function (value) {
+                        this._recipe = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                __decorate([
+                    core_1.Input('recipeData'), 
+                    __metadata('design:type', recipe_1.Recipe)
+                ], RecipeItem.prototype, "_recipe", void 0);
+                RecipeItem = __decorate([
+                    core_1.Component({
+                        selector: 'list item',
+                        templateUrl: 'components/list/recipeItem.html',
+                        styleUrls: ['components/list/recipeItem.css'],
+                        directives: [
+                            click_effect_1.ClickEffect
+                        ]
+                    }), 
+                    __metadata('design:paramtypes', [core_1.ElementRef])
+                ], RecipeItem);
+                return RecipeItem;
+            }());
+            exports_1("RecipeItem", RecipeItem);
         }
     }
 });

@@ -36,7 +36,7 @@ export class Nav {
 }
 
 @Directive({
-    selector: 'nav title'
+    selector: 'title[nav]'
 })
 
 export class NavTitle {
@@ -47,15 +47,16 @@ export class NavTitle {
         this._element = _elementRef.nativeElement;
     }
 
-    renderText():void {
+    renderText(): void {
         this._element.innerText = this._text;
     }
 
     set text(value: string) {
         this._text = value;
+        this.renderText();
     }
 
-    get text():string {
+    get text(): string {
         return this._text;
     }
 }

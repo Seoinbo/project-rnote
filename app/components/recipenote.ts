@@ -12,8 +12,8 @@ import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router'
 import {List} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
-import {Nav, NavTitle} from '../directives/nav/nav';
-import {Panel} from '../directives/panel/panel';
+import {Nav, NavTitle} from './nav/nav';
+import {Panel} from './panel/panel';
 import {NavButton} from './button/nav-button/nav-button';
 
 @Component({

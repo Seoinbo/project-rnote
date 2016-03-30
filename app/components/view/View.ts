@@ -1,5 +1,4 @@
 import {Directive, ElementRef} from 'angular2/core';
-// import {Navigation} from '../navigation/navigation';
 
 @Directive({
     selector: 'view',
@@ -10,7 +9,7 @@ import {Directive, ElementRef} from 'angular2/core';
 
 export class View {
     protected _element: HTMLElement;
-    protected _active: boolean = false;
+    protected _active: boolean = true;
 
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;

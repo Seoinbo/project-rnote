@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, list_1, view_1, sidebar_1, nav_1, panel_1, button_1, recipe_1;
+    var core_1, router_1, platform_1, list_1, view_1, sidebar_1, nav_1, panel_1, button_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+            },
+            function (platform_1_1) {
+                platform_1 = platform_1_1;
             },
             function (list_1_1) {
                 list_1 = list_1_1;
@@ -98,13 +101,13 @@ System.register(['angular2/core', 'angular2/router', './list/list', './view/view
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        templateUrl: 'components/recipenote.html',
+                        templateUrl: platform_1.Platform.prependBaseURL('components/recipenote.html'),
                         styleUrls: [
-                            'components/recipenote.css',
-                            'components/nav/nav.css',
-                            'components/panel/panel.css',
-                            'components/view/view.css',
-                            'components/list/list.css'
+                            platform_1.Platform.prependBaseURL('components/recipenote.css'),
+                            platform_1.Platform.prependBaseURL('components/nav/nav.css'),
+                            platform_1.Platform.prependBaseURL('components/panel/panel.css'),
+                            platform_1.Platform.prependBaseURL('components/view/view.css'),
+                            platform_1.Platform.prependBaseURL('components/list/list.css')
                         ],
                         directives: [
                             router_1.ROUTER_DIRECTIVES,

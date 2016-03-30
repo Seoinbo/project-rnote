@@ -24,15 +24,23 @@
             </list>
             <view>
                 <div id="view-inner">
-                    <panel id="view-header">
-                        <button nav name="menu" title="M" (click)="showSidebar();"></button>
-                        <title nav><!-- here main title--></title>
-                        <btn-group>
-                            <button nav name="sync" title="Y"></button>
-                            <button nav name="search" title="S"></button>
-                            <button nav name="cart" title="C"></button>
-                        </btn-group>
-                    </panel>
+                    <nav>
+                        <panel id="view-header">
+                            <button nav name="back" title="<<" (click)="view.hide();"></button>
+                            <title nav>aaa</title>
+                            <btn-group>
+                                <button nav name="color-sticker" title="CS"></button>
+                                <button nav name="hold-screen" title="HS"></button>
+                                <button nav name="edit" title="ED"></button>
+                                <button nav name="label" title="LB"></button>
+                                <button nav name="publish" title="PU"></button>
+                                <button nav name="share" title="SH"></button>
+                                <button nav name="download" title="DN"></button>
+                                <button nav name="delete" title="DL"></button>
+                                <button nav name="more" title="더.."></button>
+                            </btn-group>
+                        </panel>
+                    </nav>
                     <div id="view-content">view-content</div>
                     <footer id="view-toolbox">view-toolbox</footer>
                 </div>

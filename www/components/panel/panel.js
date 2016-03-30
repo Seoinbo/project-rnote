@@ -11,46 +11,33 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var View;
+    var Panel;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            View = (function () {
-                function View(elementRef) {
-                    this._active = true;
-                    this._element = elementRef.nativeElement;
+            Panel = (function () {
+                function Panel(_elementRef) {
+                    this._element = _elementRef.nativeElement;
                 }
-                View.prototype.show = function () {
-                    this._active = true;
-                };
-                View.prototype.hide = function () {
-                    this._active = false;
-                };
-                Object.defineProperty(View.prototype, "active", {
+                Object.defineProperty(Panel.prototype, "element", {
                     get: function () {
-                        return this._active;
-                    },
-                    set: function (value) {
-                        this._active = value;
+                        return this._element;
                     },
                     enumerable: true,
                     configurable: true
                 });
-                View = __decorate([
+                Panel = __decorate([
                     core_1.Directive({
-                        selector: 'view',
-                        host: {
-                            '[attr.active]': 'active'
-                        }
+                        selector: 'panel'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], View);
-                return View;
+                ], Panel);
+                return Panel;
             }());
-            exports_1("View", View);
+            exports_1("Panel", Panel);
         }
     }
 });

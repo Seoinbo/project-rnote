@@ -1,9 +1,11 @@
 import {Component, Directive, ElementRef, Input, HostListener} from 'angular2/core';
+import {Platform} from '../../../services/platform';
  
 @Component({
   selector: 'click-effect',
   template: '',
-  styleUrls: ['components/button/click-effect/click-effect.css'],
+  styleUrls: [
+      Platform.prependBaseURL('components/button/click-effect/click-effect.css')],
   host: {
       '[attr.animating]': 'animating'
   }

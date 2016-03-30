@@ -1,4 +1,5 @@
 import {Component, Directive, ElementRef, EventEmitter, Input, Output} from 'angular2/core';
+import {Platform} from '../../services/platform';
 import {ClickEffect} from '../button/click-effect/click-effect';
 import {Recipe} from '../../services/recipe'
 
@@ -13,8 +14,8 @@ export class List {
 
 @Component({
     selector: 'list item',
-    templateUrl: 'components/list/recipeItem.html',
-    styleUrls: ['components/list/recipeItem.css'],
+    templateUrl: Platform.prependBaseURL('components/list/recipeItem.html'),
+    styleUrls: [Platform.prependBaseURL('components/list/recipeItem.css')],
     directives: [
         ClickEffect
     ]

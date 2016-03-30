@@ -1,0 +1,16 @@
+title[nav] {
+  display: inline-block;
+  width: 100%;
+  line-height: 50px;
+  background-color: #EA3556;
+  padding: 0 15px; }
+
+button[nav] {
+  line-height: 50px; }
+
+btn-group {
+  display: flex !important;
+  -webkit-display: flex !important;
+  -moz-display: flex !important;
+  -ms-display: flex !important;
+  -o-display: flex !important; }

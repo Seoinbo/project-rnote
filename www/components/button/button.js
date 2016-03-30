@@ -1,4 +1,4 @@
-System.register(['angular2/core', './click-effect/click-effect'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/platform', './click-effect/click-effect'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', './click-effect/click-effect'], function(expor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, click_effect_1;
+    var core_1, platform_1, click_effect_1;
     var Button;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_1_1) {
+                platform_1 = platform_1_1;
             },
             function (click_effect_1_1) {
                 click_effect_1 = click_effect_1_1;
@@ -52,8 +55,8 @@ System.register(['angular2/core', './click-effect/click-effect'], function(expor
                 Button = __decorate([
                     core_1.Component({
                         selector: 'button',
-                        templateUrl: 'components/button/button.html',
-                        styleUrls: ['components/button/button.css'],
+                        templateUrl: platform_1.Platform.prependBaseURL('components/button/button.html'),
+                        styleUrls: [platform_1.Platform.prependBaseURL('components/button/button.css')],
                         directives: [
                             click_effect_1.ClickEffect
                         ]

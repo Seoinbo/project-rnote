@@ -1,10 +1,11 @@
 import {Component, EventEmitter, Output, ElementRef} from 'angular2/core';
+import {Platform} from '../../services/platform';
 import {Button} from '../button/button';
 
 @Component({
     selector: 'sidebar',
-    templateUrl: 'components/sidebar/sidebar.html',
-    styleUrls: ['components/sidebar/sidebar.css'],
+    templateUrl: Platform.prependBaseURL('components/sidebar/sidebar.html'),
+    styleUrls: [Platform.prependBaseURL('components/sidebar/sidebar.css')],
     directives: [
         Button
     ]

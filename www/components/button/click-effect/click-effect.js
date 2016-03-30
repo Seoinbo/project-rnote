@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, platform_1;
     var ClickEffect;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_1_1) {
+                platform_1 = platform_1_1;
             }],
         execute: function() {
             ClickEffect = (function () {
@@ -46,7 +49,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         selector: 'click-effect',
                         template: '',
-                        styleUrls: ['components/button/click-effect/click-effect.css'],
+                        styleUrls: [
+                            platform_1.Platform.prependBaseURL('components/button/click-effect/click-effect.css')],
                         host: {
                             '[attr.animating]': 'animating'
                         }
@@ -59,3 +63,4 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         }
     }
 });
+//# sourceMappingURL=click-effect.js.map

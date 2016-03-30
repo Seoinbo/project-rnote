@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button/button'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/platform', '../button/button'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', '../button/button'], function(exports_1, conte
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, button_1;
+    var core_1, platform_1, button_1;
     var Sidebar;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_1_1) {
+                platform_1 = platform_1_1;
             },
             function (button_1_1) {
                 button_1 = button_1_1;
@@ -36,8 +39,8 @@ System.register(['angular2/core', '../button/button'], function(exports_1, conte
                 Sidebar = __decorate([
                     core_1.Component({
                         selector: 'sidebar',
-                        templateUrl: 'components/sidebar/sidebar.html',
-                        styleUrls: ['components/sidebar/sidebar.css'],
+                        templateUrl: platform_1.Platform.prependBaseURL('components/sidebar/sidebar.html'),
+                        styleUrls: [platform_1.Platform.prependBaseURL('components/sidebar/sidebar.css')],
                         directives: [
                             button_1.Button
                         ]

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../button', '../click-effect/click-effect'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../button', '../click-effect/click-effect'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,12 +15,15 @@ System.register(['angular2/core', '../button', '../click-effect/click-effect'], 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, button_1, click_effect_1;
+    var core_1, platform_1, button_1, click_effect_1;
     var NavButton;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (platform_1_1) {
+                platform_1 = platform_1_1;
             },
             function (button_1_1) {
                 button_1 = button_1_1;
@@ -37,10 +40,10 @@ System.register(['angular2/core', '../button', '../click-effect/click-effect'], 
                 NavButton = __decorate([
                     core_1.Component({
                         selector: 'button[nav], panel button[nav]',
-                        templateUrl: 'components/button/nav-button/nav-button.html',
+                        templateUrl: platform_1.Platform.prependBaseURL('components/button/nav-button/nav-button.html'),
                         styleUrls: [
-                            'components/button/button.css',
-                            'components/button/nav-button/nav-button.css'
+                            platform_1.Platform.prependBaseURL('components/button/button.css'),
+                            platform_1.Platform.prependBaseURL('components/button/nav-button/nav-button.css')
                         ],
                         directives: [
                             click_effect_1.ClickEffect

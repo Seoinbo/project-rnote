@@ -1,10 +1,11 @@
 import {Component, ElementRef, HostListener, EventEmitter, Input, Output} from 'angular2/core';
+import {Platform} from '../../services/platform';
 import {ClickEffect} from './click-effect/click-effect';
 
 @Component({
   selector: 'button',
-  templateUrl: 'components/button/button.html',
-  styleUrls: ['components/button/button.css'],
+  templateUrl: Platform.prependBaseURL('components/button/button.html'),
+  styleUrls: [Platform.prependBaseURL('components/button/button.css')],
   directives: [
       ClickEffect
   ]

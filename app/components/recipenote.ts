@@ -9,6 +9,7 @@ import {
     Output
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {Platform} from '../services/platform';
 import {List, RecipeItem} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
@@ -19,13 +20,13 @@ import {RecipeService, Recipe} from '../services/recipe';
 
 @Component({
     selector: 'app',
-    templateUrl: 'components/recipenote.html',
+    templateUrl: Platform.prependBaseURL('components/recipenote.html'),
     styleUrls: [
-        'components/recipenote.css',
-        'components/nav/nav.css',
-        'components/panel/panel.css',
-        'components/view/view.css',
-        'components/list/list.css'
+        Platform.prependBaseURL('components/recipenote.css'),
+        Platform.prependBaseURL('components/nav/nav.css'),
+        Platform.prependBaseURL('components/panel/panel.css'),
+        Platform.prependBaseURL('components/view/view.css'),
+        Platform.prependBaseURL('components/list/list.css')
     ],
     directives: [
         ROUTER_DIRECTIVES,
@@ -99,5 +100,4 @@ export class Recipenote {
     get sidebarActive():boolean {
         return this._sidebarActive;
     }
-    
 }

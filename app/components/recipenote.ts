@@ -89,7 +89,6 @@ export class Recipenote {
             this.hideSidebar();
         } else {
             this.showSidebar();
-
         }
     }
 

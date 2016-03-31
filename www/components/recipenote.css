@@ -16,7 +16,7 @@ container {
   flex-direction: column;
   flex: 1 1 auto;
   width: 100%;
-  min-width: 360px;
+  min-width: 320px;
   height: 100%;
   background-color: #777;
   box-sizing: border-box;
@@ -30,23 +30,16 @@ container {
     height: 100%;
     opacity: .7;
     background-color: #9BF0E9; }
-
-nav {
-  position: relative;
-  background-color: #777;
-  flex: 0 0 auto;
-  width: 100%;
-  height: 50px; }
-  nav panel {
-    line-height: 50px; }
-    nav panel [name=menu] {
-      width: 60px; }
-    nav panel [name=sync] {
-      width: 60px; }
-    nav panel [name=search] {
-      width: 60px; }
-    nav panel [name=cart] {
-      width: 60px; }
+  container nav {
+    position: relative;
+    background-color: #777;
+    flex: 0 0 auto;
+    width: 100%;
+    height: 40px; }
+    container nav panel {
+      line-height: 40px; }
+      container nav panel button {
+        width: 40px; }
 
 content {
   position: relative;
@@ -66,29 +59,33 @@ content {
     flex-direction: column;
     flex: 0 0 auto;
     width: 50%;
-    min-width: 360px;
-    max-width: 720px;
+    min-width: 320px;
+    max-width: 640px;
     height: auto;
     box-sizing: border-box;
     background-color: #EDE5E2;
     border-right: 1px solid #888; }
 
-@media screen and (max-width: 720px) {
+nav button[name=more] {
+  position: absolute;
+  right: 0; }
+
+@media screen and (max-width: 640px) {
   content panel[id=main] list {
     width: 100%; } }
 
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 640px) {
   nav .view-open {
     display: none; } }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 920px) {
   sidebar {
     position: relative;
     width: 280px; }
   nav panel [name=menu] {
     display: none; } }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 920px) {
   container .sidebar-close-area[active=true] {
     display: block; }
   container[active=true] {

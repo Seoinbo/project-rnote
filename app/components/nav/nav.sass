@@ -3,9 +3,18 @@
 title[nav]
     display: inline-block
     width: 100%
-    line-height: $navbar_height
+    height: $navbar_height
+    line-height: 23px
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
     background-color: #EA3556
-    padding: 0 15px
+    padding: 10px
+    box-sizing: border-box
+    
+title[nav][expend=true]
+    height: 100%
+    white-space: normal
 
 button[nav]
     line-height: $navbar_height

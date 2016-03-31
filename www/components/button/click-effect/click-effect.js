@@ -34,7 +34,7 @@ System.register(['angular2/core', '../../../services/platform'], function(export
                     this.animating = false;
                 };
                 __decorate([
-                    core_1.HostListener('mousedown', ['$event.target']), 
+                    core_1.HostListener('touchstart', ['$event.target']), 
                     __metadata('design:type', Function), 
                     __metadata('design:paramtypes', [Object]), 
                     __metadata('design:returntype', void 0)

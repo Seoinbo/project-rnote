@@ -19,14 +19,18 @@ view
         height: auto
         nav
             position: relative
+            z-index: 10
             background-color: #fff
             flex: 0 0 auto
             width: 100%
-            height: $navbar_height
+            height: 100%
             panel
                 line-height: $navbar_height
                 button
-                    width: 60px
+                    width: 40px
+                    height: $navbar_height
+            panel#view-header btn-group
+                width: 200px
                     
         #view-content
             position: relative
@@ -43,7 +47,28 @@ view
         display: inline-block
         margin: 10px
 
-// above mobile
+
+// media query for view nav-buttons
+@media screen and (max-width: $width_level1)
+    view nav panel#view-header btn-group
+        width: 80px !important
+@media screen and (min-width: $width_level1) and (max-width: $width_level2)
+    view nav panel#view-header btn-group
+        width: 200px !important
+@media screen and (min-width: $width_level2) and (max-width: $width_level3)
+    view nav panel#view-header btn-group
+        width: 120px !important
+@media screen and (min-width: $width_level3) and (max-width: $width_level4)
+    view nav panel#view-header btn-group
+        width: 160px !important
+@media screen and (min-width: $width_level4) and (max-width: $width_level5)
+    view nav panel#view-header btn-group
+        width: 120px !important
+@media screen and (min-width: $width_level5)
+    view nav panel#view-header btn-group
+        width: 200px !important
+
+// <= tablet 
 @media screen and (max-width: $min_container_width * 2)
     view[active=true]
         transform: translateX(-100%)

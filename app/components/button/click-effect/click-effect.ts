@@ -19,7 +19,7 @@ export class ClickEffect {
         this._element = _elementRef.nativeElement;
     }
     
-    @HostListener('mousedown', ['$event.target'])
+    @HostListener('touchstart', ['$event.target'])
     onMouseDown (btn: any) {
         this.animating = true;
     }

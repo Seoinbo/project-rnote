@@ -36,19 +36,40 @@ export class Nav {
 }
 
 @Directive({
-    selector: 'title[nav]'
+    selector: 'title[nav]',
+    host: {
+        '(touchstart)': 'toggleExpend();',
+        '[attr.expend]': '_expend'
+    }
 })
 
 export class NavTitle {
-    protected _text: string = 'TITLE';
     protected _element: HTMLElement;
+    private _text: string = 'TITLE';
+    private _expend = false;
 
     constructor(_elementRef: ElementRef) {
         this._element = _elementRef.nativeElement;
     }
 
-    renderText(): void {
+    public renderText(): void {
         this._element.innerText = this._text;
+    }
+    
+    public toggleExpend(): void {
+        if (this._expend) {
+            this.collapse();
+        } else {
+            this.expend();
+        }
+    }
+    
+    public expend(): void {
+        this._expend = true;
+    }
+    
+    public collapse(): void {
+        this._expend = false;
     }
 
     set text(value: string) {

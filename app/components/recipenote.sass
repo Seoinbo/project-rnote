@@ -32,23 +32,16 @@ container
         height: 100%
         opacity: .7
         background-color: #9BF0E9
-
-nav
-    position: relative
-    background-color: #777
-    flex: 0 0 auto
-    width: 100%
-    height: $navbar_height
-    panel
-        line-height: $navbar_height
-        [name=menu]
-            width: 60px
-        [name=sync]
-            width: 60px
-        [name=search]
-            width: 60px
-        [name=cart]
-            width: 60px
+    nav
+        position: relative
+        background-color: #777
+        flex: 0 0 auto
+        width: 100%
+        height: $navbar_height
+        panel
+            line-height: $navbar_height
+            button
+                width: 40px
 
 content
     position: relative
@@ -75,6 +68,10 @@ content
             box-sizing: border-box
             background-color: #EDE5E2
             border-right: 1px solid #888
+
+nav button[name=more]
+    position: absolute
+    right: 0
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)

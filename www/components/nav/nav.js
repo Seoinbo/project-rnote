@@ -56,10 +56,25 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             NavTitle = (function () {
                 function NavTitle(_elementRef) {
                     this._text = 'TITLE';
+                    this._expend = false;
                     this._element = _elementRef.nativeElement;
                 }
                 NavTitle.prototype.renderText = function () {
                     this._element.innerText = this._text;
+                };
+                NavTitle.prototype.toggleExpend = function () {
+                    if (this._expend) {
+                        this.collapse();
+                    }
+                    else {
+                        this.expend();
+                    }
+                };
+                NavTitle.prototype.expend = function () {
+                    this._expend = true;
+                };
+                NavTitle.prototype.collapse = function () {
+                    this._expend = false;
                 };
                 Object.defineProperty(NavTitle.prototype, "text", {
                     get: function () {
@@ -74,7 +89,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 });
                 NavTitle = __decorate([
                     core_1.Directive({
-                        selector: 'title[nav]'
+                        selector: 'title[nav]',
+                        host: {
+                            '(touchstart)': 'toggleExpend();',
+                            '[attr.expend]': '_expend'
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], NavTitle);

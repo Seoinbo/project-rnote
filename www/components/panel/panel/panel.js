@@ -1,11 +1,6 @@
-System.register(['angular2/core', '../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var __extends = (this && this.__extends) || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15,32 +10,34 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, view_object_1;
-    var View;
+    var core_1;
+    var Panel;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (view_object_1_1) {
-                view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            View = (function (_super) {
-                __extends(View, _super);
-                function View(elementRef) {
-                    _super.call(this, elementRef);
+            Panel = (function () {
+                function Panel(_elementRef) {
+                    this._element = _elementRef.nativeElement;
                 }
-                View = __decorate([
+                Object.defineProperty(Panel.prototype, "element", {
+                    get: function () {
+                        return this._element;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Panel = __decorate([
                     core_1.Directive({
-                        selector: 'view'
+                        selector: 'panel'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], View);
-                return View;
-            }(view_object_1.ViewObject));
-            exports_1("View", View);
+                ], Panel);
+                return Panel;
+            }());
+            exports_1("Panel", Panel);
         }
     }
 });
-//# sourceMappingURL=view.js.map

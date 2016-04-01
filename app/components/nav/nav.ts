@@ -38,7 +38,7 @@ export class Nav {
 @Directive({
     selector: 'title[nav]',
     host: {
-        '(touchstart)': 'toggleExpend();',
+        '(click)': 'toggleExpend();',
         '[attr.expend]': '_expend'
     }
 })

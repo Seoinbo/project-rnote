@@ -16,7 +16,7 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, view_object_1;
-    var View;
+    var PopupMenu;
     return {
         setters:[
             function (core_1_1) {
@@ -26,21 +26,35 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
                 view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            View = (function (_super) {
-                __extends(View, _super);
-                function View(elementRef) {
+            PopupMenu = (function (_super) {
+                __extends(PopupMenu, _super);
+                function PopupMenu(elementRef) {
                     _super.call(this, elementRef);
                 }
-                View = __decorate([
+                PopupMenu.prototype.ngAfterViewInit = function () {
+                    var _this = this;
+                    document.body.addEventListener('mousedown', function () {
+                        _this.inactive();
+                    });
+                };
+                PopupMenu.prototype.onTransitionEnd = function () {
+                    // 에니메이션 끝난 후 엘리먼트 감추기
+                    if (!this.activation) {
+                        this.hide();
+                    }
+                };
+                PopupMenu = __decorate([
                     core_1.Directive({
-                        selector: 'view'
+                        selector: 'popup-menu',
+                        host: {
+                            '(transitionend)': 'onTransitionEnd()'
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], View);
-                return View;
+                ], PopupMenu);
+                return PopupMenu;
             }(view_object_1.ViewObject));
-            exports_1("View", View);
+            exports_1("PopupMenu", PopupMenu);
         }
     }
 });
-//# sourceMappingURL=view.js.map

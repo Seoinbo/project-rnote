@@ -1,32 +1,12 @@
 import {Directive, ElementRef} from 'angular2/core';
+import {ViewObject} from '../../directives/view-object';
 
 @Directive({
-    selector: 'view',
-    host: {
-        '[attr.active]': 'active'
-    }
+    selector: 'view'
 })
 
-export class View {
-    protected _element: HTMLElement;
-    protected _active: boolean = true;
-
+export class View extends ViewObject {
     constructor(elementRef: ElementRef) {
-        this._element = elementRef.nativeElement;
-    }
-    
-    public show(): void {
-        this._active = true;
-    }
-    
-    public hide(): void {
-        this._active = false;
-    }
-    
-    get active(): boolean {
-        return this._active;
-    }
-    set active(value: boolean) {
-        this._active = value;
+        super(elementRef);
     }
 }

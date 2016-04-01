@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './toolbox/toolbox', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, list_1, view_1, sidebar_1, nav_1, panel_1, button_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, list_1, view_1, sidebar_1, nav_1, toolbox_1, panel_1, button_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
             },
             function (platform_1_1) {
                 platform_1 = platform_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             },
             function (list_1_1) {
                 list_1 = list_1_1;
@@ -35,11 +38,17 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
             function (nav_1_1) {
                 nav_1 = nav_1_1;
             },
+            function (toolbox_1_1) {
+                toolbox_1 = toolbox_1_1;
+            },
             function (panel_1_1) {
                 panel_1 = panel_1_1;
             },
             function (button_1_1) {
                 button_1 = button_1_1;
+            },
+            function (popup_menu_1_1) {
+                popup_menu_1 = popup_menu_1_1;
             },
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
@@ -59,6 +68,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
                     this.navTitle.text = 'test';
+                    util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);
                 };
                 Recipenote.prototype.showSidebar = function () {
                     this.sidebarActive = true;
@@ -98,6 +108,10 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
                     core_1.ViewChild(view_1.View), 
                     __metadata('design:type', view_1.View)
                 ], Recipenote.prototype, "view", void 0);
+                __decorate([
+                    core_1.ViewChildren(popup_menu_1.PopupMenu), 
+                    __metadata('design:type', core_1.QueryList)
+                ], Recipenote.prototype, "arrPopupMenu", void 0);
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -105,9 +119,11 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
                         styleUrls: [
                             platform_1.Platform.prependBaseURL('components/recipenote.css'),
                             platform_1.Platform.prependBaseURL('components/nav/nav.css'),
+                            platform_1.Platform.prependBaseURL('components/toolbox/toolbox.css'),
                             platform_1.Platform.prependBaseURL('components/panel/panel.css'),
                             platform_1.Platform.prependBaseURL('components/view/view.css'),
-                            platform_1.Platform.prependBaseURL('components/list/list.css')
+                            platform_1.Platform.prependBaseURL('components/list/list.css'),
+                            platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css')
                         ],
                         directives: [
                             router_1.ROUTER_DIRECTIVES,
@@ -117,8 +133,10 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', './
                             list_1.List,
                             list_1.RecipeItem,
                             view_1.View,
+                            toolbox_1.Toolbox,
                             sidebar_1.Sidebar,
-                            button_1.Button
+                            button_1.Button,
+                            popup_menu_1.PopupMenu
                         ],
                         providers: [
                             router_1.ROUTER_PROVIDERS,

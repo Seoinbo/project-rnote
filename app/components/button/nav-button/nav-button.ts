@@ -4,7 +4,7 @@ import {Button} from '../button';
 import {ClickEffect} from '../click-effect/click-effect';
 
 @Component({
-    selector: 'button[nav], panel button[nav]',
+    selector: 'button[nav], nav button',
     templateUrl: Platform.prependBaseURL('components/button/nav-button/nav-button.html'),
     styleUrls: [
         Platform.prependBaseURL('components/button/button.css'),

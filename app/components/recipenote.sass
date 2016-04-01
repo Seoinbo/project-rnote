@@ -41,7 +41,7 @@ container
         panel
             line-height: $navbar_height
             button
-                width: 40px
+                width: $nav_button_width
 
 content
     position: relative
@@ -67,11 +67,22 @@ content
             height: auto
             box-sizing: border-box
             background-color: #EDE5E2
-            border-right: 1px solid #888
 
 nav button[name=more]
     position: absolute
     right: 0
+
+
+view
+    popup-menu
+        button
+            display: block
+            width: 100%
+            text-align: left
+    popup-menu#all-header-menu
+        top: $navbar_height
+        right: 0
+        
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)

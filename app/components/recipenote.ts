@@ -4,18 +4,22 @@ import {
     QueryList,
     ElementRef,
     ViewChild,
+    ViewChildren,
     HostListener,
     EventEmitter,
     Output
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Platform} from '../services/platform';
+import {Util, String} from '../services/util';
 import {List, RecipeItem} from './list/list';
 import {View} from './view/view';
 import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
+import {Toolbox} from './toolbox/toolbox';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
+import {PopupMenu} from './popup-menu/popup-menu';
 import {RecipeService, Recipe} from '../services/recipe';
 
 @Component({
@@ -24,9 +28,11 @@ import {RecipeService, Recipe} from '../services/recipe';
     styleUrls: [
         Platform.prependBaseURL('components/recipenote.css'),
         Platform.prependBaseURL('components/nav/nav.css'),
+        Platform.prependBaseURL('components/toolbox/toolbox.css'),
         Platform.prependBaseURL('components/panel/panel.css'),
         Platform.prependBaseURL('components/view/view.css'),
-        Platform.prependBaseURL('components/list/list.css')
+        Platform.prependBaseURL('components/list/list.css'),
+        Platform.prependBaseURL('components/popup-menu/popup-menu.css')
     ],
     directives: [
         ROUTER_DIRECTIVES,
@@ -36,8 +42,10 @@ import {RecipeService, Recipe} from '../services/recipe';
         List,
         RecipeItem,
         View,
+        Toolbox,
         Sidebar,
-        Button
+        Button,
+        PopupMenu
     ],
     providers: [
         ROUTER_PROVIDERS,
@@ -54,6 +62,7 @@ export class Recipenote {
     @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
     @ViewChild(NavTitle) navTitle: NavTitle;
     @ViewChild(View) view: View;
+    @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
     
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
@@ -68,10 +77,10 @@ export class Recipenote {
 
     ngOnInit() {
 
-
     }
     ngAfterViewInit() {
         this.navTitle.text = 'test';
+        Util.extractViewChildren(this, [this.arrPopupMenu]);
     }
 
     showSidebar(): void {
@@ -98,5 +107,5 @@ export class Recipenote {
 
     get sidebarActive():boolean {
         return this._sidebarActive;
-    }
+    }    
 }

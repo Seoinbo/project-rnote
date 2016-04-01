@@ -27,21 +27,21 @@ view
             panel
                 line-height: $navbar_height
                 button
-                    width: 40px
+                    width: $nav_button_width
                     height: $navbar_height
             panel#view-header btn-group
-                width: 200px
+                width: $nav_button_width * 4
                     
         #view-content
             position: relative
             flex: 1 1 auto
             width: 100%
             height: 100%
-        #view-toolbox
+        toolbox
             position: relative
             flex: 0 0 auto
             width: 100%
-            height: 50px
+            height: 45px
             background-color: #999
     .box
         display: inline-block
@@ -51,22 +51,22 @@ view
 // media query for view nav-buttons
 @media screen and (max-width: $width_level1)
     view nav panel#view-header btn-group
-        width: 80px !important
+        width: ($nav_button_width * 2) !important
 @media screen and (min-width: $width_level1) and (max-width: $width_level2)
     view nav panel#view-header btn-group
-        width: 200px !important
+        width: ($nav_button_width * 5) !important
 @media screen and (min-width: $width_level2) and (max-width: $width_level3)
     view nav panel#view-header btn-group
-        width: 120px !important
+        width: ($nav_button_width * 3) !important
 @media screen and (min-width: $width_level3) and (max-width: $width_level4)
     view nav panel#view-header btn-group
-        width: 160px !important
+        width: ($nav_button_width * 4) !important
 @media screen and (min-width: $width_level4) and (max-width: $width_level5)
     view nav panel#view-header btn-group
-        width: 120px !important
+        width: ($nav_button_width * 3) !important
 @media screen and (min-width: $width_level5)
     view nav panel#view-header btn-group
-        width: 200px !important
+        width: ($nav_button_width * 5) !important
 
 // <= tablet 
 @media screen and (max-width: $min_container_width * 2)
@@ -77,4 +77,4 @@ view
         top: 0
         height: 100%
         transform: translateX(0)
-        transition: all 300ms ease
+        transition: $transition_default

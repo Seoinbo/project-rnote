@@ -91,7 +91,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Directive({
                         selector: 'title[nav]',
                         host: {
-                            '(touchstart)': 'toggleExpend();',
+                            '(click)': 'toggleExpend();',
                             '[attr.expend]': '_expend'
                         }
                     }), 

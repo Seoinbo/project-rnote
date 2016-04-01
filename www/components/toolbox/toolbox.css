@@ -1,0 +1,6 @@
+btn-group {
+  display: flex !important;
+  -webkit-display: flex !important;
+  -moz-display: flex !important;
+  -ms-display: flex !important;
+  -o-display: flex !important; }

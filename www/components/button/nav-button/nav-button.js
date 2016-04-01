@@ -39,7 +39,7 @@ System.register(['angular2/core', '../../../services/platform', '../button', '..
                 }
                 NavButton = __decorate([
                     core_1.Component({
-                        selector: 'button[nav], panel button[nav]',
+                        selector: 'button[nav], nav button',
                         templateUrl: platform_1.Platform.prependBaseURL('components/button/nav-button/nav-button.html'),
                         styleUrls: [
                             platform_1.Platform.prependBaseURL('components/button/button.css'),

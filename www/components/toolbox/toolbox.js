@@ -16,7 +16,7 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, view_object_1;
-    var View;
+    var Toolbox;
     return {
         setters:[
             function (core_1_1) {
@@ -26,21 +26,22 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
                 view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            View = (function (_super) {
-                __extends(View, _super);
-                function View(elementRef) {
-                    _super.call(this, elementRef);
+            Toolbox = (function (_super) {
+                __extends(Toolbox, _super);
+                function Toolbox(_elementRef) {
+                    _super.call(this, _elementRef);
                 }
-                View = __decorate([
+                Toolbox.prototype.ngAfterViewInit = function () {
+                };
+                Toolbox = __decorate([
                     core_1.Directive({
-                        selector: 'view'
+                        selector: 'toolbox'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], View);
-                return View;
+                ], Toolbox);
+                return Toolbox;
             }(view_object_1.ViewObject));
-            exports_1("View", View);
+            exports_1("Toolbox", Toolbox);
         }
     }
 });
-//# sourceMappingURL=view.js.map

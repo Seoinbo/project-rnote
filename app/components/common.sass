@@ -2,16 +2,20 @@
 $vendors: -webkit- -moz- -ms- -o-
 $sidebar_width: 280px
 $min_sidebar_width: 250px
-$navbar_height: 40px
+$navbar_height: 45px
 $min_container_width: 320px
 $max_container_width: $min_container_width * 2
 
 // variables for view nav-layout
+$nav_button_width: 45px
 $width_level1: $min_container_width + 150
 $width_level2: $max_container_width
 $width_level3: $max_container_width + 100
 $width_level4: $max_container_width + $min_sidebar_width
 $width_level5: $max_container_width + $min_sidebar_width + 250
+
+// animation
+$transition_default: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)
 
 // Mixin
 @mixin prefix($name, $value)

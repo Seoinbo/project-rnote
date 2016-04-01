@@ -1,0 +1,18 @@
+@import '../common'
+
+popup-menu
+    position: absolute
+    z-index: 50
+    width: auto
+    min-width: 80px
+    min-height: 25px
+    height: auto
+    background-color: #fff
+    transition: $transition_default
+    opacity: 0
+    transform: scale(0.8) translateY(-40px)
+    
+popup-menu[active=true]
+    display: block
+    opacity: 1
+    transform: scale(1) translateY(0)

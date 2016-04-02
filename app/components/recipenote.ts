@@ -17,7 +17,6 @@ import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
 import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
-import {Toolbox} from './toolbox/toolbox';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupMenu} from './popup-menu/popup-menu';
@@ -44,7 +43,6 @@ import {RecipeService, Recipe} from '../services/recipe';
         RecipeItem,
         View,
         ViewHeader,
-        Toolbox,
         Sidebar,
         Button,
         PopupMenu
@@ -72,11 +70,14 @@ export class Recipenote {
         {id: 0, name: 'itemA'},
         {id: 0, name: 'itemB'}
     ];
-
+public items: any[] = [];
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;
     }
-
+    addViewItem(type: string) {
+        this.items.push(ViewHeader);
+        console.log('addItem', this.items);
+    }
     ngOnInit() {
 
     }

@@ -33,7 +33,7 @@
                                 <button nav name="edit" title="ED"></button>
                                 <button nav name="hold-screen" title="HS"></button>
                                 <button nav name="label" title="LB"></button>
-                            <button nav name="publish" title="PU"></button>
+                                <button nav name="publish" title="PU"></button>
                                 <button nav name="share" title="SH"></button>
                                 <button nav name="download" title="DN"></button>
                                 <button nav name="delete" title="DL"></button>
@@ -42,7 +42,7 @@
                         </panel>
                     </nav>
                     <div id="view-content">
-                        <view-header *ng-for="#viewItem of view.items"></view-header>
+                        <view-header *ngFor="#a of items"></view-header>
                     </div>
                 </div>
                 <div id="recipe-item-add-icon">
@@ -66,7 +66,7 @@
                         <button popup-menu name="foodstuffs" title="foodstuffs"></button>
                         <button popup-menu name="cooking-step" title="cooking step"></button>
                         <button popup-menu name="picture" title="picture"></button>
-                        <button popup-menu name="header" title="header" (click)="view.addViewItem('header')"></button>
+                        <button popup-menu name="header" title="header" (click)="addViewItem('header')"></button>
                         <button popup-menu name="paragraph" title="paragraph"></button>
                     </panel>
                 </popup-menu>

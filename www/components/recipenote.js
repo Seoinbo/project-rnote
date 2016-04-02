@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './toolbox/toolbox', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, list_1, view_1, header_1, sidebar_1, nav_1, toolbox_1, panel_1, button_1, popup_menu_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -41,9 +41,6 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             function (nav_1_1) {
                 nav_1 = nav_1_1;
             },
-            function (toolbox_1_1) {
-                toolbox_1 = toolbox_1_1;
-            },
             function (panel_1_1) {
                 panel_1 = panel_1_1;
             },
@@ -65,8 +62,13 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         { id: 0, name: 'itemA' },
                         { id: 0, name: 'itemB' }
                     ];
+                    this.items = [];
                     this._element = elementRef.nativeElement;
                 }
+                Recipenote.prototype.addViewItem = function (type) {
+                    this.items.push(header_1.ViewHeader);
+                    console.log('addItem', this.items);
+                };
                 Recipenote.prototype.ngOnInit = function () {
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
@@ -137,7 +139,6 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             list_1.RecipeItem,
                             view_1.View,
                             header_1.ViewHeader,
-                            toolbox_1.Toolbox,
                             sidebar_1.Sidebar,
                             button_1.Button,
                             popup_menu_1.PopupMenu

@@ -14,6 +14,7 @@ import {Platform} from '../services/platform';
 import {Util, String} from '../services/util';
 import {List, RecipeItem} from './list/list';
 import {View} from './view/view';
+import {ViewHeader} from './view/header/header';
 import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
 import {Toolbox} from './toolbox/toolbox';
@@ -42,6 +43,7 @@ import {RecipeService, Recipe} from '../services/recipe';
         List,
         RecipeItem,
         View,
+        ViewHeader,
         Toolbox,
         Sidebar,
         Button,
@@ -63,7 +65,7 @@ export class Recipenote {
     @ViewChild(NavTitle) navTitle: NavTitle;
     @ViewChild(View) view: View;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
-    
+
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
     public recipes: Recipe[] = [
@@ -107,5 +109,5 @@ export class Recipenote {
 
     get sidebarActive():boolean {
         return this._sidebarActive;
-    }    
+    }
 }

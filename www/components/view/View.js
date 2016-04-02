@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../directives/view-object', './header/header'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, view_object_1;
+    var core_1, view_object_1, header_1;
     var View;
     return {
         setters:[
@@ -24,13 +24,22 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
+            },
+            function (header_1_1) {
+                header_1 = header_1_1;
             }],
         execute: function() {
             View = (function (_super) {
                 __extends(View, _super);
                 function View(elementRef) {
                     _super.call(this, elementRef);
+                    this.items = [];
+                    this.active();
                 }
+                View.prototype.addViewItem = function (type) {
+                    this.items.push(header_1.ViewHeader);
+                    console.log('addItem', this.items);
+                };
                 View = __decorate([
                     core_1.Directive({
                         selector: 'view'
@@ -43,4 +52,3 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
         }
     }
 });
-//# sourceMappingURL=view.js.map

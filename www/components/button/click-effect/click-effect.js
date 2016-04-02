@@ -63,4 +63,3 @@ System.register(['angular2/core', '../../../services/platform'], function(export
         }
     }
 });
-//# sourceMappingURL=click-effect.js.map

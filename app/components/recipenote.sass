@@ -74,15 +74,29 @@ nav button[name=more]
 
 
 view
-    popup-menu
-        button
-            display: block
-            width: 100%
-            text-align: left
     popup-menu#all-header-menu
         top: $navbar_height
         right: 0
-        
+        width: 180px
+    popup-menu#all-template
+        bottom: 0
+        right: 0
+        width: 180px
+        panel
+            padding-bottom: 70px
+    #recipe-item-add-icon
+        position: absolute
+        z-index: 100
+        bottom: 15px
+        right: 15px
+        width: 45px
+        height: 45px
+        border-radius: 50%
+        overflow: hidden
+        background-color: #777
+        button
+            font-size: 15px
+            line-height: 48px
 
 // above mobile
 @media screen and (max-width: $min_container_width * 2)
@@ -96,7 +110,7 @@ view
     nav
         .view-open
             display: none
-            
+
 // for PC
 @media screen and (min-width: $sidebar_width + ($min_container_width * 2))
     sidebar

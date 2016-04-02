@@ -5,12 +5,29 @@ popup-menu {
   min-width: 80px;
   min-height: 25px;
   height: auto;
-  background-color: #fff;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  opacity: 0;
-  transform: scale(0.8) translateY(-40px); }
+  perspective: 1300px; }
+  popup-menu panel {
+    display: block;
+    background-color: #fff; }
+    popup-menu panel button {
+      display: block;
+      width: 100%;
+      text-align: left; }
 
-popup-menu[active=true] {
-  display: block;
+popup-menu panel {
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-style: preserve-3d;
+  transform: rotateX(35deg);
+  transform-origin: 50% 0; }
+
+popup-menu[flip-up] panel {
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-style: preserve-3d;
+  transform: rotateX(-35deg);
+  transform-origin: 50% 100%; }
+
+popup-menu[active=true] panel {
   opacity: 1;
-  transform: scale(1) translateY(0); }
+  transform: rotateX(0deg); }

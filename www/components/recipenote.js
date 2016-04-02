@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './sidebar/sidebar', './nav/nav', './toolbox/toolbox', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './toolbox/toolbox', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, list_1, view_1, sidebar_1, nav_1, toolbox_1, panel_1, button_1, popup_menu_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, list_1, view_1, header_1, sidebar_1, nav_1, toolbox_1, panel_1, button_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -31,6 +31,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (view_1_1) {
                 view_1 = view_1_1;
+            },
+            function (header_1_1) {
+                header_1 = header_1_1;
             },
             function (sidebar_1_1) {
                 sidebar_1 = sidebar_1_1;
@@ -133,6 +136,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             list_1.List,
                             list_1.RecipeItem,
                             view_1.View,
+                            header_1.ViewHeader,
                             toolbox_1.Toolbox,
                             sidebar_1.Sidebar,
                             button_1.Button,

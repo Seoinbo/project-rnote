@@ -28,9 +28,7 @@ import {RecipeService, Recipe} from '../services/recipe';
     styleUrls: [
         Platform.prependBaseURL('components/recipenote.css'),
         Platform.prependBaseURL('components/nav/nav.css'),
-        Platform.prependBaseURL('components/toolbox/toolbox.css'),
         Platform.prependBaseURL('components/panel/panel.css'),
-        Platform.prependBaseURL('components/view/view.css'),
         Platform.prependBaseURL('components/list/list.css'),
         Platform.prependBaseURL('components/popup-menu/popup-menu.css')
     ],
@@ -70,14 +68,11 @@ export class Recipenote {
         {id: 0, name: 'itemA'},
         {id: 0, name: 'itemB'}
     ];
-public items: any[] = [];
+
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;
     }
-    addViewItem(type: string) {
-        this.items.push(ViewHeader);
-        console.log('addItem', this.items);
-    }
+
     ngOnInit() {
 
     }

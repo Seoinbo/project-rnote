@@ -1,4 +1,4 @@
-view {
+:host {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -8,70 +8,90 @@ view {
   height: auto;
   box-sizing: border-box;
   background-color: #EDE5E2; }
-  view #view-inner {
+  :host #view-inner {
     position: relative;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
     width: 100%;
     height: auto; }
-    view #view-inner nav {
+    :host #view-inner nav {
       position: relative;
       z-index: 10;
       background-color: #fff;
       flex: 0 0 auto;
       width: 100%;
       height: 100%; }
-      view #view-inner nav panel {
+      :host #view-inner nav panel {
         line-height: 45px; }
-        view #view-inner nav panel button {
+        :host #view-inner nav panel button {
           width: 45px;
           height: 45px; }
-      view #view-inner nav panel#view-header btn-group {
+      :host #view-inner nav panel#view-header btn-group {
         width: 180px; }
-    view #view-inner #view-content {
+    :host #view-inner #view-content {
       position: relative;
       flex: 1 1 auto;
       width: 100%;
       height: 100%; }
-    view #view-inner toolbox {
+    :host #view-inner toolbox {
       position: relative;
       flex: 0 0 auto;
       width: 100%;
       height: 45px;
       background-color: #999; }
-  view .box {
-    display: inline-block;
-    margin: 10px; }
+  :host popup-menu#all-header-menu {
+    top: 45px;
+    right: 0;
+    width: 180px; }
+  :host popup-menu#all-template {
+    bottom: 0;
+    right: 0;
+    width: 180px; }
+    :host popup-menu#all-template panel {
+      padding-bottom: 70px; }
+  :host #recipe-item-add-icon {
+    position: absolute;
+    z-index: 100;
+    bottom: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #777; }
+    :host #recipe-item-add-icon button {
+      font-size: 15px;
+      line-height: 48px; }
 
 @media screen and (max-width: 470px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 90px !important; } }
 
 @media screen and (min-width: 470px) and (max-width: 640px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 225px !important; } }
 
 @media screen and (min-width: 640px) and (max-width: 740px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 135px !important; } }
 
 @media screen and (min-width: 740px) and (max-width: 890px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 180px !important; } }
 
 @media screen and (min-width: 890px) and (max-width: 1140px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 135px !important; } }
 
 @media screen and (min-width: 1140px) {
-  view nav panel#view-header btn-group {
+  nav panel#view-header btn-group {
     width: 225px !important; } }
 
 @media screen and (max-width: 640px) {
-  view[active=true] {
+  :host[active=true] {
     transform: translateX(-100%); }
-  view {
+  :host {
     position: fixed;
     top: 0;
     height: 100%;

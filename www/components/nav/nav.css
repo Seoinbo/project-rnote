@@ -17,6 +17,10 @@ title[nav][expend=true] {
 button[nav] {
   line-height: 45px; }
 
+button[name=more] {
+  position: absolute;
+  right: 0; }
+
 btn-group {
   display: flex !important;
   -webkit-display: flex !important;

@@ -62,13 +62,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         { id: 0, name: 'itemA' },
                         { id: 0, name: 'itemB' }
                     ];
-                    this.items = [];
                     this._element = elementRef.nativeElement;
                 }
-                Recipenote.prototype.addViewItem = function (type) {
-                    this.items.push(header_1.ViewHeader);
-                    console.log('addItem', this.items);
-                };
                 Recipenote.prototype.ngOnInit = function () {
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
@@ -124,9 +119,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         styleUrls: [
                             platform_1.Platform.prependBaseURL('components/recipenote.css'),
                             platform_1.Platform.prependBaseURL('components/nav/nav.css'),
-                            platform_1.Platform.prependBaseURL('components/toolbox/toolbox.css'),
                             platform_1.Platform.prependBaseURL('components/panel/panel.css'),
-                            platform_1.Platform.prependBaseURL('components/view/view.css'),
                             platform_1.Platform.prependBaseURL('components/list/list.css'),
                             platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css')
                         ],

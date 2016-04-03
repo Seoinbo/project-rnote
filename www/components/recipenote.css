@@ -65,36 +65,6 @@ content {
     box-sizing: border-box;
     background-color: #EDE5E2; }
 
-nav button[name=more] {
-  position: absolute;
-  right: 0; }
-
-view popup-menu#all-header-menu {
-  top: 45px;
-  right: 0;
-  width: 180px; }
-
-view popup-menu#all-template {
-  bottom: 0;
-  right: 0;
-  width: 180px; }
-  view popup-menu#all-template panel {
-    padding-bottom: 70px; }
-
-view #recipe-item-add-icon {
-  position: absolute;
-  z-index: 100;
-  bottom: 15px;
-  right: 15px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: #777; }
-  view #recipe-item-add-icon button {
-    font-size: 15px;
-    line-height: 48px; }
-
 @media screen and (max-width: 640px) {
   content panel[id=main] list {
     width: 100%; } }

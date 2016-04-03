@@ -22,55 +22,7 @@
                     </item>
                 </div>
             </list>
-            <view>
-                <div id="view-inner">
-                    <nav>
-                        <panel id="view-header">
-                            <button nav name="back" title="<<" (click)="view.inactive();"></button>
-                            <title nav>longer supported and will be removed in next major release</title>
-                            <btn-group>
-                                <button nav name="color-sticker" title="CS"></button>
-                                <button nav name="edit" title="ED"></button>
-                                <button nav name="hold-screen" title="HS"></button>
-                                <button nav name="label" title="LB"></button>
-                                <button nav name="publish" title="PU"></button>
-                                <button nav name="share" title="SH"></button>
-                                <button nav name="download" title="DN"></button>
-                                <button nav name="delete" title="DL"></button>
-                                <button nav name="more" title="더" (click)="allHeaderMenu.toggleActivation();"></button>
-                            </btn-group>
-                        </panel>
-                    </nav>
-                    <div id="view-content">
-                        <view-header *ngFor="#a of items"></view-header>
-                    </div>
-                </div>
-                <div id="recipe-item-add-icon">
-                    <button name="add-recipe-item" title="+" (click)="allTemplate.toggleActivation();"></button>
-                </div>
-                <popup-menu id="all-header-menu">
-                    <panel>
-                        <button popup-menu name="color-sticker" title="color sticker"></button>
-                        <button popup-menu name="edit" title="edit"></button>
-                        <button popup-menu name="hold-screen" title="hold-screen"></button>
-                        <button popup-menu name="label" title="label"></button>
-                        <button popup-menu name="publish" title="publish"></button>
-                        <button popup-menu name="share" title="share"></button>
-                        <button popup-menu name="download" title="download"></button>
-                        <button popup-menu name="delete" title="delete"></button>
-                    </panel>
-                </popup-menu>
-                <popup-menu flip-up id="all-template" >
-                    <panel>
-                        <button popup-menu name="basic-info" title="basic info"></button>
-                        <button popup-menu name="foodstuffs" title="foodstuffs"></button>
-                        <button popup-menu name="cooking-step" title="cooking step"></button>
-                        <button popup-menu name="picture" title="picture"></button>
-                        <button popup-menu name="header" title="header" (click)="addViewItem('header')"></button>
-                        <button popup-menu name="paragraph" title="paragraph"></button>
-                    </panel>
-                </popup-menu>
-            </view>
+            <view></view>
         </panel>
         <panel id="cart">
 

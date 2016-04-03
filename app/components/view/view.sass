@@ -1,6 +1,6 @@
 @import '../common'
 
-view
+:host
     position: relative
     display: flex
     flex-direction: column
@@ -31,7 +31,7 @@ view
                     height: $navbar_height
             panel#view-header btn-group
                 width: $nav_button_width * 4
-                    
+
         #view-content
             position: relative
             flex: 1 1 auto
@@ -43,36 +43,60 @@ view
             width: 100%
             height: 45px
             background-color: #999
-    .box
-        display: inline-block
-        margin: 10px
+
+    popup-menu#all-header-menu
+        top: $navbar_height
+        right: 0
+        width: 180px
+
+    popup-menu#all-template
+        bottom: 0
+        right: 0
+        width: 180px
+        panel
+            padding-bottom: 70px
+
+    #recipe-item-add-icon
+        position: absolute
+        z-index: 100
+        bottom: 15px
+        right: 15px
+        width: 45px
+        height: 45px
+        border-radius: 50%
+        overflow: hidden
+        background-color: #777
+        button
+            font-size: 15px
+            line-height: 48px
+
 
 
 // media query for view nav-buttons
 @media screen and (max-width: $width_level1)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 2) !important
 @media screen and (min-width: $width_level1) and (max-width: $width_level2)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 5) !important
 @media screen and (min-width: $width_level2) and (max-width: $width_level3)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 3) !important
 @media screen and (min-width: $width_level3) and (max-width: $width_level4)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 4) !important
 @media screen and (min-width: $width_level4) and (max-width: $width_level5)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 3) !important
 @media screen and (min-width: $width_level5)
-    view nav panel#view-header btn-group
+    nav panel#view-header btn-group
         width: ($nav_button_width * 5) !important
 
-// <= tablet 
+// <= tablet
 @media screen and (max-width: $min_container_width * 2)
-    view[active=true]
+    :host[active=true]
         transform: translateX(-100%)
-    view
+    :host
         position: fixed
         top: 0
         height: 100%

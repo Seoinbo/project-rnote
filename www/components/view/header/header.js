@@ -33,13 +33,14 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                 __extends(ViewHeader, _super);
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
+                    this.type = 'view-header';
                 }
                 ViewHeader.prototype.ngOnInit = function () {
-                    console.log(1);
+                    console.log(this.type);
                 };
                 ViewHeader = __decorate([
                     core_1.Component({
-                        selector: 'view-header',
+                        selector: 'p[type=view-header]',
                         templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
                         styleUrls: [
                             platform_1.Platform.prependBaseURL('components/view/header/header.css')

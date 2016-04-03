@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../directives/view-object', './header/header', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../directives/view-object', './header/header', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, view_object_1, header_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, view_object_1, header_1, nav_1, panel_1, button_1, popup_menu_1;
     var View;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (platform_1_1) {
                 platform_1 = platform_1_1;
+            },
+            function (LinkedList_1_1) {
+                LinkedList_1 = LinkedList_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -49,17 +52,17 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
         execute: function() {
             View = (function (_super) {
                 __extends(View, _super);
-                // public items = new LinkedList<any>();
                 function View(elementRef) {
                     _super.call(this, elementRef);
+                    this.items = new LinkedList_1.LinkedList();
                     this.active();
                 }
                 View.prototype.ngAfterViewInit = function () {
                     util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);
                 };
                 View.prototype.addViewItem = function (type) {
-                    // this.items.add(ViewHeader);
-                    // console.log('addItem', this.items);
+                    this.items.add(header_1.ViewHeader);
+                    console.log('addItem', this.items.toArray());
                 };
                 __decorate([
                     core_1.ViewChildren(popup_menu_1.PopupMenu), 

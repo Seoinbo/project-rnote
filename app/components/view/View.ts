@@ -38,7 +38,7 @@ import {PopupMenu} from '../popup-menu/popup-menu';
 export class View extends ViewObject {
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
 
-    // public items = new LinkedList<any>();
+    public items = new LinkedList<any>();
 
     constructor(elementRef: ElementRef) {
         super(elementRef);
@@ -50,7 +50,7 @@ export class View extends ViewObject {
     }
 
     addViewItem(type: string) {
-        // this.items.add(ViewHeader);
-        // console.log('addItem', this.items);
+        this.items.add(ViewHeader);
+        console.log('addItem', this.items.toArray());
     }
 }

@@ -1,6 +1,7 @@
 popup-menu {
   position: absolute;
   z-index: 50;
+  visibility: hidden;
   width: auto;
   min-width: 80px;
   min-height: 25px;

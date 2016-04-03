@@ -21,7 +21,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             ViewObject = (function () {
                 function ViewObject(elementRef) {
                     this._activation = false;
-                    this._visibility = true;
+                    this._visibility = false;
                     this._rendering = true;
                     this._element = elementRef.nativeElement;
                 }

@@ -2,6 +2,7 @@ import {ElementRef, Input} from 'angular2/core';
 
 export class ViewObject {
     @Input() id: string;
+    protected _elementRef: ElementRef;
     protected _element: HTMLElement;
     private _activation: boolean = false;
     private _visibility: boolean = false;
@@ -9,7 +10,24 @@ export class ViewObject {
     private _rendering: boolean = true;
 
     constructor(elementRef: ElementRef) {
+        this._elementRef = elementRef;
         this._element = elementRef.nativeElement;
+    }
+    
+    get elementRef(): ElementRef {
+        return this._elementRef;
+    }
+    
+    set elementRef(value: ElementRef) {
+        this._elementRef = value;
+    }
+    
+    get element(): HTMLElement {
+        return this._element;
+    }
+    
+    set element(value: HTMLElement) {
+        this._element = value;
     }
 
     public active(): void {

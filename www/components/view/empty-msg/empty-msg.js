@@ -16,7 +16,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, platform_1, view_object_1;
-    var ViewHeader;
+    var ViewEmptyMsg;
     return {
         setters:[
             function (core_1_1) {
@@ -29,34 +29,28 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                 view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            ViewHeader = (function (_super) {
-                __extends(ViewHeader, _super);
-                function ViewHeader(elementRef) {
+            ViewEmptyMsg = (function (_super) {
+                __extends(ViewEmptyMsg, _super);
+                function ViewEmptyMsg(elementRef) {
                     _super.call(this, elementRef);
-                    this.type = 'header';
-                    this.text = "HEADER";
+                    this.type = 'view-empty-msg';
                 }
-                ViewHeader.prototype.ngOnInit = function () {
-                    console.log(this.type);
+                ViewEmptyMsg.prototype.ngOnInit = function () {
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String)
-                ], ViewHeader.prototype, "text", void 0);
-                ViewHeader = __decorate([
+                ViewEmptyMsg = __decorate([
                     core_1.Component({
-                        selector: 'h1',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
+                        selector: 'p[view-empty-msg]',
+                        templateUrl: platform_1.Platform.prependBaseURL('components/view/empty-msg/empty-msg.html'),
                         styleUrls: [
-                            platform_1.Platform.prependBaseURL('components/view/header/header.css')
+                            platform_1.Platform.prependBaseURL('components/view/empty-msg/empty-msg.css')
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], ViewHeader);
-                return ViewHeader;
+                ], ViewEmptyMsg);
+                return ViewEmptyMsg;
             }(view_object_1.ViewObject));
-            exports_1("ViewHeader", ViewHeader);
+            exports_1("ViewEmptyMsg", ViewEmptyMsg);
         }
     }
 });
-//# sourceMappingURL=header.js.map
+//# sourceMappingURL=empty-msg.js.map

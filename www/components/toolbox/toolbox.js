@@ -45,3 +45,4 @@ System.register(['angular2/core', '../../directives/view-object'], function(expo
         }
     }
 });
+//# sourceMappingURL=toolbox.js.map

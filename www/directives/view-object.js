@@ -23,8 +23,29 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._activation = false;
                     this._visibility = false;
                     this._rendering = true;
+                    this._elementRef = elementRef;
                     this._element = elementRef.nativeElement;
                 }
+                Object.defineProperty(ViewObject.prototype, "elementRef", {
+                    get: function () {
+                        return this._elementRef;
+                    },
+                    set: function (value) {
+                        this._elementRef = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ViewObject.prototype, "element", {
+                    get: function () {
+                        return this._element;
+                    },
+                    set: function (value) {
+                        this._element = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 ViewObject.prototype.active = function () {
                     if (!this.visibility) {
                         this.show();

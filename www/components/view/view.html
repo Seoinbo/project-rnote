@@ -1,7 +1,7 @@
 <div id="view-inner">
     <nav>
         <panel id="view-header">
-            <button nav name="back" title="<<" (click)="view.inactive();"></button>
+            <button nav name="back" title="<<" (click)="inactive();"></button>
             <title nav>longer supported and will be removed in next major release</title>
             <btn-group>
                 <button nav name="color-sticker" title="CS"></button>
@@ -17,7 +17,7 @@
         </panel>
     </nav>
     <div id="view-content">
-        <p type="view-header" *ngFor="#item of items.toArray()"></p>
+        <p view-empty-msg></p>
     </div>
 </div>
 <div id="recipe-item-add-icon">

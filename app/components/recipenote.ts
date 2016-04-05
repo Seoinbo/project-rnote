@@ -20,7 +20,6 @@ import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupMenu} from './popup-menu/popup-menu';
-import {RecipeService, Recipe} from '../services/recipe';
 
 @Component({
     selector: 'app',
@@ -46,8 +45,7 @@ import {RecipeService, Recipe} from '../services/recipe';
         PopupMenu
     ],
     providers: [
-        ROUTER_PROVIDERS,
-        RecipeService
+        ROUTER_PROVIDERS
     ]
 })
 
@@ -64,10 +62,6 @@ export class Recipenote {
 
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
-    public recipes: Recipe[] = [
-        {id: 0, name: 'itemA'},
-        {id: 0, name: 'itemB'}
-    ];
 
     constructor(elementRef: ElementRef) {
         this._element = elementRef.nativeElement;

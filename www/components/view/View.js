@@ -67,6 +67,51 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     ];
                     this.active();
                     this.initViewItem();
+                    // insert test db.
+                    // var request = indexedDB.open("rnote", 3);
+                    // var db:any = null;
+                    // request.onupgradeneeded = function(e: any) {
+                    //     console.log('onupgradeneeded');
+                    //     db = e.target.result;
+                    //     if(db.objectStoreNames.contains("recipes")) {
+                    //         db.deleteObjectStore("recipes");
+                    //     }
+                    //     
+                    //     store = db.createObjectStore("recipes", {keyPath: "id"});
+                    // };
+                    // request.onsuccess = function(e: any) {
+                    //     console.log('onsuccess');
+                    //     db = e.target.result;
+                    // }
+                    // 
+                    // var trans: any;
+                    // var store: any;
+                    // window.setTimeout( () => {
+                    //     trans = db.transaction(['recipes'], 'readwrite');
+                    //     store = trans.objectStore("recipes");
+                    // 
+                    //     store.put({
+                    //         id: Math.round(new Date().getTime()/1000),
+                    //         owner: 'seo4234',
+                    //         name: 'recipeItem1',
+                    //         updated: (new Date().getTime()/1000),
+                    //         items: []
+                    //     });
+                    //     store.put({
+                    //         id: Math.round(new Date().getTime()/1000)+10,
+                    //         owner: 'seo4234',
+                    //         name: 'recipeItem2',
+                    //         updated: (new Date().getTime()/1000),
+                    //         items: []
+                    //     });
+                    //     store.put({
+                    //         id: Math.round(new Date().getTime()/1000)+20,
+                    //         owner: 'seo4234',
+                    //         name: 'recipeItem3',
+                    //         updated: (new Date().getTime()/1000),
+                    //         items: []
+                    //     });
+                    // }, 2000);
                 }
                 View.prototype.ngAfterViewInit = function () {
                     util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);

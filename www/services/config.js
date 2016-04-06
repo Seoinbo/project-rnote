@@ -16,7 +16,7 @@ System.register([], function(exports_1, context_1) {
             (function (DBConfig) {
                 DBConfig.VERSION = 1;
                 DBConfig.DB_RNOTE = 'rnote';
-                DBConfig.STORE_RECIPES = 'recipes';
+                DBConfig.TB_RECIPES = 'recipes';
             })(DBConfig = DBConfig || (DBConfig = {}));
             exports_1("DBConfig", DBConfig);
         }

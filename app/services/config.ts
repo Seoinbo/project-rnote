@@ -6,8 +6,8 @@ export module Config {
 }
 
 export module DBConfig {
-    export const VERSION = 1;
-    export const DB_RNOTE = 'rnote';
-    export const STORE_RECIPES = 'recipes';
-    
+    export const VERSION: number = 1;
+    export const DB_RNOTE: string = 'rnote';
+    export const TB_RECIPES: string = 'recipes';
+
 }

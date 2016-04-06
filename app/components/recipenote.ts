@@ -70,9 +70,9 @@ export class Recipenote {
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
     private _recipes = gRecipes;
-    
+
     constructor(
-        private _elementRef: ElementRef, 
+        private _elementRef: ElementRef,
         private _recipeService: RecipeService,
         private _userAccount: UserAccount
     ) {
@@ -87,7 +87,7 @@ export class Recipenote {
     ngOnInit() {
 
     }
-    
+
     ngAfterViewInit() {
         this.navTitle.text = 'test';
         Util.extractViewChildren(this, [this.arrPopupMenu]);
@@ -110,10 +110,9 @@ export class Recipenote {
             this.showSidebar();
         }
     }
-    
+
     public addRecipe() {
         this._recipeService.create();
-        console.log(this._recipes);
     }
 
     set sidebarActive(value: boolean) {
@@ -123,7 +122,7 @@ export class Recipenote {
     get sidebarActive():boolean {
         return this._sidebarActive;
     }
-    
+
     set recipes(value: any) {
         this._recipes = value;
     }

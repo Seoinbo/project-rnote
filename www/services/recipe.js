@@ -1,6 +1,11 @@
 System.register(['angular2/core', './config', 'dexie'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
+    var __extends = (this && this.__extends) || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,7 +16,7 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, config_1, dexie_1;
-    var gRecipes, RecipeService, Recipe;
+    var gRecipes, RecipeService, RecipeDBT, Recipe;
     return {
         setters:[
             function (core_1_1) {
@@ -31,10 +36,19 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
                 }
                 RecipeService.prototype.initDB = function () {
                     this._db = new dexie_1.default(config_1.DBConfig.DB_RNOTE);
-                    var param = {};
-                    param[config_1.DBConfig.STORE_RECIPES] = 'owner, id';
-                    this._db.version(config_1.DBConfig.VERSION).stores(param);
-                    this._db.open();
+                    var parameter = {};
+                    parameter[config_1.DBConfig.TB_RECIPES] = 'id';
+                    this._db.version(config_1.DBConfig.VERSION).stores(parameter);
+                };
+                RecipeService.prototype.load = function (recipeid) {
+                    var _this = this;
+                    this._db.open().then(function () {
+                        _this._db[config_1.DBConfig.TB_RECIPES].get(recipeid).then(function (item) {
+                            console.log(item);
+                        });
+                    }).finally(function () {
+                        _this._db.close();
+                    });
                 };
                 RecipeService.prototype.loadAll = function () {
                 };
@@ -48,15 +62,16 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
                     return recipe;
                 };
                 RecipeService.prototype.add = function (recipe) {
-                    gRecipes[recipe.id] = recipe;
-                    var store = this._db[config_1.DBConfig.STORE_RECIPES];
-                    var storedObject = store.get(recipe.id);
-                    if (storedObject._value) {
-                        store.put(recipe);
-                    }
-                    else {
-                        store.add(recipe);
-                    }
+                    this.load("g1625346125341653-r18662578655");
+                    // gRecipes[recipe.id] = recipe;
+                    // let store = this._db[DBConfig.TB_RECIPES];
+                    // let storedObject = store.get(recipe.id);
+                    // console.log(storedObject);
+                    // if (storedObject._value) {
+                    //     store.put(recipe);
+                    // } else {
+                    //     store.add(recipe);
+                    // }
                 };
                 RecipeService.prototype.sync = function () {
                 };
@@ -83,13 +98,33 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
                 return RecipeService;
             }());
             exports_1("RecipeService", RecipeService);
+            // Recipe-DataBase-Table
+            RecipeDBT = (function (_super) {
+                __extends(RecipeDBT, _super);
+                function RecipeDBT() {
+                    _super.call(this, config_1.DBConfig.DB_RNOTE);
+                    var parameter = {};
+                    parameter[config_1.DBConfig.TB_RECIPES] = 'id';
+                    this.version(config_1.DBConfig.VERSION).stores(parameter);
+                }
+                RecipeDBT.prototype.getRecipe = function (recipeid) {
+                    var _this = this;
+                    this.open().then(function () {
+                        return _this[config_1.DBConfig.TB_RECIPES].get(recipeid);
+                    }).finally(function () {
+                        _this.close();
+                    });
+                };
+                return RecipeDBT;
+            }(dexie_1.default));
+            exports_1("RecipeDBT", RecipeDBT);
             Recipe = (function () {
                 function Recipe(recipeid) {
                     this.id = recipeid;
                 }
                 // public export () {
                 //     return {
-                //         
+                //
                 //     }
                 // }
                 Recipe.prototype.import = function (data) {

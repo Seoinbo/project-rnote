@@ -59,4 +59,3 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
         }
     }
 });
-//# sourceMappingURL=header.js.map

@@ -96,7 +96,6 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                 };
                 Recipenote.prototype.addRecipe = function () {
                     this._recipeService.create();
-                    console.log(this._recipes);
                 };
                 Object.defineProperty(Recipenote.prototype, "sidebarActive", {
                     get: function () {

@@ -1,3 +1,18 @@
+import {Pipe, PipeTransform} from 'angular2/core';
+
+@Pipe({name:'JSON2Array', pure: false})
+export class JSON2Array implements PipeTransform {
+    transform(objects: any, args:string[]): any {
+        var objectArray: Object[] = [];
+        for (let key in objects) {
+            let item: any = objects[key];
+            item._key = key;
+            objectArray.push(item);
+        }
+        return objectArray;
+    }
+}
+
 export module Util {
     export function extractViewChildren(parent: any, arr: Array<any>): void {
         arr.forEach( (list: any) => {

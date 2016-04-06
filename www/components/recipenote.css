@@ -64,6 +64,19 @@ content {
     height: auto;
     box-sizing: border-box;
     background-color: #EDE5E2; }
+    content panel[id=main] list #recipe-add-icon {
+      position: absolute;
+      z-index: 100;
+      bottom: 15px;
+      right: 15px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #777; }
+      content panel[id=main] list #recipe-add-icon button {
+        font-size: 15px;
+        line-height: 48px; }
 
 @media screen and (max-width: 640px) {
   content panel[id=main] list {

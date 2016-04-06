@@ -16,10 +16,13 @@
             <list>
                 <div id="list-inner">
                     <item
-                    *ngFor="#recipe of recipes"
+                    *ngFor="#recipe of (recipes | JSON2Array)"
                     [recipeData]="recipe"
                     (click)="view.active();">
                     </item>
+                </div>
+                <div id="recipe-add-icon">
+                    <button name="add-item" title="+" (click)="addRecipe();"></button>
                 </div>
             </list>
             <view></view>

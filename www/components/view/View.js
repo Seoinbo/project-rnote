@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../directives/view-object', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, view_object_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, view_object_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View, DEF_VIEW_ITEM;
     return {
         setters:[
@@ -30,6 +30,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (LinkedList_1_1) {
                 LinkedList_1 = LinkedList_1_1;
+            },
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -65,8 +68,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             text: 'hello header'
                         }
                     ];
-                    this.active();
+                    // this.active();
                     this.initViewItem();
+                    var aa = new recipe_1.RecipeService();
                     // insert test db.
                     // var request = indexedDB.open("rnote", 3);
                     // var db:any = null;

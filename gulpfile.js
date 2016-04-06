@@ -78,6 +78,8 @@ gulp.task('copymodules', function() {
     gulp.src('node_modules/systemjs/**/*.js').pipe(gulp.dest('www/modules/systemjs/'));
     gulp.src('node_modules/zone.js/**/*.js').pipe(gulp.dest('www/modules/zone.js/'));
     gulp.src('node_modules/reflect-metadata/**/*.js').pipe(gulp.dest('www/modules/reflect-metadata/'));
+    gulp.src('node_modules/dexie/dist/*.js').pipe(gulp.dest('www/modules/dexie/dist'));
+    gulp.src('node_modules/jquery/dist/*.js').pipe(gulp.dest('www/modules/jquery/dist'));
 });
 
 gulp.task('build-browser', function() {

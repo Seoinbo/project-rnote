@@ -11,7 +11,8 @@ import {
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Platform} from '../services/platform';
-import {Util, String} from '../services/util';
+import {Util, String, JSON2Array} from '../services/util';
+import {UserAccount, User} from '../services/user-account';
 import {List, RecipeItem} from './list/list';
 import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
@@ -20,6 +21,7 @@ import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupMenu} from './popup-menu/popup-menu';
+import {RecipeService, gRecipes} from '../services/recipe';
 
 @Component({
     selector: 'app',
@@ -45,7 +47,12 @@ import {PopupMenu} from './popup-menu/popup-menu';
         PopupMenu
     ],
     providers: [
-        ROUTER_PROVIDERS
+        ROUTER_PROVIDERS,
+        RecipeService,
+        UserAccount
+    ],
+    pipes: [
+        JSON2Array
     ]
 })
 
@@ -62,14 +69,25 @@ export class Recipenote {
 
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
-
-    constructor(elementRef: ElementRef) {
-        this._element = elementRef.nativeElement;
+    private _recipes = gRecipes;
+    
+    constructor(
+        private _elementRef: ElementRef, 
+        private _recipeService: RecipeService,
+        private _userAccount: UserAccount
+    ) {
+        this._element = this._elementRef.nativeElement;
+        // test-userAccount
+        this._userAccount.user = {
+            id: 'g1625346125341653'
+        };
+        this._recipeService.userid = this._userAccount.user.id;
     }
 
     ngOnInit() {
 
     }
+    
     ngAfterViewInit() {
         this.navTitle.text = 'test';
         Util.extractViewChildren(this, [this.arrPopupMenu]);
@@ -92,6 +110,11 @@ export class Recipenote {
             this.showSidebar();
         }
     }
+    
+    public addRecipe() {
+        this._recipeService.create();
+        console.log(this._recipes);
+    }
 
     set sidebarActive(value: boolean) {
         this._sidebarActive = value;
@@ -99,5 +122,13 @@ export class Recipenote {
 
     get sidebarActive():boolean {
         return this._sidebarActive;
+    }
+    
+    set recipes(value: any) {
+        this._recipes = value;
+    }
+
+    get recipes():any {
+        return this._recipes;
     }
 }

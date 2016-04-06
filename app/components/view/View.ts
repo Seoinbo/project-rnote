@@ -56,8 +56,10 @@ export class View extends ViewObject {
 
     constructor(elementRef: ElementRef, private _dcl: DynamicComponentLoader) {
         super(elementRef);
-        this.active();
+        // this.active();
         this.initViewItem();
+        
+        var aa = new RecipeService();
         
         // insert test db.
         // var request = indexedDB.open("rnote", 3);

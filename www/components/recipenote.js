@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (util_1_1) {
                 util_1 = util_1_1;
+            },
+            function (user_account_1_1) {
+                user_account_1 = user_account_1_1;
             },
             function (list_1_1) {
                 list_1 = list_1_1;
@@ -49,13 +52,25 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (popup_menu_1_1) {
                 popup_menu_1 = popup_menu_1_1;
+            },
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(elementRef) {
+                function Recipenote(_elementRef, _recipeService, _userAccount) {
+                    this._elementRef = _elementRef;
+                    this._recipeService = _recipeService;
+                    this._userAccount = _userAccount;
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
-                    this._element = elementRef.nativeElement;
+                    this._recipes = recipe_1.gRecipes;
+                    this._element = this._elementRef.nativeElement;
+                    // test-userAccount
+                    this._userAccount.user = {
+                        id: 'g1625346125341653'
+                    };
+                    this._recipeService.userid = this._userAccount.user.id;
                 }
                 Recipenote.prototype.ngOnInit = function () {
                 };
@@ -79,12 +94,26 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         this.showSidebar();
                     }
                 };
+                Recipenote.prototype.addRecipe = function () {
+                    this._recipeService.create();
+                    console.log(this._recipes);
+                };
                 Object.defineProperty(Recipenote.prototype, "sidebarActive", {
                     get: function () {
                         return this._sidebarActive;
                     },
                     set: function (value) {
                         this._sidebarActive = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Recipenote.prototype, "recipes", {
+                    get: function () {
+                        return this._recipes;
+                    },
+                    set: function (value) {
+                        this._recipes = value;
                     },
                     enumerable: true,
                     configurable: true
@@ -130,10 +159,15 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             popup_menu_1.PopupMenu
                         ],
                         providers: [
-                            router_1.ROUTER_PROVIDERS
+                            router_1.ROUTER_PROVIDERS,
+                            recipe_1.RecipeService,
+                            user_account_1.UserAccount
+                        ],
+                        pipes: [
+                            util_1.JSON2Array
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef])
+                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount])
                 ], Recipenote);
                 return Recipenote;
             }());

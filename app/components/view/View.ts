@@ -10,7 +10,7 @@ import {
 import {Util, String} from '../../services/util';
 import {Platform} from '../../services/platform';
 import {LinkedList, ILinkedListNode} from '../../services/collections/LinkedList';
-import {RecipeService, Recipe} from '../../services/recipe';
+import {RecipeService, Recipe, gRecipes} from '../../services/recipe';
 
 import {ViewObject} from '../../directives/view-object';
 import {ViewHeader} from './header/header';
@@ -20,6 +20,8 @@ import {Nav, NavTitle} from '../nav/nav';
 import {Panel} from '../panel/panel';
 import {Button} from '../button/button';
 import {PopupMenu} from '../popup-menu/popup-menu';
+
+
 
 @Component({
     selector: 'view',
@@ -46,6 +48,7 @@ export class View extends ViewObject {
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
 
     public items = new LinkedList<any>();
+    private _recipe: Recipe;
     
     storage = [
         {
@@ -56,64 +59,21 @@ export class View extends ViewObject {
 
     constructor(elementRef: ElementRef, private _dcl: DynamicComponentLoader) {
         super(elementRef);
-        // this.active();
-        this.initViewItem();
-        
-        var aa = new RecipeService();
-        
-        // insert test db.
-        // var request = indexedDB.open("rnote", 3);
-        // var db:any = null;
-        // request.onupgradeneeded = function(e: any) {
-        //     console.log('onupgradeneeded');
-        //     db = e.target.result;
-        //     if(db.objectStoreNames.contains("recipes")) {
-        //         db.deleteObjectStore("recipes");
-        //     }
-        //     
-        //     store = db.createObjectStore("recipes", {keyPath: "id"});
-        // };
-        // request.onsuccess = function(e: any) {
-        //     console.log('onsuccess');
-        //     db = e.target.result;
-        // }
-        // 
-        // var trans: any;
-        // var store: any;
-        // window.setTimeout( () => {
-        //     trans = db.transaction(['recipes'], 'readwrite');
-        //     store = trans.objectStore("recipes");
-        // 
-        //     store.put({
-        //         id: Math.round(new Date().getTime()/1000),
-        //         owner: 'seo4234',
-        //         name: 'recipeItem1',
-        //         updated: (new Date().getTime()/1000),
-        //         items: []
-        //     });
-        //     store.put({
-        //         id: Math.round(new Date().getTime()/1000)+10,
-        //         owner: 'seo4234',
-        //         name: 'recipeItem2',
-        //         updated: (new Date().getTime()/1000),
-        //         items: []
-        //     });
-        //     store.put({
-        //         id: Math.round(new Date().getTime()/1000)+20,
-        //         owner: 'seo4234',
-        //         name: 'recipeItem3',
-        //         updated: (new Date().getTime()/1000),
-        //         items: []
-        //     });
-        // }, 2000);
-        
     }
 
     ngAfterViewInit() {
         Util.extractViewChildren(this, [this.arrPopupMenu]);
     }
 
-    public initViewItem() {
+    public open(recipeid?: string) {
+        if (recipeid) {
+            this.loadItems(recipeid);
+        }
+        this.active();
+    }
+    
+    public loadItems(recipeid: string) {
+        this.recipe = gRecipes[recipeid];
         // this.storage.forEach( (data) => {
         //     
         // });
@@ -136,6 +96,14 @@ export class View extends ViewObject {
             
             this.items.add(ref.instance);
         });
+    }
+    
+    get recipe(): Recipe {
+        return this._recipe;
+    }
+    
+    set recipe(r: Recipe) {
+        this._recipe = r;
     }
 }
 

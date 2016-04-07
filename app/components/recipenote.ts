@@ -7,13 +7,14 @@ import {
     ViewChildren,
     HostListener,
     EventEmitter,
-    Output
+    Output,
+    NgZone
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Platform} from '../services/platform';
 import {Util, String, JSON2Array} from '../services/util';
 import {UserAccount, User} from '../services/user-account';
-import {List, RecipeItem} from './list/list';
+import {List, ListItem} from './list/list';
 import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
 import {Sidebar} from './sidebar/sidebar';
@@ -21,7 +22,7 @@ import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupMenu} from './popup-menu/popup-menu';
-import {RecipeService, gRecipes} from '../services/recipe';
+import {RecipeService, Recipe, gRecipes} from '../services/recipe';
 
 @Component({
     selector: 'app',
@@ -39,7 +40,7 @@ import {RecipeService, gRecipes} from '../services/recipe';
         NavTitle,
         Panel,
         List,
-        RecipeItem,
+        ListItem,
         View,
         ViewHeader,
         Sidebar,
@@ -74,7 +75,8 @@ export class Recipenote {
     constructor(
         private _elementRef: ElementRef,
         private _recipeService: RecipeService,
-        private _userAccount: UserAccount
+        private _userAccount: UserAccount,
+        private _zone: NgZone
     ) {
         this._element = this._elementRef.nativeElement;
         // test-userAccount
@@ -85,7 +87,11 @@ export class Recipenote {
     }
 
     ngOnInit() {
-
+        this._recipeService.downloadAll(() => {
+            this._zone.run( () => {
+                console.log("run zone");
+            });
+        });
     }
 
     ngAfterViewInit() {
@@ -112,7 +118,9 @@ export class Recipenote {
     }
 
     public addRecipe() {
-        this._recipeService.create();
+        let newRecipe: Recipe = this._recipeService.create();
+        newRecipe.syncIndexdDB();
+        this._recipeService.add(newRecipe);
     }
 
     set sidebarActive(value: boolean) {

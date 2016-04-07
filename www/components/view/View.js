@@ -68,59 +68,18 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             text: 'hello header'
                         }
                     ];
-                    // this.active();
-                    this.initViewItem();
-                    var aa = new recipe_1.RecipeService();
-                    // insert test db.
-                    // var request = indexedDB.open("rnote", 3);
-                    // var db:any = null;
-                    // request.onupgradeneeded = function(e: any) {
-                    //     console.log('onupgradeneeded');
-                    //     db = e.target.result;
-                    //     if(db.objectStoreNames.contains("recipes")) {
-                    //         db.deleteObjectStore("recipes");
-                    //     }
-                    //     
-                    //     store = db.createObjectStore("recipes", {keyPath: "id"});
-                    // };
-                    // request.onsuccess = function(e: any) {
-                    //     console.log('onsuccess');
-                    //     db = e.target.result;
-                    // }
-                    // 
-                    // var trans: any;
-                    // var store: any;
-                    // window.setTimeout( () => {
-                    //     trans = db.transaction(['recipes'], 'readwrite');
-                    //     store = trans.objectStore("recipes");
-                    // 
-                    //     store.put({
-                    //         id: Math.round(new Date().getTime()/1000),
-                    //         owner: 'seo4234',
-                    //         name: 'recipeItem1',
-                    //         updated: (new Date().getTime()/1000),
-                    //         items: []
-                    //     });
-                    //     store.put({
-                    //         id: Math.round(new Date().getTime()/1000)+10,
-                    //         owner: 'seo4234',
-                    //         name: 'recipeItem2',
-                    //         updated: (new Date().getTime()/1000),
-                    //         items: []
-                    //     });
-                    //     store.put({
-                    //         id: Math.round(new Date().getTime()/1000)+20,
-                    //         owner: 'seo4234',
-                    //         name: 'recipeItem3',
-                    //         updated: (new Date().getTime()/1000),
-                    //         items: []
-                    //     });
-                    // }, 2000);
                 }
                 View.prototype.ngAfterViewInit = function () {
                     util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);
                 };
-                View.prototype.initViewItem = function () {
+                View.prototype.open = function (recipeid) {
+                    if (recipeid) {
+                        this.loadItems(recipeid);
+                    }
+                    this.active();
+                };
+                View.prototype.loadItems = function (recipeid) {
+                    this.recipe = recipe_1.gRecipes[recipeid];
                     // this.storage.forEach( (data) => {
                     //     
                     // });
@@ -143,6 +102,16 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         _this.items.add(ref.instance);
                     });
                 };
+                Object.defineProperty(View.prototype, "recipe", {
+                    get: function () {
+                        return this._recipe;
+                    },
+                    set: function (r) {
+                        this._recipe = r;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 __decorate([
                     core_1.ViewChild(empty_msg_1.ViewEmptyMsg), 
                     __metadata('design:type', empty_msg_1.ViewEmptyMsg)

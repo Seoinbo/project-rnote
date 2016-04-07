@@ -58,10 +58,11 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(_elementRef, _recipeService, _userAccount) {
+                function Recipenote(_elementRef, _recipeService, _userAccount, _zone) {
                     this._elementRef = _elementRef;
                     this._recipeService = _recipeService;
                     this._userAccount = _userAccount;
+                    this._zone = _zone;
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
                     this._recipes = recipe_1.gRecipes;
@@ -73,6 +74,12 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     this._recipeService.userid = this._userAccount.user.id;
                 }
                 Recipenote.prototype.ngOnInit = function () {
+                    var _this = this;
+                    this._recipeService.downloadAll(function () {
+                        _this._zone.run(function () {
+                            console.log("run zone");
+                        });
+                    });
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
                     this.navTitle.text = 'test';
@@ -95,7 +102,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     }
                 };
                 Recipenote.prototype.addRecipe = function () {
-                    this._recipeService.create();
+                    var newRecipe = this._recipeService.create();
+                    newRecipe.syncIndexdDB();
+                    this._recipeService.add(newRecipe);
                 };
                 Object.defineProperty(Recipenote.prototype, "sidebarActive", {
                     get: function () {
@@ -150,7 +159,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             nav_1.NavTitle,
                             panel_1.Panel,
                             list_1.List,
-                            list_1.RecipeItem,
+                            list_1.ListItem,
                             view_1.View,
                             header_1.ViewHeader,
                             sidebar_1.Sidebar,
@@ -166,7 +175,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             util_1.JSON2Array
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount])
+                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount, core_1.NgZone])
                 ], Recipenote);
                 return Recipenote;
             }());

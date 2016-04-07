@@ -21,6 +21,11 @@ export module Util {
             });
         });
     }
+    
+    // 자바스크립트 타임스템프 값을 유닉스 타임스템프 값으로 변환 반환.
+    export function toUnixTimestamp(time: number): number {
+        return Math.round(time / 1000);
+    }
 }
 
 export module String {

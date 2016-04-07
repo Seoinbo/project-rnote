@@ -1,11 +1,6 @@
-System.register(['angular2/core', './config', 'dexie'], function(exports_1, context_1) {
+System.register(['angular2/core', './util', './config', './recipedb'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var __extends = (this && this.__extends) || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15,63 +10,57 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, config_1, dexie_1;
-    var gRecipes, RecipeService, RecipeDBT, Recipe;
+    var core_1, util_1, config_1, recipedb_1;
+    var gRecipes, RecipeService, Recipe;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
+            function (util_1_1) {
+                util_1 = util_1_1;
+            },
             function (config_1_1) {
                 config_1 = config_1_1;
             },
-            function (dexie_1_1) {
-                dexie_1 = dexie_1_1;
+            function (recipedb_1_1) {
+                recipedb_1 = recipedb_1_1;
             }],
         execute: function() {
             exports_1("gRecipes", gRecipes = {});
+            // You have to set userid first.
             RecipeService = (function () {
                 function RecipeService() {
-                    this.initDB();
+                    this._db = new recipedb_1.RecipeDB();
+                    this._db.init();
                 }
-                RecipeService.prototype.initDB = function () {
-                    this._db = new dexie_1.default(config_1.DBConfig.DB_RNOTE);
-                    var parameter = {};
-                    parameter[config_1.DBConfig.TB_RECIPES] = 'id';
-                    this._db.version(config_1.DBConfig.VERSION).stores(parameter);
-                };
-                RecipeService.prototype.load = function (recipeid) {
+                RecipeService.prototype.downloadAll = function (complete) {
                     var _this = this;
                     this._db.open().then(function () {
-                        _this._db[config_1.DBConfig.TB_RECIPES].get(recipeid).then(function (item) {
-                            console.log(item);
+                        _this._db.table("recipes").each(function (item) {
+                            _this.add(_this.create(item));
+                        }).then(function () {
+                            complete.apply(null);
                         });
                     }).finally(function () {
                         _this._db.close();
                     });
                 };
-                RecipeService.prototype.loadAll = function () {
-                };
                 RecipeService.prototype.create = function (data) {
-                    var recipe = new Recipe(this.newID());
-                    recipe.import({
-                        owner: this._userid,
-                        name: 'unknown'
-                    });
-                    this.add(recipe);
+                    if (!data) {
+                        data = {
+                            id: this.newID(),
+                            owner: this._userid,
+                            name: 'untitled',
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                        };
+                    }
+                    var recipe = new Recipe();
+                    recipe.import(data);
                     return recipe;
                 };
                 RecipeService.prototype.add = function (recipe) {
-                    this.load("g1625346125341653-r18662578655");
-                    // gRecipes[recipe.id] = recipe;
-                    // let store = this._db[DBConfig.TB_RECIPES];
-                    // let storedObject = store.get(recipe.id);
-                    // console.log(storedObject);
-                    // if (storedObject._value) {
-                    //     store.put(recipe);
-                    // } else {
-                    //     store.add(recipe);
-                    // }
+                    gRecipes[recipe.id] = recipe;
                 };
                 RecipeService.prototype.sync = function () {
                 };
@@ -98,52 +87,96 @@ System.register(['angular2/core', './config', 'dexie'], function(exports_1, cont
                 return RecipeService;
             }());
             exports_1("RecipeService", RecipeService);
-            // Recipe-DataBase-Table
-            RecipeDBT = (function (_super) {
-                __extends(RecipeDBT, _super);
-                function RecipeDBT() {
-                    _super.call(this, config_1.DBConfig.DB_RNOTE);
-                    var parameter = {};
-                    parameter[config_1.DBConfig.TB_RECIPES] = 'id';
-                    this.version(config_1.DBConfig.VERSION).stores(parameter);
-                }
-                RecipeDBT.prototype.getRecipe = function (recipeid) {
-                    var _this = this;
-                    this.open().then(function () {
-                        return _this[config_1.DBConfig.TB_RECIPES].get(recipeid);
-                    }).finally(function () {
-                        _this.close();
-                    });
-                };
-                return RecipeDBT;
-            }(dexie_1.default));
-            exports_1("RecipeDBT", RecipeDBT);
             Recipe = (function () {
                 function Recipe(recipeid) {
                     this.id = recipeid;
                 }
-                // public export () {
-                //     return {
-                //
-                //     }
-                // }
-                Recipe.prototype.import = function (data) {
-                    this.owner = data.owner;
-                    this.name = data.name;
-                    this.items = data.items;
+                Recipe.prototype.import = function (data, overwrite) {
+                    if (overwrite === void 0) { overwrite = false; }
+                    if (overwrite) {
+                        this._data = data;
+                    }
+                    else {
+                        this._data = $.extend(this._data, data);
+                    }
+                    this.id = this._data.id;
                 };
-                Recipe.prototype.load = function () {
-                    var dbdata = {
-                        name: 'my note name',
-                        items: [
-                            {
-                                type: 'view-header',
-                                text: 'hello my title'
+                Recipe.prototype.export = function () {
+                    return this._data;
+                };
+                // Sync recipes between memory and IndexedDB(localStorage)
+                Recipe.prototype.__syncIndexdDB = function () {
+                    var _this = this;
+                    if (!this._db) {
+                        this._db.init();
+                    }
+                    this._db.open().then(function () {
+                        _this._db.table("recipes").get(_this.id)
+                            .then(function (recipeData) {
+                            console.log(recipeData);
+                            if (recipeData) {
+                                console.log(recipeData);
+                                if (_this.updated > recipeData.updated) {
+                                    _this._db.table("recipes").put(_this._data)
+                                        .catch(function (error) {
+                                        console.log(error);
+                                    });
+                                }
+                                else {
+                                    _this.import(recipeData);
+                                }
                             }
-                        ]
-                    };
-                    this.import(dbdata);
+                            else {
+                                _this._db.table("recipes").add(_this._data)
+                                    .catch(function (error) {
+                                    // console.log(error);
+                                });
+                            }
+                            _this.import(recipeData);
+                        }).catch(function (error) {
+                            console.log('error: ', error);
+                        });
+                    }).finally(function () {
+                        // this._db.close();
+                    });
                 };
+                Recipe.prototype.syncIndexdDB = function () {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        _this.__syncIndexdDB();
+                    }, 0);
+                };
+                Object.defineProperty(Recipe.prototype, "id", {
+                    get: function () {
+                        return this._id;
+                    },
+                    set: function (value) {
+                        this._id = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Recipe.prototype, "updated", {
+                    // return unix-timestamp
+                    get: function () {
+                        return this._data.updated;
+                    },
+                    set: function (unixTimestamp) {
+                        this._data.updated = unixTimestamp;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(Recipe.prototype, "data", {
+                    get: function () {
+                        return this._data;
+                    },
+                    set: function (value) {
+                        this._data = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 return Recipe;
             }());
             exports_1("Recipe", Recipe);

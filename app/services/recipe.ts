@@ -1,62 +1,57 @@
 import {Injectable} from 'angular2/core';
-import {Config, DBConfig} from './config';
-import Dexie from 'dexie';
+import {Util} from './util';
+import {Config} from './config';
+import {RecipeDB} from './recipedb';
 
 export var gRecipes: Object = {};
 
+export interface RecipeData {
+    id: string;
+    owner: string;
+    name: string;
+    updated: number;
+    items?: any[];
+}
+
+// You have to set userid first.
 @Injectable()
 export class RecipeService {
     private _userid: string;
-    private _db: Dexie;
+    private _db: RecipeDB;
 
     constructor () {
-        this.initDB();
+        this._db = new RecipeDB();
+        this._db.init();
     }
-
-    public initDB () {
-        this._db = new Dexie(DBConfig.DB_RNOTE);
-        let parameter = {};
-        parameter[DBConfig.TB_RECIPES] = 'id';
-        this._db.version(DBConfig.VERSION).stores(parameter);
-    }
-
-    load(recipeid: string) {
+    
+    downloadAll (complete?: Function) {
         this._db.open().then( () => {
-            this._db[DBConfig.TB_RECIPES].get(recipeid).then( (item: any) => {
-                console.log(item);
+            this._db.table("recipes").each( (item: RecipeData) => {
+                this.add(this.create(item));
+            }).then( () => {
+                complete.apply(null);
             });
-
         }).finally( () => {
             this._db.close();
         });
     }
 
-    loadAll () {
-
-    }
-
-    create (data?: any): Recipe {
-        let recipe = new Recipe(this.newID());
-        recipe.import({
-            owner: this._userid,
-            name: 'unknown'
-        });
-        this.add(recipe);
-
+    create (data?: RecipeData): Recipe {
+        if (!data) {
+            data = {
+                id: this.newID(),
+                owner: this._userid,
+                name: 'untitled',
+                updated: Util.toUnixTimestamp(Config.now())
+            };
+        }
+        let recipe = new Recipe();
+        recipe.import(data);
         return recipe;
     }
 
     add (recipe: Recipe) {
-        this.load("g1625346125341653-r18662578655");
-        // gRecipes[recipe.id] = recipe;
-        // let store = this._db[DBConfig.TB_RECIPES];
-        // let storedObject = store.get(recipe.id);
-        // console.log(storedObject);
-        // if (storedObject._value) {
-        //     store.put(recipe);
-        // } else {
-        //     store.add(recipe);
-        // }
+        gRecipes[recipe.id] = recipe;
     }
 
     sync () {
@@ -77,75 +72,93 @@ export class RecipeService {
     set userid(id: string) {
         this._userid = id;
     }
-
-    // public getRecipe (recipeid: number): Recipe {
-    //
-    //     return
-    // }
-}
-
-// Recipe-DataBase-Table
-export class RecipeDBT extends Dexie {
-    recipes: Dexie.Table<RecipeData, number>;
-
-    constructor() {
-        super(DBConfig.DB_RNOTE);
-        let parameter = {};
-        parameter[DBConfig.TB_RECIPES] = 'id';
-        this.version(DBConfig.VERSION).stores(parameter);
-    }
-
-    public getRecipe(recipeid: string) {
-        this.open().then( () => {
-            return this[DBConfig.TB_RECIPES].get(recipeid);
-        }).finally( () => {
-            this.close();
-        });
-    }
-}
-
-export interface RecipeData {
-    id: string;
-    owner: string;
-    name: string;
-    updated: number;
-    items: any[];
 }
 
 export class Recipe {
-    id: string;
-    owner: string;
-    name: string;
-    updated: number;
-    items: any[];
+    private _id: string;
+    private _db: RecipeDB;
+    private _data: RecipeData;
 
-    constructor (recipeid: string) {
+    constructor (recipeid?: string) {
         this.id = recipeid;
     }
-
-    // public export () {
-    //     return {
-    //
-    //     }
-    // }
-
-    public import (data: any) {
-        this.owner = data.owner;
-        this.name = data.name;
-        this.items = data.items;
+        
+    public import (data: RecipeData, overwrite: boolean = false) {
+        if (overwrite) {
+            this._data = data;
+        } else {
+            this._data = $.extend(this._data, data);
+        }
+        this.id = this._data.id;
+    }
+    
+    public export () {
+        return this._data;
     }
 
-    public load () {
-        var dbdata = {
-            name: 'my note name',
-            items: [
-                {
-                    type: 'view-header',
-                    text: 'hello my title'
+    // Sync recipes between memory and IndexedDB(localStorage)
+    public __syncIndexdDB () {
+        if (!this._db) {
+            this._db.init();
+        }
+    
+        this._db.open().then( () => {
+            this._db.table("recipes").get(this.id)
+            .then( (recipeData: RecipeData) => {
+                console.log(recipeData);
+                if (recipeData) {
+                    console.log(recipeData);
+                    if (this.updated > recipeData.updated) {
+                        this._db.table("recipes").put(this._data)
+                        .catch (function (error: any) {
+                            console.log(error);
+                        });
+                    } else {
+                        this.import(recipeData);
+                    }
+                } else {
+                    this._db.table("recipes").add(this._data)
+                    .catch (function (error: any) {
+                        // console.log(error);
+                    });
                 }
-            ]
-        };
-
-        this.import(dbdata);
+                this.import(recipeData);
+            }).catch( (error: any) => {
+                console.log('error: ', error);
+            });
+        }).finally( () => {
+            // this._db.close();
+        });
+    }
+    
+    public syncIndexdDB() {
+        window.setTimeout( () => {
+            this.__syncIndexdDB();
+        }, 0);
+    }
+    
+    get id(): string {
+        return this._id;
+    }
+    
+    set id(value: string) {
+        this._id = value;
+    }
+    
+    // return unix-timestamp
+    get updated(): number {
+        return this._data.updated;
+    }
+    
+    set updated(unixTimestamp: number) {
+        this._data.updated = unixTimestamp;
+    }
+    
+    get data(): RecipeData {
+        return this._data;
+    }
+    
+    set data(value: RecipeData) {
+        this._data = value;
     }
 }

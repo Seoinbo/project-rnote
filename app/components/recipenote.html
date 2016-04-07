@@ -18,7 +18,7 @@
                     <item
                     *ngFor="#recipe of (recipes | JSON2Array)"
                     [recipeData]="recipe"
-                    (click)="view.active();">
+                    (click)="view.open(recipe.id);">
                     </item>
                 </div>
                 <div id="recipe-add-icon">

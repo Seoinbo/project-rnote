@@ -46,6 +46,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     });
                 }
                 Util.extractViewChildren = extractViewChildren;
+                // 자바스크립트 타임스템프 값을 유닉스 타임스템프 값으로 변환 반환.
+                function toUnixTimestamp(time) {
+                    return Math.round(time / 1000);
+                }
+                Util.toUnixTimestamp = toUnixTimestamp;
             })(Util = Util || (Util = {}));
             exports_1("Util", Util);
             (function (String) {

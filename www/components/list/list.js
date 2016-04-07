@@ -11,7 +11,7 @@ System.register(['angular2/core', '../../services/platform', '../button/click-ef
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, platform_1, click_effect_1, recipe_1;
-    var List, RecipeItem;
+    var List, ListItem;
     return {
         setters:[
             function (core_1_1) {
@@ -39,11 +39,11 @@ System.register(['angular2/core', '../../services/platform', '../button/click-ef
                 return List;
             }());
             exports_1("List", List);
-            RecipeItem = (function () {
-                function RecipeItem(elementRef) {
+            ListItem = (function () {
+                function ListItem(elementRef) {
                     this._element = elementRef.nativeElement;
                 }
-                Object.defineProperty(RecipeItem.prototype, "recipe", {
+                Object.defineProperty(ListItem.prototype, "recipe", {
                     get: function () {
                         return this._recipe;
                     },
@@ -53,24 +53,34 @@ System.register(['angular2/core', '../../services/platform', '../button/click-ef
                     enumerable: true,
                     configurable: true
                 });
+                Object.defineProperty(ListItem.prototype, "source", {
+                    get: function () {
+                        return this._recipe.data;
+                    },
+                    set: function (value) {
+                        this._recipe.data = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 __decorate([
                     core_1.Input('recipeData'), 
                     __metadata('design:type', recipe_1.Recipe)
-                ], RecipeItem.prototype, "_recipe", void 0);
-                RecipeItem = __decorate([
+                ], ListItem.prototype, "_recipe", void 0);
+                ListItem = __decorate([
                     core_1.Component({
                         selector: 'list item',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/list/recipeItem.html'),
-                        styleUrls: [platform_1.Platform.prependBaseURL('components/list/recipeItem.css')],
+                        templateUrl: platform_1.Platform.prependBaseURL('components/list/recipe-item.html'),
+                        styleUrls: [platform_1.Platform.prependBaseURL('components/list/recipe-item.css')],
                         directives: [
                             click_effect_1.ClickEffect
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], RecipeItem);
-                return RecipeItem;
+                ], ListItem);
+                return ListItem;
             }());
-            exports_1("RecipeItem", RecipeItem);
+            exports_1("ListItem", ListItem);
         }
     }
 });

@@ -14,6 +14,7 @@ System.register(['dexie'], function(exports_1, context_1) {
                 dexie_1 = dexie_1_1;
             }],
         execute: function() {
+            // for IndexedDB
             RecipeDB = (function (_super) {
                 __extends(RecipeDB, _super);
                 function RecipeDB() {
@@ -28,10 +29,41 @@ System.register(['dexie'], function(exports_1, context_1) {
                         recipe_items: "id"
                     });
                 };
-                RecipeDB.prototype.table = function (name) {
-                    return this[name];
+                // src - local data
+                RecipeDB.prototype.__sync = function (tableName, src, complete) {
+                    var store = this.table(tableName);
+                    store.get(src.id).then(function (item) {
+                        if (item) {
+                            if (src.updated > item.updated) {
+                                store.put(src, src.id).then(function () {
+                                    complete.apply(null, [src]);
+                                });
+                            }
+                            else {
+                                src = item;
+                                complete.apply(null, [src]);
+                            }
+                        }
+                        else {
+                            store.add(src, src.id).then(function () {
+                                complete.apply(null, [src]);
+                            });
+                        }
+                    });
                 };
-                RecipeDB.prototype.sync = function () {
+                RecipeDB.prototype.sync = function (tableName, src, complete) {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        _this.__sync(tableName, src, complete);
+                    }, 0);
+                };
+                RecipeDB.prototype.__syncArray = function (tableName, src, complete) {
+                };
+                RecipeDB.prototype.syncArray = function (tableName, src, complete) {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        _this.__syncArray(tableName, src, complete);
+                    }, 0);
                 };
                 RecipeDB.VERSION = 1;
                 RecipeDB.DB_RNOTE = 'rnote';
@@ -41,3 +73,7 @@ System.register(['dexie'], function(exports_1, context_1) {
         }
     }
 });
+// 
+// export class RecipeDBT<T, key> implements Dexie.T {
+//     
+// }

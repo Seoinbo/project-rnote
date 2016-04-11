@@ -88,9 +88,7 @@ export class Recipenote {
 
     ngOnInit() {
         this._recipeService.downloadAll(() => {
-            this._zone.run( () => {
-                console.log("run zone");
-            });
+            this._zone.run(function(){});
         });
     }
 

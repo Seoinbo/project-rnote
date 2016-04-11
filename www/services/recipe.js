@@ -11,7 +11,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, util_1, config_1, recipedb_1;
-    var gRecipes, RecipeService, Recipe;
+    var gRecipes, RecipeService, Recipe, RecipeItem;
     return {
         setters:[
             function (core_1_1) {
@@ -34,6 +34,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
+                // 모든 레시피 데이터 다운로드 from IndexedDB.
                 RecipeService.prototype.downloadAll = function (complete) {
                     var _this = this;
                     this._db.open().then(function () {
@@ -90,8 +91,76 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
             Recipe = (function () {
                 function Recipe(recipeid) {
                     this.id = recipeid;
+                    this._db = new recipedb_1.RecipeDB();
                 }
-                Recipe.prototype.import = function (data, overwrite) {
+                Recipe.prototype.import = function (data) {
+                    $.extend(this, data);
+                };
+                Recipe.prototype.export = function () {
+                    return {
+                        id: this.id,
+                        owner: this.owner,
+                        name: this.name,
+                        updated: this.updated,
+                        sources: this.sources
+                    };
+                };
+                // Sync recipes between memory and IndexedDB(localStorage)
+                Recipe.prototype.__syncIndexdDB = function () {
+                    var _this = this;
+                    if (!this._db) {
+                        this._db.init();
+                    }
+                    console.log("sync");
+                    // this._db.sync(gRecipes);
+                    this._db.open().then(function () {
+                        _this._db.table("recipes").get(_this.id)
+                            .then(function (recipeData) {
+                            console.log(recipeData);
+                            if (recipeData) {
+                                console.log(recipeData);
+                                if (_this.updated > recipeData.updated) {
+                                    _this._db.table("recipes").put(_this)
+                                        .catch(function (error) {
+                                        console.log(error);
+                                    });
+                                }
+                                else {
+                                    _this.import(recipeData);
+                                }
+                            }
+                            else {
+                                _this._db.table("recipes").add(_this)
+                                    .catch(function (error) {
+                                    // console.log(error);
+                                });
+                            }
+                            _this.import(recipeData);
+                        }).catch(function (error) {
+                            console.log('error: ', error);
+                        });
+                    }).finally(function () {
+                        // this._db.close();
+                    });
+                };
+                Recipe.prototype.syncIndexdDB = function () {
+                    var _this = this;
+                    this._db.open().then(function () {
+                        _this._db.syncArray("recipes", util_1.Util.JSON2Array(gRecipes), function () {
+                            console.log("complete syncArray()");
+                            _this._db.close();
+                        });
+                    });
+                };
+                return Recipe;
+            }());
+            exports_1("Recipe", Recipe);
+            RecipeItem = (function () {
+                function RecipeItem(itemid) {
+                    this.id = itemid;
+                    this._db = new recipedb_1.RecipeDB();
+                }
+                RecipeItem.prototype.import = function (data, overwrite) {
                     if (overwrite === void 0) { overwrite = false; }
                     if (overwrite) {
                         this._data = data;
@@ -101,11 +170,11 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     }
                     this.id = this._data.id;
                 };
-                Recipe.prototype.export = function () {
+                RecipeItem.prototype.export = function () {
                     return this._data;
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
-                Recipe.prototype.__syncIndexdDB = function () {
+                RecipeItem.prototype.__syncIndexdDB = function () {
                     var _this = this;
                     if (!this._db) {
                         this._db.init();
@@ -140,13 +209,13 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                         // this._db.close();
                     });
                 };
-                Recipe.prototype.syncIndexdDB = function () {
+                RecipeItem.prototype.syncIndexdDB = function () {
                     var _this = this;
                     window.setTimeout(function () {
                         _this.__syncIndexdDB();
                     }, 0);
                 };
-                Object.defineProperty(Recipe.prototype, "id", {
+                Object.defineProperty(RecipeItem.prototype, "id", {
                     get: function () {
                         return this._id;
                     },
@@ -156,7 +225,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(Recipe.prototype, "updated", {
+                Object.defineProperty(RecipeItem.prototype, "updated", {
                     // return unix-timestamp
                     get: function () {
                         return this._data.updated;
@@ -167,7 +236,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(Recipe.prototype, "data", {
+                Object.defineProperty(RecipeItem.prototype, "data", {
                     get: function () {
                         return this._data;
                     },
@@ -177,9 +246,9 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     enumerable: true,
                     configurable: true
                 });
-                return Recipe;
+                return RecipeItem;
             }());
-            exports_1("Recipe", Recipe);
+            exports_1("RecipeItem", RecipeItem);
         }
     }
 });

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../directives/view-object'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,48 +15,34 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, view_object_1;
-    var ViewHeader;
+    var core_1, view_object_1;
+    var Toolbox;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (platform_1_1) {
-                platform_1 = platform_1_1;
-            },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            ViewHeader = (function (_super) {
-                __extends(ViewHeader, _super);
-                function ViewHeader(elementRef) {
-                    _super.call(this, elementRef);
-                    this.type = 'header';
-                    this.text = "HEADER";
+            Toolbox = (function (_super) {
+                __extends(Toolbox, _super);
+                function Toolbox(_elementRef) {
+                    _super.call(this, _elementRef);
                 }
-                ViewHeader.prototype.ngOnInit = function () {
-                    console.log(this.type);
+                Toolbox.prototype.ngAfterViewInit = function () {
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String)
-                ], ViewHeader.prototype, "text", void 0);
-                ViewHeader = __decorate([
-                    core_1.Component({
-                        selector: 'h1',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
-                        styleUrls: [
-                            platform_1.Platform.prependBaseURL('components/view/header/header.css')
-                        ]
+                Toolbox = __decorate([
+                    core_1.Directive({
+                        selector: 'toolbox'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], ViewHeader);
-                return ViewHeader;
+                ], Toolbox);
+                return Toolbox;
             }(view_object_1.ViewObject));
-            exports_1("ViewHeader", ViewHeader);
+            exports_1("Toolbox", Toolbox);
         }
     }
 });
-//# sourceMappingURL=header.js.map
+//# sourceMappingURL=toolbox.js.map

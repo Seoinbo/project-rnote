@@ -76,9 +76,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                 Recipenote.prototype.ngOnInit = function () {
                     var _this = this;
                     this._recipeService.downloadAll(function () {
-                        _this._zone.run(function () {
-                            console.log("run zone");
-                        });
+                        _this._zone.run(function () { });
                     });
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {

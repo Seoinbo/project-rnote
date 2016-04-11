@@ -2,15 +2,23 @@ import {Injectable} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
 import {RecipeDB} from './recipedb';
+import {LinkedList, ILinkedListNode} from './collections/LinkedList';
 
 export var gRecipes: Object = {};
 
-export interface RecipeData {
+export interface IRecipe {
     id: string;
     owner: string;
     name: string;
     updated: number;
-    items?: any[];
+    sources?: any[];
+}
+
+export interface IRecipeItem {
+    id: string;
+    parent: string;
+    updated: number;
+    sources?: any[];
 }
 
 // You have to set userid first.
@@ -24,9 +32,10 @@ export class RecipeService {
         this._db.init();
     }
     
+    // 모든 레시피 데이터 다운로드 from IndexedDB.
     downloadAll (complete?: Function) {
         this._db.open().then( () => {
-            this._db.table("recipes").each( (item: RecipeData) => {
+            this._db.table("recipes").each( (item: IRecipe) => {
                 this.add(this.create(item));
             }).then( () => {
                 complete.apply(null);
@@ -36,7 +45,7 @@ export class RecipeService {
         });
     }
 
-    create (data?: RecipeData): Recipe {
+    create (data?: IRecipe): Recipe {
         if (!data) {
             data = {
                 id: this.newID(),
@@ -74,16 +83,93 @@ export class RecipeService {
     }
 }
 
-export class Recipe {
-    private _id: string;
+export class Recipe implements IRecipe {
     private _db: RecipeDB;
-    private _data: RecipeData;
+
+    public id: string;
+    public owner: string;
+    public name: string;
+    public updated: number;
+    public sources: any[];
 
     constructor (recipeid?: string) {
         this.id = recipeid;
+        this._db = new RecipeDB();
     }
         
-    public import (data: RecipeData, overwrite: boolean = false) {
+    public import (data: IRecipe) {
+        $.extend(this, data);
+    }
+    
+    public export (): IRecipe {
+        return {
+            id: this.id,
+            owner: this.owner,
+            name: this.name,
+            updated: this.updated,
+            sources: this.sources
+        };
+    }
+
+    // Sync recipes between memory and IndexedDB(localStorage)
+    public __syncIndexdDB () {
+        if (!this._db) {
+            this._db.init();
+        }
+        console.log("sync");
+        // this._db.sync(gRecipes);
+    
+        this._db.open().then( () => {
+            this._db.table("recipes").get(this.id)
+            .then( (recipeData: IRecipe) => {
+                console.log(recipeData);
+                if (recipeData) {
+                    console.log(recipeData);
+                    if (this.updated > recipeData.updated) {
+                        this._db.table("recipes").put(this)
+                        .catch (function (error: any) {
+                            console.log(error);
+                        });
+                    } else {
+                        this.import(recipeData);
+                    }
+                } else {
+                    this._db.table("recipes").add(this)
+                    .catch (function (error: any) {
+                        // console.log(error);
+                    });
+                }
+                this.import(recipeData);
+            }).catch( (error: any) => {
+                console.log('error: ', error);
+            });
+        }).finally( () => {
+            // this._db.close();
+        });
+    }
+    
+    public syncIndexdDB() {
+        this._db.open().then( () => {
+            this._db.syncArray("recipes", Util.JSON2Array(gRecipes), () => {
+                console.log("complete syncArray()");
+                this._db.close();
+            });
+        });
+        
+    }
+}
+
+export class RecipeItem {
+    private _id: string;
+    private _db: RecipeDB;
+    private _data: IRecipeItem;
+
+    constructor (itemid?: string) {
+        this.id = itemid;
+        this._db = new RecipeDB();
+    }
+        
+    public import (data: IRecipeItem, overwrite: boolean = false) {
         if (overwrite) {
             this._data = data;
         } else {
@@ -104,7 +190,7 @@ export class Recipe {
     
         this._db.open().then( () => {
             this._db.table("recipes").get(this.id)
-            .then( (recipeData: RecipeData) => {
+            .then( (recipeData: IRecipeItem) => {
                 console.log(recipeData);
                 if (recipeData) {
                     console.log(recipeData);
@@ -154,11 +240,11 @@ export class Recipe {
         this._data.updated = unixTimestamp;
     }
     
-    get data(): RecipeData {
+    get data(): IRecipeItem {
         return this._data;
     }
     
-    set data(value: RecipeData) {
+    set data(value: IRecipeItem) {
         this._data = value;
     }
 }

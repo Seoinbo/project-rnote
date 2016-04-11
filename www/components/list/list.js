@@ -53,16 +53,6 @@ System.register(['angular2/core', '../../services/platform', '../button/click-ef
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(ListItem.prototype, "source", {
-                    get: function () {
-                        return this._recipe.data;
-                    },
-                    set: function (value) {
-                        this._recipe.data = value;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 __decorate([
                     core_1.Input('recipeData'), 
                     __metadata('design:type', recipe_1.Recipe)

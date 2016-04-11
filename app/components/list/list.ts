@@ -1,7 +1,7 @@
 import {Component, Directive, ElementRef, EventEmitter, Input, Output} from 'angular2/core';
 import {Platform} from '../../services/platform';
 import {ClickEffect} from '../button/click-effect/click-effect';
-import {Recipe, RecipeData} from '../../services/recipe'
+import {Recipe, IRecipe} from '../../services/recipe'
 
 @Directive({
   selector: 'list'
@@ -37,11 +37,4 @@ export class ListItem {
         this._recipe = value;
     }
     
-    get source():RecipeData {
-        return this._recipe.data;
-    }
-    
-    set source(value: RecipeData) {
-        this._recipe.data = value;
-    }
 }

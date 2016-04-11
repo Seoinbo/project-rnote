@@ -22,13 +22,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function JSON2Array() {
                 }
                 JSON2Array.prototype.transform = function (objects, args) {
-                    var objectArray = [];
-                    for (var key in objects) {
-                        var item = objects[key];
-                        item._key = key;
-                        objectArray.push(item);
-                    }
-                    return objectArray;
+                    return Util.JSON2Array(objects);
                 };
                 JSON2Array = __decorate([
                     core_1.Pipe({ name: 'JSON2Array', pure: false }), 
@@ -51,6 +45,16 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return Math.round(time / 1000);
                 }
                 Util.toUnixTimestamp = toUnixTimestamp;
+                function JSON2Array(objects) {
+                    var objectArray = [];
+                    for (var key in objects) {
+                        var item = objects[key];
+                        item._key = key;
+                        objectArray.push(item);
+                    }
+                    return objectArray;
+                }
+                Util.JSON2Array = JSON2Array;
             })(Util = Util || (Util = {}));
             exports_1("Util", Util);
             (function (String) {

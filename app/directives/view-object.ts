@@ -1,17 +1,38 @@
 import {ElementRef, Input} from 'angular2/core';
+import {Config} from '../services/config';
+import {RecipeDB} from '../services/recipedb';
 
-export class ViewObject {
-    @Input() id: string;
+export interface IViewObject {
+    id: string;
+    index: number;
+    parent: string;
+    updated: number;
+    type?: string;
+}
+
+export class ViewObject implements IViewObject {
+    protected _db: RecipeDB;
+    
+    
     protected _elementRef: ElementRef;
     protected _element: HTMLElement;
-    private _activation: boolean = false;
-    private _visibility: boolean = false;
-    private _originDisplay: string;
-    private _rendering: boolean = true;
+    protected _activation: boolean = false;
+    protected _visibility: boolean = false;
+    protected _originDisplay: string;
+    protected _rendering: boolean = true;
+    
+    @Input() id: string;
+    public index: number;
+    public parent: string;
+    public updated: number;
+    public type: string;
 
     constructor(elementRef: ElementRef) {
         this._elementRef = elementRef;
         this._element = elementRef.nativeElement;
+        
+        this._db = new RecipeDB();
+        this._db.init();
     }
     
     get elementRef(): ElementRef {

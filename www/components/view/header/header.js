@@ -37,7 +37,28 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                     this.text = "HEADER";
                 }
                 ViewHeader.prototype.ngOnInit = function () {
-                    console.log(this.type);
+                };
+                ViewHeader.prototype.import = function (data) {
+                    $.extend(this, data);
+                };
+                ViewHeader.prototype.export = function () {
+                    return {
+                        id: this.id,
+                        index: this.index,
+                        parent: this.parent,
+                        updated: this.updated,
+                        type: this.type,
+                        text: this.text
+                    };
+                };
+                ViewHeader.prototype.syncIDB = function () {
+                    var _this = this;
+                    this._db.open().then(function () {
+                        _this._db.syncIDB("recipe_items", _this.export(), function () {
+                            console.log("Complete syncIndexdDB() at " + _this.type + ".");
+                            _this._db.close();
+                        });
+                    });
                 };
                 __decorate([
                     core_1.Input(), 

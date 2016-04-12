@@ -1,4 +1,4 @@
-System.register(['dexie'], function(exports_1, context_1) {
+System.register(['./util', 'dexie'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -6,10 +6,13 @@ System.register(['dexie'], function(exports_1, context_1) {
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
-    var dexie_1;
+    var util_1, dexie_1;
     var RecipeDB;
     return {
         setters:[
+            function (util_1_1) {
+                util_1 = util_1_1;
+            },
             function (dexie_1_1) {
                 dexie_1 = dexie_1_1;
             }],
@@ -17,8 +20,13 @@ System.register(['dexie'], function(exports_1, context_1) {
             // for IndexedDB
             RecipeDB = (function (_super) {
                 __extends(RecipeDB, _super);
+                // public recipes: Dexie.Table<IRecipe, string>
+                // public recipe_items: Dexie.Table<IRecipe, string>
                 function RecipeDB() {
                     _super.call(this, RecipeDB.DB_RNOTE);
+                    this.on("error", function (e) {
+                        console.log(e);
+                    });
                 }
                 RecipeDB.prototype.init = function () {
                     if (this.isOpen()) {
@@ -26,46 +34,52 @@ System.register(['dexie'], function(exports_1, context_1) {
                     }
                     this.version(RecipeDB.VERSION).stores({
                         recipes: "id",
-                        recipe_items: "id"
+                        recipe_items: "id, parent"
                     });
                 };
                 // src - local data
-                RecipeDB.prototype.__sync = function (tableName, src, complete) {
+                RecipeDB.prototype.__syncIDB = function (tableName, src, complete) {
+                    if (src instanceof Array === false) {
+                        src = [src];
+                    }
                     var store = this.table(tableName);
-                    store.get(src.id).then(function (item) {
-                        if (item) {
-                            if (src.updated > item.updated) {
-                                store.put(src, src.id).then(function () {
-                                    complete.apply(null, [src]);
-                                });
+                    var length = src.length;
+                    var count = 0;
+                    var res = [];
+                    var _loop_1 = function(i) {
+                        store.get(src[i].id).then(function (item) {
+                            if (item) {
+                                if (src[i].updated > item.updated) {
+                                    store.put(src[i]).then(function () {
+                                        res.push(src[i]);
+                                        util_1.Util.lazyApply(++count, length, complete, res);
+                                    });
+                                }
+                                else {
+                                    src[i] = item;
+                                    res.push(src[i]);
+                                    util_1.Util.lazyApply(++count, length, complete, res);
+                                }
                             }
                             else {
-                                src = item;
-                                complete.apply(null, [src]);
+                                res.push(src[i]);
+                                store.add(src[i]).then(function () {
+                                    util_1.Util.lazyApply(++count, length, complete, res);
+                                });
                             }
-                        }
-                        else {
-                            store.add(src, src.id).then(function () {
-                                complete.apply(null, [src]);
-                            });
-                        }
-                    });
+                        });
+                    };
+                    for (var i in src) {
+                        _loop_1(i);
+                    }
                 };
-                RecipeDB.prototype.sync = function (tableName, src, complete) {
+                RecipeDB.prototype.syncIDB = function (tableName, src, complete) {
                     var _this = this;
                     window.setTimeout(function () {
-                        _this.__sync(tableName, src, complete);
+                        _this.__syncIDB(tableName, src, complete);
                     }, 0);
                 };
-                RecipeDB.prototype.__syncArray = function (tableName, src, complete) {
-                };
-                RecipeDB.prototype.syncArray = function (tableName, src, complete) {
-                    var _this = this;
-                    window.setTimeout(function () {
-                        _this.__syncArray(tableName, src, complete);
-                    }, 0);
-                };
-                RecipeDB.VERSION = 1;
+                RecipeDB.VERSION = 2;
                 RecipeDB.DB_RNOTE = 'rnote';
                 return RecipeDB;
             }(dexie_1.default));

@@ -55,6 +55,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return objectArray;
                 }
                 Util.JSON2Array = JSON2Array;
+                function lazyApply(count, length, callback, parameter) {
+                    if (++count >= length) {
+                        callback.apply(null, parameter);
+                    }
+                }
+                Util.lazyApply = lazyApply;
             })(Util = Util || (Util = {}));
             exports_1("Util", Util);
             (function (String) {

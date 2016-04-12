@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
-import {RecipeDB} from './recipedb';
+import {RecipeDB, IRecipeDBObject} from './recipedb';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
 
 export var gRecipes: Object = {};
@@ -16,6 +16,7 @@ export interface IRecipe {
 
 export interface IRecipeItem {
     id: string;
+    index: number;
     parent: string;
     updated: number;
     sources?: any[];
@@ -33,7 +34,7 @@ export class RecipeService {
     }
     
     // 모든 레시피 데이터 다운로드 from IndexedDB.
-    downloadAll (complete?: Function) {
+    public downloadAll (complete?: Function) {
         this._db.open().then( () => {
             this._db.table("recipes").each( (item: IRecipe) => {
                 this.add(this.create(item));
@@ -45,7 +46,7 @@ export class RecipeService {
         });
     }
 
-    create (data?: IRecipe): Recipe {
+    public create (data?: IRecipe): Recipe {
         if (!data) {
             data = {
                 id: this.newID(),
@@ -59,12 +60,8 @@ export class RecipeService {
         return recipe;
     }
 
-    add (recipe: Recipe) {
+    public add (recipe: Recipe) {
         gRecipes[recipe.id] = recipe;
-    }
-
-    sync () {
-
     }
 
     // 새 레시피 아이디를 반환.
@@ -83,9 +80,10 @@ export class RecipeService {
     }
 }
 
-export class Recipe implements IRecipe {
+export class Recipe implements IRecipe, IRecipeDBObject {
     private _db: RecipeDB;
-
+    private _children: LinkedList<IRecipeItem>;
+    
     public id: string;
     public owner: string;
     public name: string;
@@ -95,6 +93,7 @@ export class Recipe implements IRecipe {
     constructor (recipeid?: string) {
         this.id = recipeid;
         this._db = new RecipeDB();
+        this._db.init();
     }
         
     public import (data: IRecipe) {
@@ -112,139 +111,85 @@ export class Recipe implements IRecipe {
     }
 
     // Sync recipes between memory and IndexedDB(localStorage)
-    public __syncIndexdDB () {
-        if (!this._db) {
-            this._db.init();
-        }
-        console.log("sync");
-        // this._db.sync(gRecipes);
-    
+    public syncIDB() {
         this._db.open().then( () => {
-            this._db.table("recipes").get(this.id)
-            .then( (recipeData: IRecipe) => {
-                console.log(recipeData);
-                if (recipeData) {
-                    console.log(recipeData);
-                    if (this.updated > recipeData.updated) {
-                        this._db.table("recipes").put(this)
-                        .catch (function (error: any) {
-                            console.log(error);
-                        });
-                    } else {
-                        this.import(recipeData);
-                    }
-                } else {
-                    this._db.table("recipes").add(this)
-                    .catch (function (error: any) {
-                        // console.log(error);
-                    });
-                }
-                this.import(recipeData);
-            }).catch( (error: any) => {
-                console.log('error: ', error);
-            });
-        }).finally( () => {
-            // this._db.close();
-        });
-    }
-    
-    public syncIndexdDB() {
-        this._db.open().then( () => {
-            this._db.syncArray("recipes", Util.JSON2Array(gRecipes), () => {
-                console.log("complete syncArray()");
+            this._db.syncIDB("recipes", this.export(), () => {
+                console.log("Complete syncIndexdDB() at RecipeItem.");
                 this._db.close();
             });
         });
+    }
+    
+    public syncChildrenIDB(complete?: Function) {
+        // this._db.open().then( () => {
+        //     let store = this._db.table("recipe_items");
+        //     
+        //     store.get()
+        // });
         
+        this._db.open().then( () => {
+            let store = this._db.table("recipe_items");
+            if (this.children.size() <= 0) {
+                store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
+                    this.children.add(item, item.index);
+                    complete.apply(null, [this.children]);
+                });
+            } else {
+                // let dupList: Object = {};
+                // store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
+                //     if (this.children.indexOf(item) == -1) {
+                //         dupList[item.id] = item;
+                //     } else {
+                //         
+                //     }
+                // });
+            }
+        });
+    }
+    
+    get children(): LinkedList<IRecipeItem> {
+        return this._children;
+    }
+    
+    set children(data: LinkedList<IRecipeItem>) {
+        this._children = data;
     }
 }
 
-export class RecipeItem {
-    private _id: string;
+export class RecipeItem implements IRecipeItem, IRecipeDBObject {
     private _db: RecipeDB;
-    private _data: IRecipeItem;
+    
+    public id: string;
+    public index: number;
+    public parent: string;
+    public updated: number;
+    public sources: any[];
 
     constructor (itemid?: string) {
         this.id = itemid;
         this._db = new RecipeDB();
+        this._db.init();
     }
         
-    public import (data: IRecipeItem, overwrite: boolean = false) {
-        if (overwrite) {
-            this._data = data;
-        } else {
-            this._data = $.extend(this._data, data);
-        }
-        this.id = this._data.id;
+    public import (data: IRecipeItem) {
+        $.extend(this, data);
     }
     
     public export () {
-        return this._data;
+        return {
+            id: this.id,
+            parent: this.parent,
+            updated: this.updated,
+            sources: this.sources
+        };
     }
 
-    // Sync recipes between memory and IndexedDB(localStorage)
-    public __syncIndexdDB () {
-        if (!this._db) {
-            this._db.init();
-        }
-    
+    public syncIDB() {
         this._db.open().then( () => {
-            this._db.table("recipes").get(this.id)
-            .then( (recipeData: IRecipeItem) => {
-                console.log(recipeData);
-                if (recipeData) {
-                    console.log(recipeData);
-                    if (this.updated > recipeData.updated) {
-                        this._db.table("recipes").put(this._data)
-                        .catch (function (error: any) {
-                            console.log(error);
-                        });
-                    } else {
-                        this.import(recipeData);
-                    }
-                } else {
-                    this._db.table("recipes").add(this._data)
-                    .catch (function (error: any) {
-                        // console.log(error);
-                    });
-                }
-                this.import(recipeData);
-            }).catch( (error: any) => {
-                console.log('error: ', error);
+            this._db.syncIDB("recipe_items", this.export(), () => {
+                console.log("Complete syncIndexdDB() at RecipeItem.");
+                this._db.close();
             });
-        }).finally( () => {
-            // this._db.close();
         });
-    }
-    
-    public syncIndexdDB() {
-        window.setTimeout( () => {
-            this.__syncIndexdDB();
-        }, 0);
-    }
-    
-    get id(): string {
-        return this._id;
-    }
-    
-    set id(value: string) {
-        this._id = value;
-    }
-    
-    // return unix-timestamp
-    get updated(): number {
-        return this._data.updated;
-    }
-    
-    set updated(unixTimestamp: number) {
-        this._data.updated = unixTimestamp;
-    }
-    
-    get data(): IRecipeItem {
-        return this._data;
-    }
-    
-    set data(value: IRecipeItem) {
-        this._data = value;
     }
 }

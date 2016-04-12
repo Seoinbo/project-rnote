@@ -63,8 +63,6 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                 RecipeService.prototype.add = function (recipe) {
                     gRecipes[recipe.id] = recipe;
                 };
-                RecipeService.prototype.sync = function () {
-                };
                 // 새 레시피 아이디를 반환.
                 RecipeService.prototype.newID = function () {
                     var base = new Date('2015-09-04 00:00:00').getTime();
@@ -92,6 +90,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                 function Recipe(recipeid) {
                     this.id = recipeid;
                     this._db = new recipedb_1.RecipeDB();
+                    this._db.init();
                 }
                 Recipe.prototype.import = function (data) {
                     $.extend(this, data);
@@ -106,52 +105,44 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     };
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
-                Recipe.prototype.__syncIndexdDB = function () {
-                    var _this = this;
-                    if (!this._db) {
-                        this._db.init();
-                    }
-                    console.log("sync");
-                    // this._db.sync(gRecipes);
-                    this._db.open().then(function () {
-                        _this._db.table("recipes").get(_this.id)
-                            .then(function (recipeData) {
-                            console.log(recipeData);
-                            if (recipeData) {
-                                console.log(recipeData);
-                                if (_this.updated > recipeData.updated) {
-                                    _this._db.table("recipes").put(_this)
-                                        .catch(function (error) {
-                                        console.log(error);
-                                    });
-                                }
-                                else {
-                                    _this.import(recipeData);
-                                }
-                            }
-                            else {
-                                _this._db.table("recipes").add(_this)
-                                    .catch(function (error) {
-                                    // console.log(error);
-                                });
-                            }
-                            _this.import(recipeData);
-                        }).catch(function (error) {
-                            console.log('error: ', error);
-                        });
-                    }).finally(function () {
-                        // this._db.close();
-                    });
-                };
-                Recipe.prototype.syncIndexdDB = function () {
+                Recipe.prototype.syncIDB = function () {
                     var _this = this;
                     this._db.open().then(function () {
-                        _this._db.syncArray("recipes", util_1.Util.JSON2Array(gRecipes), function () {
-                            console.log("complete syncArray()");
+                        _this._db.syncIDB("recipes", _this.export(), function () {
+                            console.log("Complete syncIndexdDB() at RecipeItem.");
                             _this._db.close();
                         });
                     });
                 };
+                Recipe.prototype.syncChildrenIDB = function (complete) {
+                    // this._db.open().then( () => {
+                    //     let store = this._db.table("recipe_items");
+                    //     
+                    //     store.get()
+                    // });
+                    var _this = this;
+                    this._db.open().then(function () {
+                        var store = _this._db.table("recipe_items");
+                        if (_this.children.size() <= 0) {
+                            store.where('parent').equals(_this.id).each(function (item) {
+                                _this.children.add(item, item.index);
+                                complete.apply(null, [_this.children]);
+                            });
+                        }
+                        else {
+                        }
+                    });
+                };
+                Object.defineProperty(Recipe.prototype, "children", {
+                    get: function () {
+                        return this._children;
+                    },
+                    set: function (data) {
+                        this._children = data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 return Recipe;
             }());
             exports_1("Recipe", Recipe);
@@ -159,93 +150,28 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                 function RecipeItem(itemid) {
                     this.id = itemid;
                     this._db = new recipedb_1.RecipeDB();
+                    this._db.init();
                 }
-                RecipeItem.prototype.import = function (data, overwrite) {
-                    if (overwrite === void 0) { overwrite = false; }
-                    if (overwrite) {
-                        this._data = data;
-                    }
-                    else {
-                        this._data = $.extend(this._data, data);
-                    }
-                    this.id = this._data.id;
+                RecipeItem.prototype.import = function (data) {
+                    $.extend(this, data);
                 };
                 RecipeItem.prototype.export = function () {
-                    return this._data;
+                    return {
+                        id: this.id,
+                        parent: this.parent,
+                        updated: this.updated,
+                        sources: this.sources
+                    };
                 };
-                // Sync recipes between memory and IndexedDB(localStorage)
-                RecipeItem.prototype.__syncIndexdDB = function () {
+                RecipeItem.prototype.syncIDB = function () {
                     var _this = this;
-                    if (!this._db) {
-                        this._db.init();
-                    }
                     this._db.open().then(function () {
-                        _this._db.table("recipes").get(_this.id)
-                            .then(function (recipeData) {
-                            console.log(recipeData);
-                            if (recipeData) {
-                                console.log(recipeData);
-                                if (_this.updated > recipeData.updated) {
-                                    _this._db.table("recipes").put(_this._data)
-                                        .catch(function (error) {
-                                        console.log(error);
-                                    });
-                                }
-                                else {
-                                    _this.import(recipeData);
-                                }
-                            }
-                            else {
-                                _this._db.table("recipes").add(_this._data)
-                                    .catch(function (error) {
-                                    // console.log(error);
-                                });
-                            }
-                            _this.import(recipeData);
-                        }).catch(function (error) {
-                            console.log('error: ', error);
+                        _this._db.syncIDB("recipe_items", _this.export(), function () {
+                            console.log("Complete syncIndexdDB() at RecipeItem.");
+                            _this._db.close();
                         });
-                    }).finally(function () {
-                        // this._db.close();
                     });
                 };
-                RecipeItem.prototype.syncIndexdDB = function () {
-                    var _this = this;
-                    window.setTimeout(function () {
-                        _this.__syncIndexdDB();
-                    }, 0);
-                };
-                Object.defineProperty(RecipeItem.prototype, "id", {
-                    get: function () {
-                        return this._id;
-                    },
-                    set: function (value) {
-                        this._id = value;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(RecipeItem.prototype, "updated", {
-                    // return unix-timestamp
-                    get: function () {
-                        return this._data.updated;
-                    },
-                    set: function (unixTimestamp) {
-                        this._data.updated = unixTimestamp;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(RecipeItem.prototype, "data", {
-                    get: function () {
-                        return this._data;
-                    },
-                    set: function (value) {
-                        this._data = value;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 return RecipeItem;
             }());
             exports_1("RecipeItem", RecipeItem);

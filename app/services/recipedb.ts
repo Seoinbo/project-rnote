@@ -3,16 +3,26 @@ import {Config} from './config';
 import Dexie from 'dexie';
 import {IRecipe, IRecipeItem} from './recipe';
 
+// 레시피 뷰 오브젝트용 인터페이스.
+export interface IRecipeDBObject {
+    import<T>(data: T): void,
+    export(): any,
+    syncIDB(): void
+}
+
 // for IndexedDB
 export class RecipeDB extends Dexie {
-    public static VERSION: number = 1;
+    public static VERSION: number = 2;
     public static DB_RNOTE: string = 'rnote';
     
-    public recipes: Dexie.Table<IRecipe, string>
-    public recipe_items: Dexie.Table<IRecipe, string>
+    // public recipes: Dexie.Table<IRecipe, string>
+    // public recipe_items: Dexie.Table<IRecipe, string>
 
     constructor() {
         super(RecipeDB.DB_RNOTE);
+        this.on("error", (e: any) => {
+            console.log(e);
+        });
     }
     
     public init() {
@@ -21,46 +31,48 @@ export class RecipeDB extends Dexie {
         }
         this.version(RecipeDB.VERSION).stores({
             recipes: "id",
-            recipe_items: "id"
+            recipe_items: "id, parent"
         });
         
         
     }
     
     // src - local data
-    public __sync(tableName: string, src: any, complete?: Function) {
+    public __syncIDB(tableName: string, src: any, complete?: Function) {
+        if (src instanceof Array === false) {
+            src = [src];
+        }
+        
         let store = this.table(tableName);
-        store.get(src.id).then( (item) => {
-            if (item) {
-                if (src.updated > item.updated) {
-                    store.put(src, src.id).then( () => {
-                        complete.apply(null, [src]);
-                    });
+        let length: number = src.length;
+        let count: number = 0;
+        let res: Array<any> = [];
+        for (let i in src) {
+            store.get(src[i].id).then( (item) => {
+                if (item) {
+                    if (src[i].updated > item.updated) {
+                        store.put(src[i]).then( () => {
+                            res.push(src[i]);
+                            Util.lazyApply(++count, length, complete, res);
+                        });
+                    } else {
+                        src[i] = item;
+                        res.push(src[i]);
+                        Util.lazyApply(++count, length, complete, res);
+                    }
                 } else {
-                    src = item;
-                    complete.apply(null, [src]);
+                    res.push(src[i]);
+                    store.add(src[i]).then( () => {
+                        Util.lazyApply(++count, length, complete, res);
+                    });
                 }
-            } else {
-                store.add(src, src.id).then( () => {
-                    complete.apply(null, [src]);
-                });
-            }
-        });
-    }
-        
-    public sync(tableName: string, src: Array<any>, complete?: Function) {
-        window.setTimeout( () => {
-            this.__sync(tableName, src, complete);
-        }, 0);
+            });
+        }
     }
     
-    public __syncArray(tableName: string, src: Array<any>, complete?: Function) {
-        
-    }
-    
-    public syncArray(tableName: string, src: Array<any>, complete?: Function) {
+    public syncIDB(tableName: string, src: any, complete?: Function) {
         window.setTimeout( () => {
-            this.__syncArray(tableName, src, complete);
+            this.__syncIDB(tableName, src, complete);
         }, 0);
     }
 }

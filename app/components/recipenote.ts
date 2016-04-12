@@ -117,8 +117,8 @@ export class Recipenote {
 
     public addRecipe() {
         let newRecipe: Recipe = this._recipeService.create();
-        newRecipe.syncIndexdDB();
         this._recipeService.add(newRecipe);
+        newRecipe.syncIDB();
     }
 
     set sidebarActive(value: boolean) {

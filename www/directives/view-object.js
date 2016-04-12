@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/recipedb'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, recipedb_1;
     var ViewObject;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (recipedb_1_1) {
+                recipedb_1 = recipedb_1_1;
             }],
         execute: function() {
             ViewObject = (function () {
@@ -25,6 +28,8 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._rendering = true;
                     this._elementRef = elementRef;
                     this._element = elementRef.nativeElement;
+                    this._db = new recipedb_1.RecipeDB();
+                    this._db.init();
                 }
                 Object.defineProperty(ViewObject.prototype, "elementRef", {
                     get: function () {

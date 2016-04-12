@@ -30,6 +30,12 @@ export module Util {
         }
         return objectArray;
     }
+    
+    export function lazyApply(count: number, length: number, callback: Function, parameter?: Array<any>) {
+        if (++count >= length) {
+            callback.apply(null, parameter);
+        }
+    }
 }
 
 export module String {

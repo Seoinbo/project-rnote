@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/config', '../../directives/view-object', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, recipe_1, view_object_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, config_1, view_object_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View, DEF_VIEW_ITEM;
     return {
         setters:[
@@ -33,6 +33,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
+            },
+            function (config_1_1) {
+                config_1 = config_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -58,49 +61,77 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
         execute: function() {
             View = (function (_super) {
                 __extends(View, _super);
-                function View(elementRef, _dcl) {
+                // private _elementRef: ElementRef;
+                function View(elementRef, _dcl, _recipeService) {
                     _super.call(this, elementRef);
                     this._dcl = _dcl;
+                    this._recipeService = _recipeService;
                     this.items = new LinkedList_1.LinkedList();
-                    this.storage = [
-                        {
-                            type: 'header',
-                            text: 'hello header'
-                        }
-                    ];
+                    // this._elementRef = elementRef;
                 }
                 View.prototype.ngAfterViewInit = function () {
                     util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);
                 };
-                View.prototype.open = function (recipeid) {
-                    if (recipeid) {
-                        this.loadItems(recipeid);
+                View.prototype.open = function (recipeID) {
+                    if (recipeID) {
+                        this._recipeID = recipeID;
+                        this.loadItems();
                     }
                     this.active();
                 };
-                View.prototype.loadItems = function (recipeid) {
-                    this.recipe = recipe_1.gRecipes[recipeid];
+                // IndexedDB로 부터 자식 아이템들을 모두 읽어 온다.
+                View.prototype.loadItems = function () {
+                    this.recipe = recipe_1.gRecipes[this.recipeID];
+                    // this._recipeService.downloadItems(this.recipeID);
                     // this.storage.forEach( (data) => {
                     //     
                     // });
-                    // this.addViewItem(ViewEmptyMsg);
+                    // this.addItem(ViewEmptyMsg);
                 };
-                View.prototype.addViewItem = function (type, data, index) {
+                // 새 뷰-오브젝트 아이템을 추가.
+                View.prototype.addItem = function (type, data, targetIndex) {
                     var _this = this;
-                    var target = this.emptyMsg, component = DEF_VIEW_ITEM[type];
+                    var target = this.emptyMsg, component = DEF_VIEW_ITEM[type], nextIndex = 0;
                     if (this.items.size() > 0) {
-                        if (index) {
-                            target = this.items.elementAtIndex(index);
+                        if (targetIndex) {
+                            target = this.items.elementAtIndex(targetIndex);
                         }
                         else {
                             target = this.items.last();
                         }
+                        nextIndex = this.items.indexOf(target);
                     }
                     this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
-                        ref.instance.text = "My Header2";
-                        console.log(ref.instance);
-                        _this.items.add(ref.instance);
+                        var item = ref.instance;
+                        item.import({
+                            id: _this.newID(),
+                            index: nextIndex,
+                            type: type,
+                            parent: _this.recipe.id,
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
+                            text: "My Header3"
+                        });
+                        _this.items.add(item);
+                        // 중간에 아이템이 추가되면 인덱스 번호 재정렬
+                        if (targetIndex) {
+                            _this._sortIndex(_this.items);
+                        }
+                        item.syncIDB();
                     });
+                };
+                View.prototype.newID = function () {
+                    var base = new Date('2015-09-04 00:00:00').getTime();
+                    var current = config_1.Config.now();
+                    return this.recipe.id + '-i' + (current - base);
+                };
+                View.prototype._sortIndex = function (items) {
+                    if (items) {
+                        var i_1 = 0;
+                        items.forEach(function (item) {
+                            item.index = i_1++;
+                        });
+                    }
+                    return items;
                 };
                 Object.defineProperty(View.prototype, "recipe", {
                     get: function () {
@@ -108,6 +139,16 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     },
                     set: function (r) {
                         this._recipe = r;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(View.prototype, "recipeID", {
+                    get: function () {
+                        return this._recipeID;
+                    },
+                    set: function (id) {
+                        this._recipeID = id;
                     },
                     enumerable: true,
                     configurable: true
@@ -140,7 +181,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             popup_menu_1.PopupMenu
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.DynamicComponentLoader])
+                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.DynamicComponentLoader, recipe_1.RecipeService])
                 ], View);
                 return View;
             }(view_object_1.ViewObject));

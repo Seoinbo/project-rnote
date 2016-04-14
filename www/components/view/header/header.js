@@ -34,32 +34,27 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
                     this.type = 'header';
-                    this.text = "HEADER";
                 }
-                ViewHeader.prototype.ngOnInit = function () {
-                };
-                ViewHeader.prototype.import = function (data) {
-                    $.extend(this, data);
-                };
-                ViewHeader.prototype.export = function () {
-                    return {
-                        id: this.id,
-                        index: this.index,
-                        parent: this.parent,
-                        updated: this.updated,
-                        type: this.type,
-                        text: this.text
-                    };
-                };
-                ViewHeader.prototype.syncIDB = function () {
-                    var _this = this;
-                    this._db.open().then(function () {
-                        _this._db.syncIDB("recipe_items", _this.export(), function () {
-                            console.log("Complete syncIndexdDB() at " + _this.type + ".");
-                            _this._db.close();
-                        });
-                    });
-                };
+                Object.defineProperty(ViewHeader.prototype, "data", {
+                    get: function () {
+                        return this._data;
+                    },
+                    set: function (recipeItemRef) {
+                        this._data = recipeItemRef;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ViewHeader.prototype, "sources", {
+                    get: function () {
+                        return this._data.sources;
+                    },
+                    set: function (data) {
+                        this._data.sources = data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String)

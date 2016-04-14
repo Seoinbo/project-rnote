@@ -18,6 +18,7 @@ export interface IRecipeItem {
     id: string;
     index: number;
     parent: string;
+    type: string;
     updated: number;
     sources?: any[];
 }
@@ -82,7 +83,7 @@ export class RecipeService {
 
 export class Recipe implements IRecipe, IRecipeDBObject {
     private _db: RecipeDB;
-    private _children: LinkedList<IRecipeItem>;
+    private _children: LinkedList<IRecipeItem> = new LinkedList<IRecipeItem>();
     
     public id: string;
     public owner: string;
@@ -132,6 +133,7 @@ export class Recipe implements IRecipe, IRecipeDBObject {
             if (this.children.size() <= 0) {
                 store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
                     this.children.add(item, item.index);
+                }).then( () => {
                     complete.apply(null, [this.children]);
                 });
             } else {
@@ -161,6 +163,7 @@ export class RecipeItem implements IRecipeItem, IRecipeDBObject {
     
     public id: string;
     public index: number;
+    public type: string;
     public parent: string;
     public updated: number;
     public sources: any[];
@@ -179,6 +182,7 @@ export class RecipeItem implements IRecipeItem, IRecipeDBObject {
         return {
             id: this.id,
             parent: this.parent,
+            type: this.type,
             updated: this.updated,
             sources: this.sources
         };

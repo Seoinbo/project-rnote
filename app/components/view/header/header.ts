@@ -1,11 +1,7 @@
 import {Component, ElementRef, Input} from 'angular2/core';
 import {Platform} from '../../../services/platform';
-import {IRecipeDBObject} from '../../../services/recipedb';
-import {ViewObject, IViewObject} from '../../../directives/view-object';
-
-export interface IViewHeader extends IViewObject {
-    text?: string;
-}
+import {IRecipeItem, RecipeItem} from '../../../services/recipe';
+import {ViewObject} from '../../../directives/view-object';
 
 @Component({
     selector: 'h1',
@@ -14,40 +10,29 @@ export interface IViewHeader extends IViewObject {
         Platform.prependBaseURL('components/view/header/header.css')
     ]
 })
-export class ViewHeader extends ViewObject implements IViewHeader, IRecipeDBObject {
+export class ViewHeader extends ViewObject {
     public type: string = 'header';
+    private _data: RecipeItem;
     
-    @Input() text: string = "HEADER";
+    @Input() text: string;
 
     constructor(elementRef: ElementRef) {
         super(elementRef);
     }
-
-    ngOnInit() {
+    
+    get data(): RecipeItem {
+        return this._data;
     }
     
-    public import(data: IViewHeader) {
-        $.extend(this, data);
+    set data(recipeItemRef: RecipeItem) {
+        this._data = recipeItemRef;
     }
     
-    public export(): IViewHeader {
-        return {
-            id: this.id,
-            index: this.index,
-            parent: this.parent,
-            updated: this.updated,
-            type: this.type,
-            text: this.text
-        };
+    get sources(): any {
+        return this._data.sources;
     }
     
-    public syncIDB() {
-        this._db.open().then( () => {
-            this._db.syncIDB("recipe_items", this.export(), () => {
-                console.log("Complete syncIndexdDB() at " + this.type + ".");
-                this._db.close();
-            });
-        });
+    set sources(data: any) {
+        this._data.sources = data;
     }
-    
 }

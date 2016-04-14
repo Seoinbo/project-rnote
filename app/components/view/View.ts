@@ -46,8 +46,9 @@ export class View extends ViewObject {
     @ViewChild(ViewEmptyMsg) emptyMsg: ViewEmptyMsg;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
 
+    // view-object instances
     public items = new LinkedList<any>();
-    private _recipeID: string;
+    // current recipe-object.
     private _recipe: Recipe;
     // private _elementRef: ElementRef;
 
@@ -65,16 +66,53 @@ export class View extends ViewObject {
 
     public open(recipeID?: string) {
         if (recipeID) {
-            this._recipeID = recipeID;
-            this.loadItems();
+            this.load(recipeID);
         }
         this.active();
     }
-
+    
+    public load(recipeID: string) {
+        if (!gRecipes[recipeID]) {
+            // ...code here
+        }
+        this.recipe = gRecipes[recipeID];
+        this.recipe.syncChildrenIDB( (childrenData: LinkedList<IRecipeItem>) => {
+            this._syncDisplay(childrenData);
+        });
+    }
+    
+    // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
+    private _syncDisplay(childrenData: LinkedList<IRecipeItem>) {
+        childrenData.forEach( (data: IRecipeItem) => {
+            let item: ViewObject = this._getItem(data.id);
+            if (item) {
+                item.data.import(data);
+            } else {
+                let index: number = childrenData.indexOf(data);
+                this.addItem(data.type, data, index - 1);
+            }
+        });
+    }
+    
+    private _getItem(itemID: string): ViewObject {
+        this.items.forEach( (item: any) => {
+            if (itemID == item.id) {
+                return item;
+            } 
+        });
+        return null;
+    }
+    
+    // 이미 화면에 뿌려져 있는 뷰-아이템인가?
+    private _alreadyDisplayd(itemID: string): boolean {
+        if (this._getItem(itemID)) {
+            return true;
+        } 
+        return false;
+    }
 
     // IndexedDB로 부터 자식 아이템들을 모두 읽어 온다.
     public loadItems() {
-        this.recipe = gRecipes[this.recipeID];
         // this._recipeService.downloadItems(this.recipeID);
         
         
@@ -85,35 +123,36 @@ export class View extends ViewObject {
     }
 
     // 새 뷰-오브젝트 아이템을 추가.
-    public addItem(type: string, data: any, targetIndex?: number) {
+    public addItem(type: string, data?: IRecipeItem, headIndex?: number) {
         var target: any = this.emptyMsg,
             component: any = DEF_VIEW_ITEM[type],
             nextIndex: number = 0;
         if (this.items.size() > 0) {
-            if (targetIndex) {
-                target = this.items.elementAtIndex(targetIndex);
+            if (headIndex) {
+                target = this.items.elementAtIndex(headIndex);
             } else {
                 target = this.items.last();
             }
             nextIndex = this.items.indexOf(target);
         }
-        
-        this._dcl.loadNextToLocation(component, target.elementRef).then(ref => {
-            let item = ref.instance;
-            item.import({
+        if (!data) {
+            data = {
                 id: this.newID(),
                 index: nextIndex,
                 type: type,
                 parent: this.recipe.id,
-                updated: Util.toUnixTimestamp(Config.now()),
-                text: "My Header3"
-            });
+                updated: Util.toUnixTimestamp(Config.now())
+            };
+        }
+        this._dcl.loadNextToLocation(component, target.elementRef).then(ref => {
+            let item = ref.instance;
+            item.data.import(data);
             this.items.add(item);
             
             // 중간에 아이템이 추가되면 인덱스 번호 재정렬
-            if (targetIndex) {
-                this._sortIndex(this.items);
-            }
+            // if (headIndex) {
+            //     this._sortIndex(this.items);
+            // }
             
             item.syncIDB();
         });
@@ -141,14 +180,6 @@ export class View extends ViewObject {
     
     set recipe(r: Recipe) {
         this._recipe = r;
-    }
-    
-    get recipeID(): string {
-        return this._recipeID;
-    }
-    
-    set recipeID(id: string) {
-        this._recipeID = id;
     }
 }
 

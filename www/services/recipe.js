@@ -1,4 +1,4 @@
-System.register(['angular2/core', './util', './config', './recipedb'], function(exports_1, context_1) {
+System.register(['angular2/core', './util', './config', './recipedb', './collections/LinkedList'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, config_1, recipedb_1;
+    var core_1, util_1, config_1, recipedb_1, LinkedList_1;
     var gRecipes, RecipeService, Recipe, RecipeItem;
     return {
         setters:[
@@ -25,6 +25,9 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
             },
             function (recipedb_1_1) {
                 recipedb_1 = recipedb_1_1;
+            },
+            function (LinkedList_1_1) {
+                LinkedList_1 = LinkedList_1_1;
             }],
         execute: function() {
             exports_1("gRecipes", gRecipes = {});
@@ -88,6 +91,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
             exports_1("RecipeService", RecipeService);
             Recipe = (function () {
                 function Recipe(recipeid) {
+                    this._children = new LinkedList_1.LinkedList();
                     this.id = recipeid;
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
@@ -126,6 +130,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                         if (_this.children.size() <= 0) {
                             store.where('parent').equals(_this.id).each(function (item) {
                                 _this.children.add(item, item.index);
+                            }).then(function () {
                                 complete.apply(null, [_this.children]);
                             });
                         }
@@ -159,6 +164,7 @@ System.register(['angular2/core', './util', './config', './recipedb'], function(
                     return {
                         id: this.id,
                         parent: this.parent,
+                        type: this.type,
                         updated: this.updated,
                         sources: this.sources
                     };

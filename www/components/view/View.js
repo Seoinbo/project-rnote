@@ -66,6 +66,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     _super.call(this, elementRef);
                     this._dcl = _dcl;
                     this._recipeService = _recipeService;
+                    // view-object instances
                     this.items = new LinkedList_1.LinkedList();
                     // this._elementRef = elementRef;
                 }
@@ -74,14 +75,50 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 };
                 View.prototype.open = function (recipeID) {
                     if (recipeID) {
-                        this._recipeID = recipeID;
-                        this.loadItems();
+                        this.load(recipeID);
                     }
                     this.active();
                 };
+                View.prototype.load = function (recipeID) {
+                    var _this = this;
+                    if (!recipe_1.gRecipes[recipeID]) {
+                    }
+                    this.recipe = recipe_1.gRecipes[recipeID];
+                    this.recipe.syncChildrenIDB(function (childrenData) {
+                        _this._syncDisplay(childrenData);
+                    });
+                };
+                // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
+                View.prototype._syncDisplay = function (childrenData) {
+                    var _this = this;
+                    childrenData.forEach(function (data) {
+                        var item = _this._getItem(data.id);
+                        if (item) {
+                            item.data.import(data);
+                        }
+                        else {
+                            var index = childrenData.indexOf(data);
+                            _this.addItem(data.type, data, index - 1);
+                        }
+                    });
+                };
+                View.prototype._getItem = function (itemID) {
+                    this.items.forEach(function (item) {
+                        if (itemID == item.id) {
+                            return item;
+                        }
+                    });
+                    return null;
+                };
+                // 이미 화면에 뿌려져 있는 뷰-아이템인가?
+                View.prototype._alreadyDisplayd = function (itemID) {
+                    if (this._getItem(itemID)) {
+                        return true;
+                    }
+                    return false;
+                };
                 // IndexedDB로 부터 자식 아이템들을 모두 읽어 온다.
                 View.prototype.loadItems = function () {
-                    this.recipe = recipe_1.gRecipes[this.recipeID];
                     // this._recipeService.downloadItems(this.recipeID);
                     // this.storage.forEach( (data) => {
                     //     
@@ -89,33 +126,35 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     // this.addItem(ViewEmptyMsg);
                 };
                 // 새 뷰-오브젝트 아이템을 추가.
-                View.prototype.addItem = function (type, data, targetIndex) {
+                View.prototype.addItem = function (type, data, headIndex) {
                     var _this = this;
                     var target = this.emptyMsg, component = DEF_VIEW_ITEM[type], nextIndex = 0;
                     if (this.items.size() > 0) {
-                        if (targetIndex) {
-                            target = this.items.elementAtIndex(targetIndex);
+                        if (headIndex) {
+                            target = this.items.elementAtIndex(headIndex);
                         }
                         else {
                             target = this.items.last();
                         }
                         nextIndex = this.items.indexOf(target);
                     }
-                    this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
-                        var item = ref.instance;
-                        item.import({
-                            id: _this.newID(),
+                    if (!data) {
+                        data = {
+                            id: this.newID(),
                             index: nextIndex,
                             type: type,
-                            parent: _this.recipe.id,
-                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
-                            text: "My Header3"
-                        });
+                            parent: this.recipe.id,
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                        };
+                    }
+                    this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
+                        var item = ref.instance;
+                        item.data.import(data);
                         _this.items.add(item);
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
-                        if (targetIndex) {
-                            _this._sortIndex(_this.items);
-                        }
+                        // if (headIndex) {
+                        //     this._sortIndex(this.items);
+                        // }
                         item.syncIDB();
                     });
                 };
@@ -139,16 +178,6 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     },
                     set: function (r) {
                         this._recipe = r;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(View.prototype, "recipeID", {
-                    get: function () {
-                        return this._recipeID;
-                    },
-                    set: function (id) {
-                        this._recipeID = id;
                     },
                     enumerable: true,
                     configurable: true

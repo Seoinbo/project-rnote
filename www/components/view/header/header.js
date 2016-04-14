@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../../../services/recipe', '../../../directives/view-object'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, view_object_1;
+    var core_1, platform_1, recipe_1, view_object_1;
     var ViewHeader;
     return {
         setters:[
@@ -24,6 +24,9 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
             },
             function (platform_1_1) {
                 platform_1 = platform_1_1;
+            },
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -34,6 +37,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
                     this.type = 'header';
+                    this._data = new recipe_1.RecipeItem();
                 }
                 Object.defineProperty(ViewHeader.prototype, "data", {
                     get: function () {
@@ -75,4 +79,3 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
         }
     }
 });
-//# sourceMappingURL=header.js.map

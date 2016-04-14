@@ -18,6 +18,7 @@ export class ViewHeader extends ViewObject {
 
     constructor(elementRef: ElementRef) {
         super(elementRef);
+        this._data = new RecipeItem();
     }
     
     get data(): RecipeItem {

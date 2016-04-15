@@ -37,14 +37,15 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
                     this.type = 'header';
+                    this._deprecated = false;
                     this._data = new recipe_1.RecipeItem();
                 }
                 Object.defineProperty(ViewHeader.prototype, "data", {
                     get: function () {
                         return this._data;
                     },
-                    set: function (recipeItemRef) {
-                        this._data = recipeItemRef;
+                    set: function (recipeItem) {
+                        this._data = recipeItem;
                     },
                     enumerable: true,
                     configurable: true
@@ -55,6 +56,16 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                     },
                     set: function (data) {
                         this._data.sources = data;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(ViewHeader.prototype, "deprecated", {
+                    get: function () {
+                        return this._deprecated;
+                    },
+                    set: function (value) {
+                        this._deprecated = value;
                     },
                     enumerable: true,
                     configurable: true
@@ -79,3 +90,4 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
         }
     }
 });
+//# sourceMappingURL=header.js.map

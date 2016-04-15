@@ -84,13 +84,14 @@ export class View extends ViewObject {
     // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
     private _syncDisplay(childrenData: LinkedList<IRecipeItem>) {
         childrenData.forEach( (data: IRecipeItem) => {
-            let item: ViewObject = this._getItem(data.id);
+            let item: any = this._getItem(data.id);
             if (item) {
                 item.data.import(data);
             } else {
                 let index: number = childrenData.indexOf(data);
                 this.addItem(data.type, data, index - 1);
             }
+            item.deprecated = false;
         });
     }
     

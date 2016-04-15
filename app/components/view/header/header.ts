@@ -13,6 +13,7 @@ import {ViewObject} from '../../../directives/view-object';
 export class ViewHeader extends ViewObject {
     public type: string = 'header';
     private _data: RecipeItem;
+    private _deprecated: boolean = false;
     
     @Input() text: string;
 
@@ -25,8 +26,8 @@ export class ViewHeader extends ViewObject {
         return this._data;
     }
     
-    set data(recipeItemRef: RecipeItem) {
-        this._data = recipeItemRef;
+    set data(recipeItem: RecipeItem) {
+        this._data = recipeItem;
     }
     
     get sources(): any {
@@ -35,5 +36,13 @@ export class ViewHeader extends ViewObject {
     
     set sources(data: any) {
         this._data.sources = data;
+    }
+    
+    get deprecated(): boolean {
+        return this._deprecated;
+    }
+    
+    set deprecated(value: boolean) {
+        this._deprecated = value;
     }
 }

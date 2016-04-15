@@ -100,6 +100,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             var index = childrenData.indexOf(data);
                             _this.addItem(data.type, data, index - 1);
                         }
+                        item.deprecated = false;
                     });
                 };
                 View.prototype._getItem = function (itemID) {

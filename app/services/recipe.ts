@@ -4,6 +4,7 @@ import {Config} from './config';
 import {RecipeDB, IRecipeDBObject} from './recipedb';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
 
+declare var $: any;
 export var gRecipes: Object = {};
 
 export interface IRecipe {
@@ -33,7 +34,7 @@ export class RecipeService {
         this._db = new RecipeDB();
         this._db.init();
     }
-    
+
     // 모든 레시피 데이터 다운로드 from IndexedDB.
     public downloadAll (complete?: Function) {
         this._db.open().then( () => {
@@ -84,7 +85,7 @@ export class RecipeService {
 export class Recipe implements IRecipe, IRecipeDBObject {
     private _db: RecipeDB;
     private _children: LinkedList<IRecipeItem> = new LinkedList<IRecipeItem>();
-    
+
     public id: string;
     public owner: string;
     public name: string;
@@ -96,11 +97,11 @@ export class Recipe implements IRecipe, IRecipeDBObject {
         this._db = new RecipeDB();
         this._db.init();
     }
-        
+
     public import (data: IRecipe) {
         $.extend(this, data);
     }
-    
+
     public export (): IRecipe {
         return {
             id: this.id,
@@ -120,14 +121,14 @@ export class Recipe implements IRecipe, IRecipeDBObject {
             });
         });
     }
-    
+
     public syncChildrenIDB(complete?: Function) {
         // this._db.open().then( () => {
         //     let store = this._db.table("recipe_items");
-        //     
+        //
         //     store.get()
         // });
-        
+
         this._db.open().then( () => {
             let store = this._db.table("recipe_items");
             if (this.children.size() <= 0) {
@@ -142,17 +143,18 @@ export class Recipe implements IRecipe, IRecipeDBObject {
                 //     if (this.children.indexOf(item) == -1) {
                 //         dupList[item.id] = item;
                 //     } else {
-                //         
+                //
                 //     }
                 // });
+                complete.apply(null, [this.children]);
             }
         });
     }
-    
+
     get children(): LinkedList<IRecipeItem> {
         return this._children;
     }
-    
+
     set children(data: LinkedList<IRecipeItem>) {
         this._children = data;
     }
@@ -160,7 +162,7 @@ export class Recipe implements IRecipe, IRecipeDBObject {
 
 export class RecipeItem implements IRecipeItem, IRecipeDBObject {
     private _db: RecipeDB;
-    
+
     public id: string;
     public index: number;
     public type: string;
@@ -173,11 +175,11 @@ export class RecipeItem implements IRecipeItem, IRecipeDBObject {
         this._db = new RecipeDB();
         this._db.init();
     }
-        
+
     public import (data: IRecipeItem) {
         $.extend(this, data);
     }
-    
+
     public export () {
         return {
             id: this.id,

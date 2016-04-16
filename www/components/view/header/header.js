@@ -90,4 +90,3 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
         }
     }
 });
-//# sourceMappingURL=header.js.map

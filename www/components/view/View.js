@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/config', '../../directives/view-object', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/config', '../../directives/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, recipe_1, config_1, view_object_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, config_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View, DEF_VIEW_ITEM;
     return {
         setters:[
@@ -39,6 +39,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
+            },
+            function (baseline_1_1) {
+                baseline_1 = baseline_1_1;
             },
             function (header_1_1) {
                 header_1 = header_1_1;
@@ -83,8 +86,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     var _this = this;
                     if (!recipe_1.gRecipes[recipeID]) {
                     }
+                    console.log("load: ", recipeID);
                     this.recipe = recipe_1.gRecipes[recipeID];
                     this.recipe.syncChildrenIDB(function (childrenData) {
+                        console.log(childrenData.size());
                         _this._syncDisplay(childrenData);
                     });
                 };
@@ -100,7 +105,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             var index = childrenData.indexOf(data);
                             _this.addItem(data.type, data, index - 1);
                         }
-                        item.deprecated = false;
+                        // item.deprecated = false;
                     });
                 };
                 View.prototype._getItem = function (itemID) {
@@ -122,14 +127,14 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 View.prototype.loadItems = function () {
                     // this._recipeService.downloadItems(this.recipeID);
                     // this.storage.forEach( (data) => {
-                    //     
+                    //
                     // });
                     // this.addItem(ViewEmptyMsg);
                 };
                 // 새 뷰-오브젝트 아이템을 추가.
                 View.prototype.addItem = function (type, data, headIndex) {
                     var _this = this;
-                    var target = this.emptyMsg, component = DEF_VIEW_ITEM[type], nextIndex = 0;
+                    var target = this.baseline, component = DEF_VIEW_ITEM[type], nextIndex = 0;
                     if (this.items.size() > 0) {
                         if (headIndex) {
                             target = this.items.elementAtIndex(headIndex);
@@ -150,14 +155,22 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     }
                     this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
                         var item = ref.instance;
+                        item.vid = data.id;
                         item.data.import(data);
                         _this.items.add(item);
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
                         // if (headIndex) {
                         //     this._sortIndex(this.items);
                         // }
-                        item.syncIDB();
+                        item.data.syncIDB();
                     });
+                };
+                View.prototype.removeItem = function (itemID) {
+                    if (itemID) {
+                    }
+                    else {
+                        $('#view-content baseline').sibling().remove();
+                    }
                 };
                 View.prototype.newID = function () {
                     var base = new Date('2015-09-04 00:00:00').getTime();
@@ -184,9 +197,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     configurable: true
                 });
                 __decorate([
-                    core_1.ViewChild(empty_msg_1.ViewEmptyMsg), 
-                    __metadata('design:type', empty_msg_1.ViewEmptyMsg)
-                ], View.prototype, "emptyMsg", void 0);
+                    core_1.ViewChild(baseline_1.Baseline), 
+                    __metadata('design:type', baseline_1.Baseline)
+                ], View.prototype, "baseline", void 0);
                 __decorate([
                     core_1.ViewChildren(popup_menu_1.PopupMenu), 
                     __metadata('design:type', core_1.QueryList)
@@ -204,6 +217,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         directives: [
                             header_1.ViewHeader,
                             empty_msg_1.ViewEmptyMsg,
+                            baseline_1.Baseline,
                             nav_1.Nav,
                             nav_1.NavTitle,
                             panel_1.Panel,

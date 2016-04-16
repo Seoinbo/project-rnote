@@ -121,7 +121,7 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
                 Recipe.prototype.syncChildrenIDB = function (complete) {
                     // this._db.open().then( () => {
                     //     let store = this._db.table("recipe_items");
-                    //     
+                    //
                     //     store.get()
                     // });
                     var _this = this;
@@ -135,6 +135,15 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
                             });
                         }
                         else {
+                            // let dupList: Object = {};
+                            // store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
+                            //     if (this.children.indexOf(item) == -1) {
+                            //         dupList[item.id] = item;
+                            //     } else {
+                            //
+                            //     }
+                            // });
+                            complete.apply(null, [_this.children]);
                         }
                     });
                 };

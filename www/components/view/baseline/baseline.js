@@ -16,7 +16,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, platform_1, view_object_1;
-    var ViewEmptyMsg;
+    var Baseline;
     return {
         setters:[
             function (core_1_1) {
@@ -29,27 +29,25 @@ System.register(['angular2/core', '../../../services/platform', '../../../direct
                 view_object_1 = view_object_1_1;
             }],
         execute: function() {
-            ViewEmptyMsg = (function (_super) {
-                __extends(ViewEmptyMsg, _super);
-                function ViewEmptyMsg(elementRef) {
+            Baseline = (function (_super) {
+                __extends(Baseline, _super);
+                function Baseline(elementRef) {
                     _super.call(this, elementRef);
-                    this.type = 'view-empty-msg';
+                    this.type = 'baseline';
                 }
-                ViewEmptyMsg.prototype.ngOnInit = function () {
-                };
-                ViewEmptyMsg = __decorate([
+                Baseline = __decorate([
                     core_1.Component({
-                        selector: 'p[view-empty-msg]',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/view/empty-msg/empty-msg.html'),
+                        selector: 'baseline',
+                        templateUrl: platform_1.Platform.prependBaseURL('components/view/baseline/baseline.html'),
                         styleUrls: [
-                            platform_1.Platform.prependBaseURL('components/view/empty-msg/empty-msg.css')
+                            platform_1.Platform.prependBaseURL('components/view/baseline/baseline.css')
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], ViewEmptyMsg);
-                return ViewEmptyMsg;
+                ], Baseline);
+                return Baseline;
             }(view_object_1.ViewObject));
-            exports_1("ViewEmptyMsg", ViewEmptyMsg);
+            exports_1("Baseline", Baseline);
         }
     }
 });

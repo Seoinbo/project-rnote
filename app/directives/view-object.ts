@@ -5,31 +5,32 @@ import {IRecipeItem} from '../services/recipe';
 export class ViewObject {
     protected _elementRef: ElementRef;
     protected _element: HTMLElement;
+    protected _expired: boolean = false;
     protected _activation: boolean = false;
     protected _visibility: boolean = false;
     protected _originDisplay: string;
     protected _rendering: boolean = true;
-    
-    @Input() id: string;
+
+    protected _vid: string;
     public data: any;
 
     constructor(elementRef: ElementRef) {
         this._elementRef = elementRef;
         this._element = elementRef.nativeElement;
     }
-    
+
     get elementRef(): ElementRef {
         return this._elementRef;
     }
-    
+
     set elementRef(value: ElementRef) {
         this._elementRef = value;
     }
-    
+
     get element(): HTMLElement {
         return this._element;
     }
-    
+
     set element(value: HTMLElement) {
         this._element = value;
     }
@@ -127,5 +128,14 @@ export class ViewObject {
         } else {
             this._element.style.display = 'none';
         }
+    }
+
+    get vid(): string {
+        return this._vid;
+    }
+
+    set vid(value: string) {
+        this._element.setAttribute('vid', value);
+        this._vid = value;
     }
 }

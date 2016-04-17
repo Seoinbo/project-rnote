@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../../services/recipe', '../../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../../../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, recipe_1, view_object_1;
+    var core_1, platform_1, recipe_1;
     var ViewHeader;
     return {
         setters:[
@@ -27,9 +27,6 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
             },
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
-            },
-            function (view_object_1_1) {
-                view_object_1 = view_object_1_1;
             }],
         execute: function() {
             ViewHeader = (function (_super) {
@@ -37,39 +34,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
                     this.type = 'header';
-                    this._deprecated = false;
-                    this._data = new recipe_1.RecipeItem();
                 }
-                Object.defineProperty(ViewHeader.prototype, "data", {
-                    get: function () {
-                        return this._data;
-                    },
-                    set: function (recipeItem) {
-                        this._data = recipeItem;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(ViewHeader.prototype, "sources", {
-                    get: function () {
-                        return this._data.sources;
-                    },
-                    set: function (data) {
-                        this._data.sources = data;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
-                Object.defineProperty(ViewHeader.prototype, "deprecated", {
-                    get: function () {
-                        return this._deprecated;
-                    },
-                    set: function (value) {
-                        this._deprecated = value;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 __decorate([
                     core_1.Input(), 
                     __metadata('design:type', String)
@@ -85,7 +50,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], ViewHeader);
                 return ViewHeader;
-            }(view_object_1.ViewObject));
+            }(recipe_1.RecipeItem));
             exports_1("ViewHeader", ViewHeader);
         }
     }

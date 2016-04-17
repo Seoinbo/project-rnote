@@ -1,6 +1,7 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, ElementRef} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
+import {ViewObject} from '../directives/view-object';
 import {RecipeDB, IRecipeDBObject} from './recipedb';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
 
@@ -160,7 +161,7 @@ export class Recipe implements IRecipe, IRecipeDBObject {
     }
 }
 
-export class RecipeItem implements IRecipeItem, IRecipeDBObject {
+export class RecipeItem extends ViewObject implements IRecipeItem, IRecipeDBObject {
     private _db: RecipeDB;
 
     public id: string;
@@ -170,8 +171,8 @@ export class RecipeItem implements IRecipeItem, IRecipeDBObject {
     public updated: number;
     public sources: any[];
 
-    constructor (itemid?: string) {
-        this.id = itemid;
+    constructor (elementRef: ElementRef) {
+        super(elementRef);
         this._db = new RecipeDB();
         this._db.init();
     }

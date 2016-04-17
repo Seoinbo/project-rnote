@@ -6,7 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             (function (Config) {
-                // 서버에서 현재 시간을 받아온다.
+                // 서버에서 현재 시간을 받아와 javascript timestamp로 반환한다.
                 function now(nocache) {
                     if (nocache === void 0) { nocache = false; }
                     return new Date().getTime();

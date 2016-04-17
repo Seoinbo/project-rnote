@@ -1,6 +1,11 @@
-System.register(['angular2/core', './util', './config', './recipedb', './collections/LinkedList'], function(exports_1, context_1) {
+System.register(['angular2/core', './util', './config', '../directives/view-object', './recipedb', './collections/LinkedList'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
+    var __extends = (this && this.__extends) || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +15,7 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, config_1, recipedb_1, LinkedList_1;
+    var core_1, util_1, config_1, view_object_1, recipedb_1, LinkedList_1;
     var gRecipes, RecipeService, Recipe, RecipeItem;
     return {
         setters:[
@@ -22,6 +27,9 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
             },
             function (config_1_1) {
                 config_1 = config_1_1;
+            },
+            function (view_object_1_1) {
+                view_object_1 = view_object_1_1;
             },
             function (recipedb_1_1) {
                 recipedb_1 = recipedb_1_1;
@@ -160,9 +168,10 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
                 return Recipe;
             }());
             exports_1("Recipe", Recipe);
-            RecipeItem = (function () {
-                function RecipeItem(itemid) {
-                    this.id = itemid;
+            RecipeItem = (function (_super) {
+                __extends(RecipeItem, _super);
+                function RecipeItem(elementRef) {
+                    _super.call(this, elementRef);
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
@@ -188,7 +197,7 @@ System.register(['angular2/core', './util', './config', './recipedb', './collect
                     });
                 };
                 return RecipeItem;
-            }());
+            }(view_object_1.ViewObject));
             exports_1("RecipeItem", RecipeItem);
         }
     }

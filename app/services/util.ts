@@ -15,12 +15,12 @@ export module Util {
             });
         });
     }
-    
+
     // 자바스크립트 타임스템프 값을 유닉스 타임스템프 값으로 변환 반환.
     export function toUnixTimestamp(time: number): number {
         return Math.round(time / 1000);
     }
-    
+
     export function JSON2Array(objects: Object) {
         var objectArray: Object[] = [];
         for (let key in objects) {
@@ -30,7 +30,7 @@ export module Util {
         }
         return objectArray;
     }
-    
+
     export function lazyApply(count: number, length: number, callback: Function, parameter?: Array<any>) {
         if (++count >= length) {
             callback.apply(null, parameter);
@@ -42,15 +42,15 @@ export module String {
     export function trim(str: string): string {
     	return str.replace(/^\s+|\s+$/g, "");
     }
-    
+
     export function toCamelCase(str: string): string {
         return str.replace(/(\-[a-z])/g, function($1){return $1.toUpperCase().replace('-','');});
     }
-    
+
     export function toDashed(str: string): string {
         return str.replace(/([A-Z])/g, function($1){return "-"+$1.toLowerCase();});
     }
-    
+
     export function toUnderscore(str: string): string {
     	return str.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
     }

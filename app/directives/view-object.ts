@@ -10,8 +10,9 @@ export class ViewObject {
     protected _visibility: boolean = false;
     protected _originDisplay: string;
     protected _rendering: boolean = true;
+    protected _oid: string;
 
-    protected _vid: string;
+    @Input() id: string;
     public data: any;
 
     constructor(elementRef: ElementRef) {
@@ -130,12 +131,12 @@ export class ViewObject {
         }
     }
 
-    get vid(): string {
-        return this._vid;
+    get oid(): string {
+        return this._oid;
     }
 
-    set vid(value: string) {
-        this._element.setAttribute('vid', value);
-        this._vid = value;
+    set oid(id: string) {
+        this._element.setAttribute('oid', id);
+        this._oid = id;
     }
 }

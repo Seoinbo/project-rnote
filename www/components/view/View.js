@@ -70,7 +70,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     this._dcl = _dcl;
                     this._recipeService = _recipeService;
                     // view-object instances
-                    this.items = new LinkedList_1.LinkedList();
+                    this.viewComponents = new LinkedList_1.LinkedList();
                     // this._elementRef = elementRef;
                 }
                 View.prototype.ngAfterViewInit = function () {
@@ -89,7 +89,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     console.log("load: ", recipeID);
                     this.recipe = recipe_1.gRecipes[recipeID];
                     this.recipe.syncChildrenIDB(function (childrenData) {
-                        console.log(childrenData.size());
+                        console.log("list size: ", childrenData.size());
                         _this._syncDisplay(childrenData);
                     });
                 };
@@ -99,35 +99,54 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     var tempIDs = [];
                     // DB 데이터를 추가하거나 업데이트.
                     childrenData.forEach(function (data) {
-                        var item = _this._getItem(data.id);
-                        if (item) {
-                            item.import(data);
-                        }
-                        else {
-                            var index = childrenData.indexOf(data);
-                            _this.addItem(data.type, data, index - 1);
+                        var ref = _this._getItemByID(data.id);
+                        if (ref) {
+                            ref.instance.import(data);
+                            console.log('update view item: ', data.id);
                         }
                         tempIDs.push(data.id);
                     });
-                    // 더 이상 DB에 존재하지 않는 오브젝트는 화면에서 제거.
-                    this.items.forEach(function (item) {
-                        if (tempIDs.indexOf(item.id) == -1) {
-                            console.log("remove:", item.id);
-                            _this.removeItem(item.id);
-                        }
+                    this._addMutilItem(childrenData.firstNode, function () {
+                        // 더 이상 DB에 존재하지 않는 오브젝트는 화면에서 제거.
+                        _this.viewComponents.forEach(function (ref) {
+                            var i = tempIDs.indexOf(ref.instance.id);
+                            if (i == -1) {
+                                _this.removeItem(ref.instance.id);
+                                console.log('remove view item: ', ref.instance.id);
+                            }
+                            else {
+                                tempIDs[i] = null;
+                            }
+                        });
                     });
                 };
-                View.prototype._getItem = function (itemID) {
-                    this.items.forEach(function (item) {
-                        if (itemID == item.id) {
-                            return item;
+                View.prototype._addMutilItem = function (node, complete) {
+                    var _this = this;
+                    var data = node.element;
+                    this.addItem(data, function (item) {
+                        console.log('add view item: ', data.id);
+                        if (!node.next) {
+                            if (complete) {
+                                complete.apply(null, []);
+                            }
+                            return false;
+                        }
+                        _this._addMutilItem(node.next, complete);
+                    });
+                };
+                View.prototype._getItemByID = function (itemID) {
+                    var retv = null;
+                    this.viewComponents.forEach(function (item) {
+                        if (itemID == item.instance.id) {
+                            retv = item;
+                            return false;
                         }
                     });
-                    return null;
+                    return retv;
                 };
                 // 이미 화면에 뿌려져 있는 뷰-아이템인가?
                 View.prototype._alreadyDisplayd = function (itemID) {
-                    if (this._getItem(itemID)) {
+                    if (this._getItemByID(itemID)) {
                         return true;
                     }
                     return false;
@@ -140,52 +159,73 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     // });
                     // this.addItem(ViewEmptyMsg);
                 };
+                View.prototype._createItemData = function (type, index) {
+                    return {
+                        id: this.newID(),
+                        index: index ? index : 0,
+                        type: type,
+                        parent: this.recipe.id,
+                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                    };
+                };
+                View.prototype.addNewItem = function (type, complete) {
+                    // 삽입될 위치 인덱스값. 목록의 마지막에 추가.
+                    var index = this.viewComponents.size();
+                    var data = this._createItemData(type);
+                    this.addItem(data, complete);
+                };
                 // 새 뷰-오브젝트 아이템을 추가.
-                View.prototype.addItem = function (type, data, headIndex) {
+                // index - 아이템을 append할 위치값
+                View.prototype.addItem = function (data, complete) {
                     var _this = this;
-                    var target = this.baseline, component = DEF_VIEW_ITEM[type], nextIndex = 0;
+                    // 해당 타겟의 아래에 아이템을 추가.
+                    // 'baseline'은 최상단에 숨겨놓은 엘리먼트.
+                    // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
+                    var target = this.baseline;
+                    var component = DEF_VIEW_ITEM[data.type];
+                    var nextIndex = 0;
+                    // 이미 뷰에 존재한다면
+                    if (this._alreadyDisplayd(data.id)) {
+                        console.log("alreayDisplayed");
+                        if (complete) {
+                            complete.apply(null, []);
+                        }
+                        return false;
+                    }
+                    if (data.index) {
+                        var tempRef = this.viewComponents.elementAtIndex(data.index - 1);
+                        if (tempRef) {
+                            target = tempRef.instance;
+                        }
+                    }
+                    console.log(target);
                     this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
                         var item = ref.instance;
-                        item.oid = data.id;
-                        if (!_this.items.isEmpty()) {
-                            if (headIndex) {
-                                if (_this.items.elementAtIndex(headIndex)) {
-                                    target = _this.items.elementAtIndex(headIndex);
-                                }
-                            }
-                            else {
-                                target = _this.items.last();
-                            }
-                            nextIndex = _this.items.indexOf(target);
-                        }
-                        if (!data) {
-                            data = {
-                                id: _this.newID(),
-                                index: nextIndex,
-                                type: type,
-                                parent: _this.recipe.id,
-                                updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
-                            };
-                        }
+                        item.viewid = data.id;
                         item.import(data);
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
                         // if (headIndex) {
                         //     this._sortIndex(this.items);
                         // }
                         item.syncIDB();
-                        _this.items.add(item);
+                        _this.viewComponents.add(ref);
+                        if (complete) {
+                            complete.apply(null, [ref]);
+                        }
                     });
+                    return true;
                 };
                 View.prototype.removeItem = function (itemID) {
-                    var item = this._getItem(itemID);
-                    console.log("item: ", item);
+                    var componentRef = this._getItemByID(itemID);
                     if (itemID) {
-                        $('#view-content [oid=' + itemID + ']').remove();
-                        this.items.remove(item);
+                        componentRef.dispose();
+                        this.viewComponents.remove(componentRef);
                     }
                     else {
-                        $('#view-content baseline').sibling().remove();
-                        this.items.clear();
+                        this.viewComponents.forEach(function (ref) {
+                            ref.dispose();
+                        });
+                        this.viewComponents.clear();
                     }
                 };
                 View.prototype.newID = function () {

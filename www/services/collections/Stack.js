@@ -18,7 +18,7 @@ System.register(["./LinkedList"], function(exports_1, context_1) {
                  * @constructor
                  */
                 function Stack() {
-                    this.list = new LinkedList_1.default();
+                    this.list = new LinkedList_1.LinkedList();
                 }
                 /**
                  * Pushes an item onto the top of this stack.

@@ -10,7 +10,7 @@ export class ViewObject {
     protected _visibility: boolean = false;
     protected _originDisplay: string;
     protected _rendering: boolean = true;
-    protected _oid: string;
+    protected _viewid: string;
 
     @Input() id: string;
     public data: any;
@@ -131,12 +131,12 @@ export class ViewObject {
         }
     }
 
-    get oid(): string {
-        return this._oid;
+    get viewid(): string {
+        return this._viewid;
     }
 
-    set oid(id: string) {
-        this._element.setAttribute('oid', id);
-        this._oid = id;
+    set viewid(id: string) {
+        this._element.setAttribute('viewid', id);
+        this._viewid = id;
     }
 }

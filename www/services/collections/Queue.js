@@ -18,7 +18,7 @@ System.register(["./LinkedList"], function(exports_1, context_1) {
                  * @constructor
                  */
                 function Queue() {
-                    this.list = new LinkedList_1.default();
+                    this.list = new LinkedList_1.LinkedList();
                 }
                 /**
                  * Inserts the specified element into the end of this queue.

@@ -144,13 +144,13 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     enumerable: true,
                     configurable: true
                 });
-                Object.defineProperty(ViewObject.prototype, "oid", {
+                Object.defineProperty(ViewObject.prototype, "viewid", {
                     get: function () {
-                        return this._oid;
+                        return this._viewid;
                     },
                     set: function (id) {
-                        this._element.setAttribute('oid', id);
-                        this._oid = id;
+                        this._element.setAttribute('viewid', id);
+                        this._viewid = id;
                     },
                     enumerable: true,
                     configurable: true

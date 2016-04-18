@@ -11,7 +11,6 @@ export {default as BSTree} from "./BSTree";
 export {default as Dictionary} from "./Dictionary";
 export {default as Heap} from "./Heap";
 export {default as LinkedDictionary} from "./LinkedDictionary";
-export {default as LinkedList} from "./LinkedList";
 export {default as MultiDictionary} from "./MultiDictionary";
 export {default as Queue} from "./Queue";
 export {default as PriorityQueue} from "./PriorityQueue";

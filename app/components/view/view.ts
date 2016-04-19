@@ -77,61 +77,43 @@ export class View extends ViewObject {
         this.active();
     }
 
-    public load(recipeID: string) {
+    public load(recipeID: string): boolean {
         if (!gRecipes[recipeID]) {
-            // ...code here
+            console.log("Not exsists recipe data.");
+            return false;
         }
-        console.log("load: ", recipeID);
+        
         this.recipe = gRecipes[recipeID];
         this.recipe.syncChildrenIDB( (childrenData: LinkedList<IRecipeItem>) => {
-            console.log("list size: ", childrenData.size());
+            console.log("load: ", recipeID, "size: ", childrenData.size());
             this._syncDisplay(childrenData);
         });
+        return true;
     }
     
     // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
     private _syncDisplay(childrenData: LinkedList<IRecipeItem>) {
-        let tempIDs: Array<string> = [];
-
-        // DB 데이터를 추가하거나 업데이트.
+        let dbIDList: Array<string> = [];
         childrenData.forEach( (data: IRecipeItem) => {
-            let ref: ComponentRef = this._getItemByID(data.id);
-            if (ref) {
-                ref.instance.import(data);
-                console.log('update view item: ', data.id);
-            }
-            tempIDs.push(data.id);
+            dbIDList.push(data.id);
         });
         
-        this._addMutilItem(childrenData.firstNode, () => {
-            // 더 이상 DB에 존재하지 않는 오브젝트는 화면에서 제거.
+        // DB에 없는 컴포넌트는 화면에서 제거.
+        if (!this.viewComponents.isEmpty()) {
             this.viewComponents.forEach( (ref: ComponentRef) => {
-                let i: number = tempIDs.indexOf(ref.instance.id);
-                if (i == -1) {
-                    this.removeItem(ref.instance.id);
-                    console.log('remove view item: ', ref.instance.id);
-                } else {
-                    tempIDs[i] = null;
+                if (dbIDList.indexOf(ref.instance.id) == -1) {
+                    this.removeViewComponent(ref.instance.id);
                 }
             });
+        }
+        
+        // 화면에 없는 컴포넌트 추가(랜더링)하기.
+        this.addViewComponentByNode(childrenData.firstNode, () => {
+            // ...code here
         });
     }
     
-    private _addMutilItem(node: ILinkedListNode<IRecipeItem>, complete?: Function) {
-        let data = node.element;
-        this.addItem(data, (item: RecipeItem) => {
-            console.log('add view item: ', data.id);
-            if (!node.next) {
-                if (complete) {
-                    complete.apply(null, []);
-                }
-                return false;
-            }
-            this._addMutilItem(node.next, complete);
-        });
-    }
-
-    private _getItemByID(itemID: string): ComponentRef {
+    private _getViewComponentByID(itemID: string): ComponentRef {
         let retv: ComponentRef = null;
         this.viewComponents.forEach( (item: ComponentRef) => {
             if (itemID == item.instance.id) {
@@ -144,7 +126,7 @@ export class View extends ViewObject {
 
     // 이미 화면에 뿌려져 있는 뷰-아이템인가?
     private _alreadyDisplayd(itemID: string): boolean {
-        if (this._getItemByID(itemID)) {
+        if (this._getViewComponentByID(itemID)) {
             return true;
         }
         return false;
@@ -158,7 +140,7 @@ export class View extends ViewObject {
         // this.storage.forEach( (data) => {
         //
         // });
-        // this.addItem(ViewEmptyMsg);
+        // this.addViewComponent(ViewEmptyMsg);
     }
     
     private _createItemData(type: string, index?: number): IRecipeItem {
@@ -171,43 +153,45 @@ export class View extends ViewObject {
         };
     }
     
-    public addNewItem(type: string, complete?: Function) {
+    // DB에 없는 새 컴포넌트 아이템을 생성.
+    public createViewComponent(type: string, complete?: Function) {
         // 삽입될 위치 인덱스값. 목록의 마지막에 추가.
         let index: number = this.viewComponents.size();
         let data = this._createItemData(type);
-        this.addItem(data, complete);
+        this.addViewComponent(data, complete);
     }
 
     // 새 뷰-오브젝트 아이템을 추가.
     // index - 아이템을 append할 위치값
-    public addItem(data: IRecipeItem, complete?: Function): boolean {
-        // 해당 타겟의 아래에 아이템을 추가.
-        // 'baseline'은 최상단에 숨겨놓은 엘리먼트.
+    public addViewComponent(data: IRecipeItem, complete?: Function): boolean {
+        // 해당 타겟의 아래에 컴포넌트를 추가. ('baseline'은 최상단에 숨겨놓은 엘리먼트)
         // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
         let target: any = this.baseline;
-        let component: any = DEF_VIEW_ITEM[data.type];
-        let nextIndex: number = 0;
+        let component: any = viewComponentObject(data.type);
         
-        // 이미 뷰에 존재한다면
-        if (this._alreadyDisplayd(data.id)) {
-            console.log("alreayDisplayed");
+        // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
+        let componentRef: ComponentRef = this._getViewComponentByID(data.id);
+        if (componentRef) {
+            console.log("already displayed: ", data.id);
+            componentRef.instance.import(data);
             if (complete) {
-                complete.apply(null, []);
+                complete.apply(null, [componentRef]);
             }
-            return false;
+            return true;
         }
         
+        // 삽입할 위치 선정.
         if (data.index) {
-            let tempRef = this.viewComponents.elementAtIndex(data.index - 1);
-            if (tempRef) {
-                target = tempRef.instance;
+            let temp = this.viewComponents.elementAtIndex(data.index - 1);
+            if (temp) {
+                target = temp.instance;
             }
         }
-        
-        console.log(target);
 
-        this._dcl.loadNextToLocation(component, target.elementRef).then( (ref: ComponentRef) => {
-            let item = ref.instance;
+        // 화면에 랭더링.
+        this._dcl.loadNextToLocation(component, target.elementRef).then( (cref: ComponentRef) => {
+            console.log("add new component to display: ", data.id);
+            let item: RecipeItem = cref.instance;
             item.viewid = data.id;
             item.import(data);
             
@@ -217,25 +201,45 @@ export class View extends ViewObject {
             // }
 
             item.syncIDB();
-            this.viewComponents.add(ref);
+            this.viewComponents.add(cref);
             if (complete) {
-                complete.apply(null, [ref]);
+                complete.apply(null, [cref]);
             }
         });
-        
         return true;
     }
-
-    public removeItem(itemID?: string) {
-        let componentRef = this._getItemByID(itemID);
-        if (itemID) {
-            componentRef.dispose();
-            this.viewComponents.remove(componentRef);
+    
+    // LinkedList를 이용해 컴포넌트 추가 작업을 동기(sync)로 수행한다.
+    // -> DCL을 통한 컴포넌트 랜더링 작업은 비동기로 수행된다.
+    public addViewComponentByNode(node: ILinkedListNode<IRecipeItem>, complete?: Function) {
+        let data = node.element;
+        this.addViewComponent(data, (item: RecipeItem) => {
+            if (!node.next) {
+                if (complete) {
+                    complete.apply(null, []);
+                }
+                return false;
+            }
+            this.addViewComponentByNode(node.next, complete);
+        });
+    }
+    
+    public removeViewComponent(instanceID?: string) {
+        let componentRef = this._getViewComponentByID(instanceID);
+        this._removeViewComponentByRef(componentRef);
+    }
+    
+    public _removeViewComponentByRef(cref?: ComponentRef) {
+        if (cref) {
+            this.viewComponents.remove(cref);
+            cref.dispose();
+            console.log('remove a component from display: ', cref.instance.id);
         } else {
-            this.viewComponents.forEach( (ref: ComponentRef) => {
-                ref.dispose();
-            });
             this.viewComponents.clear();
+            this.viewComponents.forEach( (r: ComponentRef) => {
+                r.dispose();
+            });
+            console.log('remove all component from display, total => ', this.viewComponents.size());
         }
     }
 
@@ -264,7 +268,15 @@ export class View extends ViewObject {
     }
 }
 
-export const DEF_VIEW_ITEM = {
-    'empty-msg': ViewEmptyMsg,
-    'header': ViewHeader
-};
+export function viewComponentObject(type: string): any {
+    let component: any;
+    switch(type) {
+        case 'empty-msg':
+            component = ViewEmptyMsg;
+            break;
+        case 'header':
+            component = ViewHeader;
+            break;
+    }
+    return component;
+}

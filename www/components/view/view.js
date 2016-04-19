@@ -16,7 +16,20 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, util_1, platform_1, LinkedList_1, recipe_1, config_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
-    var View, DEF_VIEW_ITEM;
+    var View;
+    function viewComponentObject(type) {
+        var component;
+        switch (type) {
+            case 'empty-msg':
+                component = empty_msg_1.ViewEmptyMsg;
+                break;
+            case 'header':
+                component = header_1.ViewHeader;
+                break;
+        }
+        return component;
+    }
+    exports_1("viewComponentObject", viewComponentObject);
     return {
         setters:[
             function (core_1_1) {
@@ -85,56 +98,37 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 View.prototype.load = function (recipeID) {
                     var _this = this;
                     if (!recipe_1.gRecipes[recipeID]) {
+                        console.log("Not exsists recipe data.");
+                        return false;
                     }
-                    console.log("load: ", recipeID);
                     this.recipe = recipe_1.gRecipes[recipeID];
                     this.recipe.syncChildrenIDB(function (childrenData) {
-                        console.log("list size: ", childrenData.size());
+                        console.log("load: ", recipeID, "size: ", childrenData.size());
                         _this._syncDisplay(childrenData);
                     });
+                    return true;
                 };
                 // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
                 View.prototype._syncDisplay = function (childrenData) {
                     var _this = this;
-                    var tempIDs = [];
-                    // DB 데이터를 추가하거나 업데이트.
+                    var dbIDList = [];
                     childrenData.forEach(function (data) {
-                        var ref = _this._getItemByID(data.id);
-                        if (ref) {
-                            ref.instance.import(data);
-                            console.log('update view item: ', data.id);
-                        }
-                        tempIDs.push(data.id);
+                        dbIDList.push(data.id);
                     });
-                    this._addMutilItem(childrenData.firstNode, function () {
-                        // 더 이상 DB에 존재하지 않는 오브젝트는 화면에서 제거.
-                        _this.viewComponents.forEach(function (ref) {
-                            var i = tempIDs.indexOf(ref.instance.id);
-                            if (i == -1) {
-                                _this.removeItem(ref.instance.id);
-                                console.log('remove view item: ', ref.instance.id);
-                            }
-                            else {
-                                tempIDs[i] = null;
+                    // DB에 없는 컴포넌트는 화면에서 제거.
+                    if (!this.viewComponents.isEmpty()) {
+                        this.viewComponents.forEach(function (ref) {
+                            if (dbIDList.indexOf(ref.instance.id) == -1) {
+                                _this.removeViewComponent(ref.instance.id);
                             }
                         });
+                    }
+                    // 화면에 없는 컴포넌트 추가(랜더링)하기.
+                    this.addViewComponentByNode(childrenData.firstNode, function () {
+                        // ...code here
                     });
                 };
-                View.prototype._addMutilItem = function (node, complete) {
-                    var _this = this;
-                    var data = node.element;
-                    this.addItem(data, function (item) {
-                        console.log('add view item: ', data.id);
-                        if (!node.next) {
-                            if (complete) {
-                                complete.apply(null, []);
-                            }
-                            return false;
-                        }
-                        _this._addMutilItem(node.next, complete);
-                    });
-                };
-                View.prototype._getItemByID = function (itemID) {
+                View.prototype._getViewComponentByID = function (itemID) {
                     var retv = null;
                     this.viewComponents.forEach(function (item) {
                         if (itemID == item.instance.id) {
@@ -146,7 +140,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 };
                 // 이미 화면에 뿌려져 있는 뷰-아이템인가?
                 View.prototype._alreadyDisplayd = function (itemID) {
-                    if (this._getItemByID(itemID)) {
+                    if (this._getViewComponentByID(itemID)) {
                         return true;
                     }
                     return false;
@@ -157,7 +151,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     // this.storage.forEach( (data) => {
                     //
                     // });
-                    // this.addItem(ViewEmptyMsg);
+                    // this.addViewComponent(ViewEmptyMsg);
                 };
                 View.prototype._createItemData = function (type, index) {
                     return {
@@ -168,39 +162,42 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
                     };
                 };
-                View.prototype.addNewItem = function (type, complete) {
+                // DB에 없는 새 컴포넌트 아이템을 생성.
+                View.prototype.createViewComponent = function (type, complete) {
                     // 삽입될 위치 인덱스값. 목록의 마지막에 추가.
                     var index = this.viewComponents.size();
                     var data = this._createItemData(type);
-                    this.addItem(data, complete);
+                    this.addViewComponent(data, complete);
                 };
                 // 새 뷰-오브젝트 아이템을 추가.
                 // index - 아이템을 append할 위치값
-                View.prototype.addItem = function (data, complete) {
+                View.prototype.addViewComponent = function (data, complete) {
                     var _this = this;
-                    // 해당 타겟의 아래에 아이템을 추가.
-                    // 'baseline'은 최상단에 숨겨놓은 엘리먼트.
+                    // 해당 타겟의 아래에 컴포넌트를 추가. ('baseline'은 최상단에 숨겨놓은 엘리먼트)
                     // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
                     var target = this.baseline;
-                    var component = DEF_VIEW_ITEM[data.type];
-                    var nextIndex = 0;
-                    // 이미 뷰에 존재한다면
-                    if (this._alreadyDisplayd(data.id)) {
-                        console.log("alreayDisplayed");
+                    var component = viewComponentObject(data.type);
+                    // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
+                    var componentRef = this._getViewComponentByID(data.id);
+                    if (componentRef) {
+                        console.log("already displayed: ", data.id);
+                        componentRef.instance.import(data);
                         if (complete) {
-                            complete.apply(null, []);
+                            complete.apply(null, [componentRef]);
                         }
-                        return false;
+                        return true;
                     }
+                    // 삽입할 위치 선정.
                     if (data.index) {
-                        var tempRef = this.viewComponents.elementAtIndex(data.index - 1);
-                        if (tempRef) {
-                            target = tempRef.instance;
+                        var temp = this.viewComponents.elementAtIndex(data.index - 1);
+                        if (temp) {
+                            target = temp.instance;
                         }
                     }
-                    console.log(target);
-                    this._dcl.loadNextToLocation(component, target.elementRef).then(function (ref) {
-                        var item = ref.instance;
+                    // 화면에 랭더링.
+                    this._dcl.loadNextToLocation(component, target.elementRef).then(function (cref) {
+                        console.log("add new component to display: ", data.id);
+                        var item = cref.instance;
                         item.viewid = data.id;
                         item.import(data);
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
@@ -208,24 +205,44 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         //     this._sortIndex(this.items);
                         // }
                         item.syncIDB();
-                        _this.viewComponents.add(ref);
+                        _this.viewComponents.add(cref);
                         if (complete) {
-                            complete.apply(null, [ref]);
+                            complete.apply(null, [cref]);
                         }
                     });
                     return true;
                 };
-                View.prototype.removeItem = function (itemID) {
-                    var componentRef = this._getItemByID(itemID);
-                    if (itemID) {
-                        componentRef.dispose();
-                        this.viewComponents.remove(componentRef);
+                // LinkedList를 이용해 컴포넌트 추가 작업을 동기(sync)로 수행한다.
+                // -> DCL을 통한 컴포넌트 랜더링 작업은 비동기로 수행된다.
+                View.prototype.addViewComponentByNode = function (node, complete) {
+                    var _this = this;
+                    var data = node.element;
+                    this.addViewComponent(data, function (item) {
+                        if (!node.next) {
+                            if (complete) {
+                                complete.apply(null, []);
+                            }
+                            return false;
+                        }
+                        _this.addViewComponentByNode(node.next, complete);
+                    });
+                };
+                View.prototype.removeViewComponent = function (instanceID) {
+                    var componentRef = this._getViewComponentByID(instanceID);
+                    this._removeViewComponentByRef(componentRef);
+                };
+                View.prototype._removeViewComponentByRef = function (cref) {
+                    if (cref) {
+                        this.viewComponents.remove(cref);
+                        cref.dispose();
+                        console.log('remove a component from display: ', cref.instance.id);
                     }
                     else {
-                        this.viewComponents.forEach(function (ref) {
-                            ref.dispose();
-                        });
                         this.viewComponents.clear();
+                        this.viewComponents.forEach(function (r) {
+                            r.dispose();
+                        });
+                        console.log('remove all component from display, total => ', this.viewComponents.size());
                     }
                 };
                 View.prototype.newID = function () {
@@ -286,10 +303,6 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 return View;
             }(view_object_1.ViewObject));
             exports_1("View", View);
-            exports_1("DEF_VIEW_ITEM", DEF_VIEW_ITEM = {
-                'empty-msg': empty_msg_1.ViewEmptyMsg,
-                'header': header_1.ViewHeader
-            });
         }
     }
 });

@@ -32,7 +32,7 @@
         <button popup-menu name="publish" title="publish"></button>
         <button popup-menu name="share" title="share"></button>
         <button popup-menu name="download" title="download"></button>
-        <button popup-menu name="delete" title="delete"></button>
+        <button popup-menu name="remove" title="remove" (click)="remove();"></button>
     </panel>
 </popup-menu>
 <popup-menu flip-up id="all-template" >
@@ -41,7 +41,7 @@
         <button popup-menu name="foodstuffs" title="foodstuffs"></button>
         <button popup-menu name="cooking-step" title="cooking step"></button>
         <button popup-menu name="picture" title="picture"></button>
-        <button popup-menu name="header" title="header" (click)="createViewComponent('header')"></button>
+        <button popup-menu name="header" title="header" (click)="createViewComponent('header');"></button>
         <button popup-menu name="paragraph" title="paragraph"></button>
     </panel>
 </popup-menu>

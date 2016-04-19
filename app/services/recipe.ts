@@ -1,9 +1,11 @@
 import {Injectable, ElementRef} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
-import {ViewObject} from '../directives/view-object';
-import {RecipeDB, IRecipeDBObject} from './recipedb';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
+import {ViewObject} from '../directives/view-object';
+import {DBObject} from './db';
+import {RecipeDB} from './recipedb';
+
 
 declare var $: any;
 export var gRecipes: Object = {};
@@ -13,7 +15,8 @@ export interface IRecipe {
     owner: string;
     name: string;
     updated: number;
-    sources?: any[];
+    removed: boolean;
+    source?: any[];
 }
 
 export interface IRecipeItem {
@@ -22,7 +25,8 @@ export interface IRecipeItem {
     parent: string;
     type: string;
     updated: number;
-    sources?: any[];
+    removed: boolean;
+    source?: any[];
 }
 
 // You have to set userid first.
@@ -52,9 +56,10 @@ export class RecipeService {
     public create (data?: IRecipe): Recipe {
         if (!data) {
             data = {
-                id: this.newID(),
+                id: this._userid + '-r' + Util.uniqID(Config.now()),
                 owner: this._userid,
                 name: 'untitled',
+                removed: false,
                 updated: Util.toUnixTimestamp(Config.now())
             };
         }
@@ -67,13 +72,6 @@ export class RecipeService {
         gRecipes[recipe.id] = recipe;
     }
 
-    // 새 레시피 아이디를 반환.
-    private newID(): string {
-        let base = new Date('2015-09-04 00:00:00').getTime();
-        let current = Config.now();
-        return this._userid + '-r' + (current - base);
-    }
-
     get userid(): string {
         return this._userid;
     }
@@ -83,7 +81,7 @@ export class RecipeService {
     }
 }
 
-export class Recipe implements IRecipe, IRecipeDBObject {
+export class Recipe implements IRecipe, DBObject {
     private _db: RecipeDB;
     private _children: LinkedList<IRecipeItem> = new LinkedList<IRecipeItem>();
 
@@ -91,16 +89,17 @@ export class Recipe implements IRecipe, IRecipeDBObject {
     public owner: string;
     public name: string;
     public updated: number;
-    public sources: any[];
+    public removed: boolean = false;
+    public source: any[];
 
-    constructor (recipeid?: string) {
-        this.id = recipeid;
+    constructor (recipeID?: string) {
+        this.id = recipeID;
         this._db = new RecipeDB();
         this._db.init();
     }
 
-    public import (data: IRecipe) {
-        $.extend(this, data);
+    public import (data: IRecipe): IRecipe {
+        return $.extend(this, data);
     }
 
     public export (): IRecipe {
@@ -109,7 +108,8 @@ export class Recipe implements IRecipe, IRecipeDBObject {
             owner: this.owner,
             name: this.name,
             updated: this.updated,
-            sources: this.sources
+            removed: this.removed,
+            source: this.source
         };
     }
 
@@ -124,12 +124,6 @@ export class Recipe implements IRecipe, IRecipeDBObject {
     }
 
     public syncChildrenIDB(complete?: Function) {
-        // this._db.open().then( () => {
-        //     let store = this._db.table("recipe_items");
-        //
-        //     store.get()
-        // });
-
         this._db.open().then( () => {
             let store = this._db.table("recipe_items");
             if (this.children.size() <= 0) {
@@ -139,17 +133,29 @@ export class Recipe implements IRecipe, IRecipeDBObject {
                     complete.apply(null, [this.children]);
                 });
             } else {
-                // let dupList: Object = {};
-                // store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
-                //     if (this.children.indexOf(item) == -1) {
-                //         dupList[item.id] = item;
-                //     } else {
-                //
-                //     }
-                // });
                 complete.apply(null, [this.children]);
             }
         });
+    }
+    
+    // 새로운 자식 아이템을 생성한다.
+    public createChild(type?: string): IRecipeItem {
+        return {
+            id: this.id + '-i' + Util.uniqID(Config.now()),
+            index: 0,
+            type: type,
+            parent: this.id,
+            removed: false,
+            updated: Util.toUnixTimestamp(Config.now())
+        };
+    }
+    
+    public addChild(data: IRecipeItem, index?: number) {
+        this.children.add(data, index);
+    }
+    
+    public remove() {
+        this.removed = true;
     }
 
     get children(): LinkedList<IRecipeItem> {
@@ -161,7 +167,7 @@ export class Recipe implements IRecipe, IRecipeDBObject {
     }
 }
 
-export class RecipeItem extends ViewObject implements IRecipeItem, IRecipeDBObject {
+export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
     private _db: RecipeDB;
 
     public id: string;
@@ -169,6 +175,7 @@ export class RecipeItem extends ViewObject implements IRecipeItem, IRecipeDBObje
     public type: string;
     public parent: string;
     public updated: number;
+    public removed: boolean = false;
     public sources: any[];
 
     constructor (elementRef: ElementRef) {
@@ -177,8 +184,8 @@ export class RecipeItem extends ViewObject implements IRecipeItem, IRecipeDBObje
         this._db.init();
     }
 
-    public import (data: IRecipeItem) {
-        $.extend(this, data);
+    public import (data: IRecipeItem): IRecipeItem {
+        return $.extend(this, data);
     }
 
     public export () {
@@ -198,5 +205,9 @@ export class RecipeItem extends ViewObject implements IRecipeItem, IRecipeDBObje
                 this._db.close();
             });
         });
+    }
+    
+    public remove() {
+        this.removed = true;
     }
 }

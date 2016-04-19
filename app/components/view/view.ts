@@ -131,33 +131,11 @@ export class View extends ViewObject {
         }
         return false;
     }
-
-    // IndexedDB로 부터 자식 아이템들을 모두 읽어 온다.
-    public loadItems() {
-        // this._recipeService.downloadItems(this.recipeID);
-
-
-        // this.storage.forEach( (data) => {
-        //
-        // });
-        // this.addViewComponent(ViewEmptyMsg);
-    }
-    
-    private _createItemData(type: string, index?: number): IRecipeItem {
-        return {
-            id: this.newID(),
-            index: index ? index : 0,
-            type: type,
-            parent: this.recipe.id,
-            updated: Util.toUnixTimestamp(Config.now())
-        };
-    }
     
     // DB에 없는 새 컴포넌트 아이템을 생성.
     public createViewComponent(type: string, complete?: Function) {
-        // 삽입될 위치 인덱스값. 목록의 마지막에 추가.
-        let index: number = this.viewComponents.size();
-        let data = this._createItemData(type);
+        let data = this.recipe.createChild(type);
+        this.recipe.addChild(data);
         this.addViewComponent(data, complete);
     }
 
@@ -229,7 +207,7 @@ export class View extends ViewObject {
         this._removeViewComponentByRef(componentRef);
     }
     
-    public _removeViewComponentByRef(cref?: ComponentRef) {
+    private _removeViewComponentByRef(cref?: ComponentRef) {
         if (cref) {
             this.viewComponents.remove(cref);
             cref.dispose();
@@ -242,11 +220,10 @@ export class View extends ViewObject {
             console.log('remove all component from display, total => ', this.viewComponents.size());
         }
     }
-
-    public newID(): string {
-        let base = new Date('2015-09-04 00:00:00').getTime();
-        let current = Config.now();
-        return this.recipe.id + '-i' + (current - base);
+    
+    // 현재 보고 있는 레시피를 휴지통에 버림.
+    public remove() {
+        this.recipe.remove();
     }
 
     private _sortIndex(items: LinkedList<IRecipeItem>): LinkedList<IRecipeItem> {

@@ -61,6 +61,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     }
                 }
                 Util.lazyApply = lazyApply;
+                function uniqID(timestamp) {
+                    return timestamp.toString(36).toLowerCase();
+                }
+                Util.uniqID = uniqID;
             })(Util = Util || (Util = {}));
             exports_1("Util", Util);
             (function (String) {

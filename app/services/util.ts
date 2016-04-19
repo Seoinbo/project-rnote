@@ -36,6 +36,10 @@ export module Util {
             callback.apply(null, parameter);
         }
     }
+    
+    export function uniqID(timestamp: number): string {
+        return timestamp.toString(36).toLowerCase();
+    }
 }
 
 export module String {

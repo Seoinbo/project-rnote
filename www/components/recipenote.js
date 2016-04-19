@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-window', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_window_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -50,6 +50,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             function (button_1_1) {
                 button_1 = button_1_1;
             },
+            function (popup_window_1_1) {
+                popup_window_1 = popup_window_1_1;
+            },
             function (popup_menu_1_1) {
                 popup_menu_1 = popup_menu_1_1;
             },
@@ -58,10 +61,12 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(_elementRef, _recipeService, _userAccount, _zone) {
+                function Recipenote(_elementRef, _recipeService, _userAccount, _dcl, _injector, _zone) {
                     this._elementRef = _elementRef;
                     this._recipeService = _recipeService;
                     this._userAccount = _userAccount;
+                    this._dcl = _dcl;
+                    this._injector = _injector;
                     this._zone = _zone;
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
@@ -98,6 +103,10 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     else {
                         this.showSidebar();
                     }
+                };
+                // 라벨 선택/수정창 띄우기.
+                Recipenote.prototype.openLabelWindow = function () {
+                    this._dcl.loadAsRoot(popup_window_1.PopupWindow, 'popup-window', this._injector);
                 };
                 Recipenote.prototype.addRecipe = function () {
                     var newRecipe = this._recipeService.create();
@@ -173,7 +182,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             util_1.JSON2Array
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount, core_1.NgZone])
+                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount, core_1.DynamicComponentLoader, core_1.Injector, core_1.NgZone])
                 ], Recipenote);
                 return Recipenote;
             }());

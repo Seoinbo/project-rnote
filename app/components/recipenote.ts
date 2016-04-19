@@ -8,6 +8,8 @@ import {
     HostListener,
     EventEmitter,
     Output,
+    DynamicComponentLoader,
+    Injector,
     NgZone
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
@@ -21,6 +23,7 @@ import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
+import {PopupWindow} from './popup-window/popup-window';
 import {PopupMenu} from './popup-menu/popup-menu';
 import {RecipeService, Recipe, gRecipes} from '../services/recipe';
 
@@ -76,6 +79,8 @@ export class Recipenote {
         private _elementRef: ElementRef,
         private _recipeService: RecipeService,
         private _userAccount: UserAccount,
+        private _dcl: DynamicComponentLoader,
+        private _injector: Injector,
         private _zone: NgZone
     ) {
         this._element = this._elementRef.nativeElement;
@@ -113,6 +118,11 @@ export class Recipenote {
         } else {
             this.showSidebar();
         }
+    }
+    
+    // 라벨 선택/수정창 띄우기.
+    public openLabelWindow() {
+        this._dcl.loadAsRoot(PopupWindow, 'popup-window', this._injector);
     }
 
     public addRecipe() {

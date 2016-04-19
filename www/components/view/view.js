@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/config', '../../directives/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, recipe_1, config_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View;
     function viewComponentObject(type) {
         var component;
@@ -46,9 +46,6 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
-            },
-            function (config_1_1) {
-                config_1 = config_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -145,28 +142,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     }
                     return false;
                 };
-                // IndexedDB로 부터 자식 아이템들을 모두 읽어 온다.
-                View.prototype.loadItems = function () {
-                    // this._recipeService.downloadItems(this.recipeID);
-                    // this.storage.forEach( (data) => {
-                    //
-                    // });
-                    // this.addViewComponent(ViewEmptyMsg);
-                };
-                View.prototype._createItemData = function (type, index) {
-                    return {
-                        id: this.newID(),
-                        index: index ? index : 0,
-                        type: type,
-                        parent: this.recipe.id,
-                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
-                    };
-                };
                 // DB에 없는 새 컴포넌트 아이템을 생성.
                 View.prototype.createViewComponent = function (type, complete) {
-                    // 삽입될 위치 인덱스값. 목록의 마지막에 추가.
-                    var index = this.viewComponents.size();
-                    var data = this._createItemData(type);
+                    var data = this.recipe.createChild(type);
+                    this.recipe.addChild(data);
                     this.addViewComponent(data, complete);
                 };
                 // 새 뷰-오브젝트 아이템을 추가.
@@ -245,10 +224,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         console.log('remove all component from display, total => ', this.viewComponents.size());
                     }
                 };
-                View.prototype.newID = function () {
-                    var base = new Date('2015-09-04 00:00:00').getTime();
-                    var current = config_1.Config.now();
-                    return this.recipe.id + '-i' + (current - base);
+                // 현재 보고 있는 레시피를 휴지통에 버림.
+                View.prototype.remove = function () {
+                    this.recipe.remove();
                 };
                 View.prototype._sortIndex = function (items) {
                     if (items) {

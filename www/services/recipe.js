@@ -1,4 +1,4 @@
-System.register(['angular2/core', './util', './config', '../directives/view-object', './recipedb', './collections/LinkedList'], function(exports_1, context_1) {
+System.register(['angular2/core', './util', './config', './collections/LinkedList', '../directives/view-object', './recipedb'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, config_1, view_object_1, recipedb_1, LinkedList_1;
+    var core_1, util_1, config_1, LinkedList_1, view_object_1, recipedb_1;
     var gRecipes, RecipeService, Recipe, RecipeItem;
     return {
         setters:[
@@ -28,14 +28,14 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
             function (config_1_1) {
                 config_1 = config_1_1;
             },
+            function (LinkedList_1_1) {
+                LinkedList_1 = LinkedList_1_1;
+            },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
             },
             function (recipedb_1_1) {
                 recipedb_1 = recipedb_1_1;
-            },
-            function (LinkedList_1_1) {
-                LinkedList_1 = LinkedList_1_1;
             }],
         execute: function() {
             exports_1("gRecipes", gRecipes = {});
@@ -61,9 +61,10 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                 RecipeService.prototype.create = function (data) {
                     if (!data) {
                         data = {
-                            id: this.newID(),
+                            id: this._userid + '-r' + util_1.Util.uniqID(config_1.Config.now()),
                             owner: this._userid,
                             name: 'untitled',
+                            removed: false,
                             updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
                         };
                     }
@@ -73,12 +74,6 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                 };
                 RecipeService.prototype.add = function (recipe) {
                     gRecipes[recipe.id] = recipe;
-                };
-                // 새 레시피 아이디를 반환.
-                RecipeService.prototype.newID = function () {
-                    var base = new Date('2015-09-04 00:00:00').getTime();
-                    var current = config_1.Config.now();
-                    return this._userid + '-r' + (current - base);
                 };
                 Object.defineProperty(RecipeService.prototype, "userid", {
                     get: function () {
@@ -98,14 +93,15 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
             }());
             exports_1("RecipeService", RecipeService);
             Recipe = (function () {
-                function Recipe(recipeid) {
+                function Recipe(recipeID) {
                     this._children = new LinkedList_1.LinkedList();
-                    this.id = recipeid;
+                    this.removed = false;
+                    this.id = recipeID;
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
                 Recipe.prototype.import = function (data) {
-                    $.extend(this, data);
+                    return $.extend(this, data);
                 };
                 Recipe.prototype.export = function () {
                     return {
@@ -113,7 +109,8 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                         owner: this.owner,
                         name: this.name,
                         updated: this.updated,
-                        sources: this.sources
+                        removed: this.removed,
+                        source: this.source
                     };
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
@@ -127,11 +124,6 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                     });
                 };
                 Recipe.prototype.syncChildrenIDB = function (complete) {
-                    // this._db.open().then( () => {
-                    //     let store = this._db.table("recipe_items");
-                    //
-                    //     store.get()
-                    // });
                     var _this = this;
                     this._db.open().then(function () {
                         var store = _this._db.table("recipe_items");
@@ -143,17 +135,26 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                             });
                         }
                         else {
-                            // let dupList: Object = {};
-                            // store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
-                            //     if (this.children.indexOf(item) == -1) {
-                            //         dupList[item.id] = item;
-                            //     } else {
-                            //
-                            //     }
-                            // });
                             complete.apply(null, [_this.children]);
                         }
                     });
+                };
+                // 새로운 자식 아이템을 생성한다.
+                Recipe.prototype.createChild = function (type) {
+                    return {
+                        id: this.id + '-i' + util_1.Util.uniqID(config_1.Config.now()),
+                        index: 0,
+                        type: type,
+                        parent: this.id,
+                        removed: false,
+                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                    };
+                };
+                Recipe.prototype.addChild = function (data, index) {
+                    this.children.add(data, index);
+                };
+                Recipe.prototype.remove = function () {
+                    this.removed = true;
                 };
                 Object.defineProperty(Recipe.prototype, "children", {
                     get: function () {
@@ -172,11 +173,12 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                 __extends(RecipeItem, _super);
                 function RecipeItem(elementRef) {
                     _super.call(this, elementRef);
+                    this.removed = false;
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
                 RecipeItem.prototype.import = function (data) {
-                    $.extend(this, data);
+                    return $.extend(this, data);
                 };
                 RecipeItem.prototype.export = function () {
                     return {
@@ -195,6 +197,9 @@ System.register(['angular2/core', './util', './config', '../directives/view-obje
                             _this._db.close();
                         });
                     });
+                };
+                RecipeItem.prototype.remove = function () {
+                    this.removed = true;
                 };
                 return RecipeItem;
             }(view_object_1.ViewObject));

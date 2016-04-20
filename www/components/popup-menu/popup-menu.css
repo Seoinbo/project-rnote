@@ -1,7 +1,7 @@
 popup-menu {
-  position: absolute;
   z-index: 50;
   visibility: hidden;
+  position: absolute;
   width: auto;
   min-width: 80px;
   min-height: 25px;
@@ -9,18 +9,16 @@ popup-menu {
   perspective: 1300px; }
   popup-menu panel {
     display: block;
-    background-color: #fff; }
+    background-color: #fff;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-style: preserve-3d;
+    transform: rotateX(35deg);
+    transform-origin: 50% 0; }
     popup-menu panel button {
       display: block;
       width: 100%;
       text-align: left; }
-
-popup-menu panel {
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transform-style: preserve-3d;
-  transform: rotateX(35deg);
-  transform-origin: 50% 0; }
 
 popup-menu[flip-up] panel {
   opacity: 0;

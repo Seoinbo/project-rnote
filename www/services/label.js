@@ -35,6 +35,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 function LabelService() {
                     this._db = new labeldb_1.LabelDB();
                     this._db.init();
+                    this._labels = new LinkedList_1.LinkedList();
                 }
                 LabelService.prototype.downloadAll = function (complete) {
                     var _this = this;
@@ -78,10 +79,10 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 });
                 Object.defineProperty(LabelService.prototype, "labels", {
                     get: function () {
-                        return this.labels;
+                        return this._labels;
                     },
                     set: function (labels) {
-                        this.labels = labels;
+                        this._labels = labels;
                     },
                     enumerable: true,
                     configurable: true
@@ -109,8 +110,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         owner: this.owner,
                         name: this.name,
                         updated: this.updated,
-                        removed: this.removed,
-                        recipes: this.recipes
+                        removed: this.removed
                     };
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
@@ -121,6 +121,8 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             console.log("Complete syncIndexdDB() at Label.");
                             _this._db.close();
                         });
+                    }).catch(function (e) {
+                        console.log(e);
                     });
                 };
                 return Label;

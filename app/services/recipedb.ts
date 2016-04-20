@@ -13,9 +13,8 @@ export class RecipeDB extends DB {
         }
         this.version(RecipeDB.VERSION).stores({
             recipes: "id",
-            recipe_items: "id, parent"
+            recipe_items: "id, parent",
+            labels: "id"
         });
-        
-        
     }
 }

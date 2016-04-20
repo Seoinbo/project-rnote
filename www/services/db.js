@@ -32,6 +32,7 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                         src = [src];
                     }
                     var store = this.table(tableName);
+                    console.log(tableName, store);
                     var length = src.length;
                     var count = 0;
                     var res = [];
@@ -56,6 +57,8 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                                     util_1.Util.lazyApply(++count, length, complete, res);
                                 });
                             }
+                        }).catch(function (e) {
+                            console.log(e);
                         });
                     };
                     for (var i in src) {

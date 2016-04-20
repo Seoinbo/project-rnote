@@ -9,6 +9,7 @@ import {
     EventEmitter,
     Output,
     DynamicComponentLoader,
+    ComponentRef,
     Injector,
     NgZone
 } from 'angular2/core';
@@ -23,7 +24,7 @@ import {Sidebar} from './sidebar/sidebar';
 import {Nav, NavTitle} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
-import {PopupWindow} from './popup-window/popup-window';
+import {PopupLabels} from './popup-window/popup-labels/popup-labels';
 import {PopupMenu} from './popup-menu/popup-menu';
 import {RecipeService, Recipe, gRecipes} from '../services/recipe';
 
@@ -74,6 +75,9 @@ export class Recipenote {
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
     private _recipes = gRecipes;
+    
+    // popup-windows <ComponentRef>
+    private _popupCRefList = {};
 
     constructor(
         private _elementRef: ElementRef,
@@ -120,9 +124,24 @@ export class Recipenote {
         }
     }
     
-    // 라벨 선택/수정창 띄우기.
-    public openLabelWindow() {
-        this._dcl.loadAsRoot(PopupWindow, 'popup-window', this._injector);
+    // 팝업 윈도우 열기.
+    public openWindow(type: string) {
+        let component: any;
+        switch (type) {
+            case 'labels':
+                component = PopupLabels;
+                break;
+        }
+        if (this._popupCRefList[type] === undefined) {
+            this._dcl.loadIntoLocation(component, this._elementRef, 'popupWindowHead').then( (cref: ComponentRef) => {
+                this._popupCRefList[type] = cref;
+                window.setTimeout( () => {
+                    cref.instance.open();
+                }, 0);
+            });
+        } else {
+            this._popupCRefList[type].instance.open();
+        }
     }
 
     public addRecipe() {

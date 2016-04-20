@@ -1,4 +1,4 @@
-title[nav] {
+title {
   display: inline-block;
   width: 100%;
   height: 45px;
@@ -10,11 +10,12 @@ title[nav] {
   padding: 10px;
   box-sizing: border-box; }
 
-title[nav][expend=true] {
+title[expend=true] {
   height: 100%;
   white-space: normal; }
 
-button[nav] {
+button {
+  width: 45px;
   line-height: 45px; }
 
 button[name=more] {

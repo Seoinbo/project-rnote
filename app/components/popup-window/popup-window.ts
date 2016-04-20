@@ -1,16 +1,28 @@
-import {Component, ElementRef} from 'angular2/core';
-import {Platform} from '../../services/platform';
+import {Directive, ElementRef} from 'angular2/core';
 import {ViewObject} from '../../directives/view-object';
 
-@Component({
-    selector: 'popup-window',
-    templateUrl: Platform.prependBaseURL('components/popup-window/popup-window.html'),
-    styleUrls: [
-        Platform.prependBaseURL('components/popup-window/popup-window.css')
-    ]
+declare var $: any;
+
+@Directive({
+    selector: 'popup-window'
 })
 export class PopupWindow extends ViewObject {
+    private _bgActivation: boolean = false;
+    private _boxActivation: boolean = false;
+    
     constructor(elementRef: ElementRef) {
         super(elementRef);
+    }
+    
+    public open() {
+        this.show();
+        this._bgActivation = true;
+        this._boxActivation = true;
+    }
+    
+    public close() {
+        this.hide();
+        this._bgActivation = false;
+        this._boxActivation = false;
     }
 }

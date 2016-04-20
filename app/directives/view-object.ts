@@ -100,11 +100,11 @@ export class ViewObject {
      * css display func.
      */
     public render(): void {
-        this._rendering = true;
+        this.rendering = true;
     }
 
     public remove(): void {
-        this._rendering = false;
+        this.rendering = false;
     }
 
     public toggleRendering(): void {
@@ -122,7 +122,7 @@ export class ViewObject {
     set rendering(value: boolean) {
         this._rendering = value;
         if (!this._originDisplay) {
-            this._originDisplay = this._element.style.display || 'block';
+            this._originDisplay = window.getComputedStyle(this._element).display || 'block';
         }
         if (this._rendering) {
             this._element.style.display = this._originDisplay;

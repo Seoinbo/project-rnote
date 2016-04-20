@@ -27,6 +27,7 @@ export class DB extends Dexie {
         }
         
         let store = this.table(tableName);
+        console.log(tableName, store);
         let length: number = src.length;
         let count: number = 0;
         let res: Array<any> = [];
@@ -49,6 +50,8 @@ export class DB extends Dexie {
                         Util.lazyApply(++count, length, complete, res);
                     });
                 }
+            }).catch( (e) => {
+                console.log(e);
             });
         }
     }

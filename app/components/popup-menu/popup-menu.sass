@@ -1,9 +1,9 @@
 @import '../common'
 
 popup-menu
-    position: absolute
     z-index: 50
     visibility: hidden
+    position: absolute
     width: auto
     min-width: 80px
     min-height: 25px
@@ -12,19 +12,16 @@ popup-menu
     panel
         display: block
         background-color: #fff
-        button
-            display: block
-            width: 100%
-            text-align: left
-
-popup-menu
-    panel
         opacity: 0
         transition: $transition_default
         transform-style: preserve-3d
         transform: rotateX(35deg)
         transform-origin: 50% 0
-
+        button
+            display: block
+            width: 100%
+            text-align: left
+            
 popup-menu[flip-up]
     panel
         opacity: 0

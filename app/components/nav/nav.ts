@@ -42,7 +42,6 @@ export class Nav {
         '[attr.expend]': '_expend'
     }
 })
-
 export class NavTitle {
     protected _element: HTMLElement;
     private _text: string = 'TITLE';

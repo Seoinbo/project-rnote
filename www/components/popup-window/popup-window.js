@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/platform', '../../directives/view-object'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../directives/view-object'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,15 +15,12 @@ System.register(['angular2/core', '../../services/platform', '../../directives/v
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, view_object_1;
+    var core_1, view_object_1;
     var PopupWindow;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (platform_1_1) {
-                platform_1 = platform_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -33,14 +30,22 @@ System.register(['angular2/core', '../../services/platform', '../../directives/v
                 __extends(PopupWindow, _super);
                 function PopupWindow(elementRef) {
                     _super.call(this, elementRef);
+                    this._bgActivation = false;
+                    this._boxActivation = false;
                 }
+                PopupWindow.prototype.open = function () {
+                    this.show();
+                    this._bgActivation = true;
+                    this._boxActivation = true;
+                };
+                PopupWindow.prototype.close = function () {
+                    this.hide();
+                    this._bgActivation = false;
+                    this._boxActivation = false;
+                };
                 PopupWindow = __decorate([
-                    core_1.Component({
-                        selector: 'popup-window',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/popup-window/popup-window.html'),
-                        styleUrls: [
-                            platform_1.Platform.prependBaseURL('components/popup-window/popup-window.css')
-                        ]
+                    core_1.Directive({
+                        selector: 'popup-window'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], PopupWindow);

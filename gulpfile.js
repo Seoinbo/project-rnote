@@ -30,7 +30,6 @@ gulp.task('default', function() {
 gulp.task('watch', function() {
     gulp.watch('app/**/*.sass', ['sass2css']);
     gulp.watch('app/**/*.ts', ['ts2es5']);
-    gulp.watch('app/**/*.js', ['copyjs']);
     gulp.watch('app/**/*.html', ['copyhtml']);
 });
 

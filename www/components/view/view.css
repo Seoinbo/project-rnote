@@ -22,11 +22,6 @@
       flex: 0 0 auto;
       width: 100%;
       height: 100%; }
-      :host #view-inner nav panel {
-        line-height: 45px; }
-        :host #view-inner nav panel button {
-          width: 45px;
-          height: 45px; }
       :host #view-inner nav panel#view-header btn-group {
         width: 180px; }
     :host #view-inner #view-content {

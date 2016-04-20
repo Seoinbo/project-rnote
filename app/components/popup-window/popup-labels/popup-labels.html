@@ -1,0 +1,18 @@
+<div class="bg" [attr.active]="_bgActivation" (click)="close();"></div>
+<div class="box" [attr.active]="_boxActivation">
+    <div class="inner-wrapper">
+        <nav>
+            <panel id="popup-labels-view">
+                <button name="back" title="<<" (click)="close();"></button>
+                <title nav>Lables</title>
+                <button name="add" title="A" (click)="add();"></button>
+                <button name="edit" title="E"></button>
+            </panel>
+        </nav>
+        <div class="content">
+            <ul>
+                <li *ngFor="#labelData of _labelService.labels.toArray()"><input type="checkbox"/><label class="title">my custom item1</label><button remove name="remove" title="X"></button></li>
+            </ul>
+        </div>
+    </div>
+</div>

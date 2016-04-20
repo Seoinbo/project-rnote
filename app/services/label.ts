@@ -21,11 +21,12 @@ export interface ILabel {
 export class LabelService {
     private _userid: string;
     private _db: LabelDB;
-    private _labels: LinkedList<ILabel>;
+    private _labels: LinkedList<Label>;
     
     constructor () {
         this._db = new LabelDB();
         this._db.init();
+        this._labels = new LinkedList<Label>();
     }
 
     public downloadAll (complete?: Function) {
@@ -68,12 +69,12 @@ export class LabelService {
         this._userid = id;
     }
     
-    get labels(): LinkedList<ILabel> {
-        return this.labels;
+    get labels(): LinkedList<Label> {
+        return this._labels;
     }
     
-    set labels(labels: LinkedList<ILabel>) {
-        this.labels = labels;
+    set labels(labels: LinkedList<Label>) {
+        this._labels = labels;
     }
 }
 
@@ -103,8 +104,8 @@ export class Label implements ILabel, DBObject {
             owner: this.owner,
             name: this.name,
             updated: this.updated,
-            removed: this.removed,
-            recipes: this.recipes
+            removed: this.removed
+            // recipes: this.recipes
         };
     }
     
@@ -115,6 +116,8 @@ export class Label implements ILabel, DBObject {
                 console.log("Complete syncIndexdDB() at Label.");
                 this._db.close();
             });
-        });
+        }).catch( (e) => {
+            console.log(e);
+        })
     }
 }

@@ -1,20 +1,44 @@
 :host {
+  z-index: 500;
+  visibility: hidden;
   position: fixed;
   display: flex;
   align-items: center;
-  z-index: 500;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%; }
   :host .bg {
+    z-index: 501;
+    position: fixed;
     display: block;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: #000;
-    opacity: 0.3; }
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+  :host .bg[active=true] {
+    opacity: 0.6; }
   :host .box {
-    background-color: #e5e5e5;
-    min-width: 300px;
-    min-height: 120px;
-    border-radius: 3px; }
+    z-index: 502;
+    margin: 0 auto;
+    width: 95%;
+    max-width: 320px;
+    max-height: 75%;
+    box-sizing: border-box;
+    perspective: 1300px; }
+    :host .box .inner-wrapper {
+      opacity: 0;
+      width: 100%;
+      height: auto;
+      min-height: 120px;
+      box-sizing: border-box;
+      background-color: #e5e5e5;
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform-style: preserve-3d;
+      transform: rotateY(-80deg); }
+  :host .box[active=true] .inner-wrapper {
+    opacity: 1;
+    transform: rotateY(0deg); }

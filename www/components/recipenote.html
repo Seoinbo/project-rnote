@@ -5,7 +5,7 @@
             <button nav name="menu" title="M" (click)="showSidebar();"></button>
             <title nav><!-- here main title--></title>
             <btn-group>
-                <button nav name="sync" title="Y" (click)="openLabelWindow();"></button>
+                <button nav name="sync" title="Y" (click)="openWindow('labels');"></button>
                 <button nav name="search" title="S"></button>
                 <button nav name="cart" title="C"></button>
             </btn-group>
@@ -33,4 +33,4 @@
     </content>
     <div class="sidebar-close-area" [attr.active]="[sidebarActive]" (click)="hideSidebar();"></div>
 </container>
-<popup-window label></popup-window>
+<input type="hidden" #popupWindowHead />

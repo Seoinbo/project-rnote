@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-window', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-labels/popup-labels', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_window_1, popup_menu_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_labels_1, popup_menu_1, recipe_1;
     var Recipenote;
     return {
         setters:[
@@ -50,8 +50,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             function (button_1_1) {
                 button_1 = button_1_1;
             },
-            function (popup_window_1_1) {
-                popup_window_1 = popup_window_1_1;
+            function (popup_labels_1_1) {
+                popup_labels_1 = popup_labels_1_1;
             },
             function (popup_menu_1_1) {
                 popup_menu_1 = popup_menu_1_1;
@@ -71,6 +71,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
                     this._recipes = recipe_1.gRecipes;
+                    // popup-windows <ComponentRef>
+                    this._popupCRefList = {};
                     this._element = this._elementRef.nativeElement;
                     // test-userAccount
                     this._userAccount.user = {
@@ -104,9 +106,26 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         this.showSidebar();
                     }
                 };
-                // 라벨 선택/수정창 띄우기.
-                Recipenote.prototype.openLabelWindow = function () {
-                    this._dcl.loadAsRoot(popup_window_1.PopupWindow, 'popup-window', this._injector);
+                // 팝업 윈도우 열기.
+                Recipenote.prototype.openWindow = function (type) {
+                    var _this = this;
+                    var component;
+                    switch (type) {
+                        case 'labels':
+                            component = popup_labels_1.PopupLabels;
+                            break;
+                    }
+                    if (this._popupCRefList[type] === undefined) {
+                        this._dcl.loadIntoLocation(component, this._elementRef, 'popupWindowHead').then(function (cref) {
+                            _this._popupCRefList[type] = cref;
+                            window.setTimeout(function () {
+                                cref.instance.open();
+                            }, 0);
+                        });
+                    }
+                    else {
+                        this._popupCRefList[type].instance.open();
+                    }
                 };
                 Recipenote.prototype.addRecipe = function () {
                     var newRecipe = this._recipeService.create();

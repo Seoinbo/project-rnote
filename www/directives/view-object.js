@@ -112,10 +112,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                  * css display func.
                  */
                 ViewObject.prototype.render = function () {
-                    this._rendering = true;
+                    this.rendering = true;
                 };
                 ViewObject.prototype.remove = function () {
-                    this._rendering = false;
+                    this.rendering = false;
                 };
                 ViewObject.prototype.toggleRendering = function () {
                     if (this._rendering) {
@@ -132,7 +132,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     set: function (value) {
                         this._rendering = value;
                         if (!this._originDisplay) {
-                            this._originDisplay = this._element.style.display || 'block';
+                            this._originDisplay = window.getComputedStyle(this._element).display || 'block';
                         }
                         if (this._rendering) {
                             this._element.style.display = this._originDisplay;

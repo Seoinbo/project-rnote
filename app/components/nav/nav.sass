@@ -1,6 +1,6 @@
 @import '../common'
 
-title[nav]
+title
     display: inline-block
     width: 100%
     height: $navbar_height
@@ -12,11 +12,12 @@ title[nav]
     padding: 10px
     box-sizing: border-box
 
-title[nav][expend=true]
+title[expend=true]
     height: 100%
     white-space: normal
 
-button[nav]
+button
+    width: $nav_button_width
     line-height: $navbar_height
 
 button[name=more]

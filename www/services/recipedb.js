@@ -26,7 +26,8 @@ System.register(['./db'], function(exports_1, context_1) {
                     }
                     this.version(RecipeDB.VERSION).stores({
                         recipes: "id",
-                        recipe_items: "id, parent"
+                        recipe_items: "id, parent",
+                        labels: "id"
                     });
                 };
                 return RecipeDB;

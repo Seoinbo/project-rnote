@@ -60,11 +60,12 @@ export class RecipeService {
                 owner: this._userid,
                 name: 'untitled',
                 removed: false,
-                updated: Util.toUnixTimestamp(Config.now())
+                updated: 0
             };
         }
         let recipe = new Recipe();
         recipe.import(data);
+        recipe.touch();
         return recipe;
     }
 
@@ -113,6 +114,10 @@ export class Recipe implements IRecipe, DBObject {
         };
     }
 
+    public touch() {
+        this.updated = Util.toUnixTimestamp(Config.now());
+    }
+
     // Sync recipes between memory and IndexedDB(localStorage)
     public syncIDB() {
         this._db.open().then( () => {
@@ -137,23 +142,24 @@ export class Recipe implements IRecipe, DBObject {
             }
         });
     }
-    
+
     // 새로운 자식 아이템을 생성한다.
     public createChild(type?: string): IRecipeItem {
-        return {
+        let child: IRecipeItem = {
             id: this.id + '-i' + Util.uniqID(Config.now()),
             index: 0,
             type: type,
             parent: this.id,
             removed: false,
-            updated: Util.toUnixTimestamp(Config.now())
+            updated: 0
         };
+        return child;
     }
-    
+
     public addChild(data: IRecipeItem, index?: number) {
         this.children.add(data, index);
     }
-    
+
     public remove() {
         this.removed = true;
     }
@@ -198,6 +204,10 @@ export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
         };
     }
 
+    public touch() {
+        this.updated = Util.toUnixTimestamp(Config.now());
+    }
+
     public syncIDB() {
         this._db.open().then( () => {
             this._db.syncIDB("recipe_items", this.export(), () => {
@@ -206,7 +216,7 @@ export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
             });
         });
     }
-    
+
     public remove() {
         this.removed = true;
     }

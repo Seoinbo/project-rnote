@@ -65,11 +65,12 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             owner: this._userid,
                             name: 'untitled',
                             removed: false,
-                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                            updated: 0
                         };
                     }
                     var recipe = new Recipe();
                     recipe.import(data);
+                    recipe.touch();
                     return recipe;
                 };
                 RecipeService.prototype.add = function (recipe) {
@@ -113,6 +114,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         source: this.source
                     };
                 };
+                Recipe.prototype.touch = function () {
+                    this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
+                };
                 // Sync recipes between memory and IndexedDB(localStorage)
                 Recipe.prototype.syncIDB = function () {
                     var _this = this;
@@ -141,14 +145,15 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 };
                 // 새로운 자식 아이템을 생성한다.
                 Recipe.prototype.createChild = function (type) {
-                    return {
+                    var child = {
                         id: this.id + '-i' + util_1.Util.uniqID(config_1.Config.now()),
                         index: 0,
                         type: type,
                         parent: this.id,
                         removed: false,
-                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                        updated: 0
                     };
+                    return child;
                 };
                 Recipe.prototype.addChild = function (data, index) {
                     this.children.add(data, index);
@@ -188,6 +193,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         updated: this.updated,
                         sources: this.sources
                     };
+                };
+                RecipeItem.prototype.touch = function () {
+                    this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
                 };
                 RecipeItem.prototype.syncIDB = function () {
                     var _this = this;

@@ -179,6 +179,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         var item = cref.instance;
                         item.viewid = data.id;
                         item.import(data);
+                        item.touch();
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
                         // if (headIndex) {
                         //     this._sortIndex(this.items);

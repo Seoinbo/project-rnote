@@ -82,7 +82,7 @@ export class View extends ViewObject {
             console.log("Not exsists recipe data.");
             return false;
         }
-        
+
         this.recipe = gRecipes[recipeID];
         this.recipe.syncChildrenIDB( (childrenData: LinkedList<IRecipeItem>) => {
             console.log("load: ", recipeID, "size: ", childrenData.size());
@@ -90,14 +90,14 @@ export class View extends ViewObject {
         });
         return true;
     }
-    
+
     // 화면에 뿌려진 뷰-오브젝트와 IDB데이터를 동기화.
     private _syncDisplay(childrenData: LinkedList<IRecipeItem>) {
         let dbIDList: Array<string> = [];
         childrenData.forEach( (data: IRecipeItem) => {
             dbIDList.push(data.id);
         });
-        
+
         // DB에 없는 컴포넌트는 화면에서 제거.
         if (!this.viewComponents.isEmpty()) {
             this.viewComponents.forEach( (ref: ComponentRef) => {
@@ -106,13 +106,13 @@ export class View extends ViewObject {
                 }
             });
         }
-        
+
         // 화면에 없는 컴포넌트 추가(랜더링)하기.
         this.addViewComponentByNode(childrenData.firstNode, () => {
             // ...code here
         });
     }
-    
+
     private _getViewComponentByID(itemID: string): ComponentRef {
         let retv: ComponentRef = null;
         this.viewComponents.forEach( (item: ComponentRef) => {
@@ -131,7 +131,7 @@ export class View extends ViewObject {
         }
         return false;
     }
-    
+
     // DB에 없는 새 컴포넌트 아이템을 생성.
     public createViewComponent(type: string, complete?: Function) {
         let data = this.recipe.createChild(type);
@@ -146,7 +146,7 @@ export class View extends ViewObject {
         // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
         let target: any = this.baseline;
         let component: any = viewComponentObject(data.type);
-        
+
         // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
         let componentRef: ComponentRef = this._getViewComponentByID(data.id);
         if (componentRef) {
@@ -157,7 +157,7 @@ export class View extends ViewObject {
             }
             return true;
         }
-        
+
         // 삽입할 위치 선정.
         if (data.index) {
             let temp = this.viewComponents.elementAtIndex(data.index - 1);
@@ -172,7 +172,8 @@ export class View extends ViewObject {
             let item: RecipeItem = cref.instance;
             item.viewid = data.id;
             item.import(data);
-            
+            item.touch();
+
             // 중간에 아이템이 추가되면 인덱스 번호 재정렬
             // if (headIndex) {
             //     this._sortIndex(this.items);
@@ -186,7 +187,7 @@ export class View extends ViewObject {
         });
         return true;
     }
-    
+
     // LinkedList를 이용해 컴포넌트 추가 작업을 동기(sync)로 수행한다.
     // -> DCL을 통한 컴포넌트 랜더링 작업은 비동기로 수행된다.
     public addViewComponentByNode(node: ILinkedListNode<IRecipeItem>, complete?: Function) {
@@ -201,12 +202,12 @@ export class View extends ViewObject {
             this.addViewComponentByNode(node.next, complete);
         });
     }
-    
+
     public removeViewComponent(instanceID?: string) {
         let componentRef = this._getViewComponentByID(instanceID);
         this._removeViewComponentByRef(componentRef);
     }
-    
+
     private _removeViewComponentByRef(cref?: ComponentRef) {
         if (cref) {
             this.viewComponents.remove(cref);
@@ -220,7 +221,7 @@ export class View extends ViewObject {
             console.log('remove all component from display, total => ', this.viewComponents.size());
         }
     }
-    
+
     // 현재 보고 있는 레시피를 휴지통에 버림.
     public remove() {
         this.recipe.remove();

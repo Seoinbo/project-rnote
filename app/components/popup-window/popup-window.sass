@@ -27,26 +27,61 @@
         z-index: 502
         margin: 0 auto
         width: 95%
-        max-width: 320px
-        max-height: 75%
+        max-width: $screen_w_4
+        max-height: 280px
+        min-height: 350px
         box-sizing: border-box
         perspective: 1300px
+        transition: $transition_default
         .inner-wrapper
             opacity: 0
             width: 100%
             height: auto
-            min-height: 120px
+            max-width: inherit
+            min-height: inherit
             box-sizing: border-box
             background-color: #e5e5e5
             transition: $transition_default
             transform-style: preserve-3d
             transform: rotateY(-80deg)
-            // transform-origin: 50% 0
+            transition: $transition_default
     .box[active=true]
         .inner-wrapper
             opacity: 1
             transform: rotateY(0deg)
-    
-    nav
-        button
             
+    section.content
+        max-height: 280px - $popup_nav_height
+        transition: $transition_default
+        box-sizing: border-box
+        overflow-y: auto
+        -webkit-overflow-scrolling: touch
+    section.bottom
+        height: 10px
+
+// media query for height of popup-window.
+@media screen and (min-height: $screen_h_1) and (max-height: $screen_h_2)
+    .box
+        max-height: $screen_h_1 - 100
+    .box section.content
+        max-height: $screen_h_1 - 100 - $popup_nav_height
+@media screen and (min-height: $screen_h_2) and (max-height: $screen_h_3)
+    .box
+        max-height: $screen_h_2 - 100
+    .box section.content
+        max-height: $screen_h_2 - 100 - $popup_nav_height
+@media screen and (min-height: $screen_h_3) and (max-height: $screen_h_4)
+    .box
+        max-height: $screen_h_3 - 100
+    .box section.content
+        max-height: $screen_h_3 - 100 - $popup_nav_height
+@media screen and (min-height: $screen_h_4) and (max-height: $screen_h_5)
+    .box
+        max-height: $screen_h_4 - 100
+    .box section.content
+        max-height: $screen_h_4 - 100 - $popup_nav_height
+@media screen and (min-height: $screen_h_5)
+    .box
+        max-height: $screen_h_5 - 100
+    .box section.content
+        max-height: $screen_h_5 - 100 - $popup_nav_height

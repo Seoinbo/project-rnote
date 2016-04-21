@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label', '../../../services/user-account'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../../../services/util', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../../services/platform', '../../nav/nav',
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, nav_1, panel_1, button_1, popup_window_1, label_1, user_account_1;
+    var core_1, platform_1, util_1, nav_1, panel_1, button_1, popup_window_1, label_1;
     var PopupLabels;
     return {
         setters:[
@@ -24,6 +24,9 @@ System.register(['angular2/core', '../../../services/platform', '../../nav/nav',
             },
             function (platform_1_1) {
                 platform_1 = platform_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             },
             function (nav_1_1) {
                 nav_1 = nav_1_1;
@@ -39,25 +42,29 @@ System.register(['angular2/core', '../../../services/platform', '../../nav/nav',
             },
             function (label_1_1) {
                 label_1 = label_1_1;
-            },
-            function (user_account_1_1) {
-                user_account_1 = user_account_1_1;
             }],
         execute: function() {
             PopupLabels = (function (_super) {
                 __extends(PopupLabels, _super);
-                function PopupLabels(elementRef, _userAccount, _labelService) {
+                function PopupLabels(elementRef, _labelService) {
                     _super.call(this, elementRef);
-                    this._userAccount = _userAccount;
                     this._labelService = _labelService;
-                    this._labelService.userid = this._userAccount.user.id;
+                    this._editing = false;
                 }
                 // Add a new label.
                 PopupLabels.prototype.add = function () {
                     var label = this._labelService.create();
-                    console.log(label);
                     label.syncIDB();
                     this._labelService.add(label);
+                };
+                PopupLabels.prototype.removeLabel = function (id) {
+                    this._labelService.remove(id);
+                };
+                PopupLabels.prototype.enterEditMode = function () {
+                    this._editing = true;
+                };
+                PopupLabels.prototype.exitEditMode = function () {
+                    this._editing = false;
                 };
                 PopupLabels = __decorate([
                     core_1.Component({
@@ -75,11 +82,11 @@ System.register(['angular2/core', '../../../services/platform', '../../nav/nav',
                             panel_1.Panel,
                             button_1.Button
                         ],
-                        providers: [
-                            label_1.LabelService
+                        pipes: [
+                            util_1.exceptRemoved
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, user_account_1.UserAccount, label_1.LabelService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, label_1.LabelService])
                 ], PopupLabels);
                 return PopupLabels;
             }(popup_window_1.PopupWindow));

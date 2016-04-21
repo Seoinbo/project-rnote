@@ -27,6 +27,7 @@ import {Button} from './button/button';
 import {PopupLabels} from './popup-window/popup-labels/popup-labels';
 import {PopupMenu} from './popup-menu/popup-menu';
 import {RecipeService, Recipe, gRecipes} from '../services/recipe';
+import {LabelService, Label} from '../services/label';
 
 @Component({
     selector: 'app',
@@ -54,6 +55,7 @@ import {RecipeService, Recipe, gRecipes} from '../services/recipe';
     providers: [
         ROUTER_PROVIDERS,
         RecipeService,
+        LabelService,
         UserAccount
     ],
     pipes: [
@@ -82,6 +84,7 @@ export class Recipenote {
     constructor(
         private _elementRef: ElementRef,
         private _recipeService: RecipeService,
+        private _labelService: LabelService,
         private _userAccount: UserAccount,
         private _dcl: DynamicComponentLoader,
         private _injector: Injector,
@@ -92,10 +95,14 @@ export class Recipenote {
         this._userAccount.user = {
             id: 'g1625346125341653'
         };
+        this._labelService.userid = this._userAccount.user.id;
         this._recipeService.userid = this._userAccount.user.id;
     }
 
     ngOnInit() {
+        this._labelService.downloadAll(() => {
+            this._zone.run(function(){});
+        });
         this._recipeService.downloadAll(() => {
             this._zone.run(function(){});
         });

@@ -1,5 +1,6 @@
 import {Directive, ElementRef} from 'angular2/core';
 import {ViewObject} from '../../directives/view-object';
+import {Button} from '../button/button';
 
 declare var $: any;
 

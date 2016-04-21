@@ -47,18 +47,42 @@ export class LabelService {
                 id: this._userid + '-l' + Util.uniqID(Config.now()),
                 owner: this._userid,
                 name: 'New label',
-                updated: Util.toUnixTimestamp(Config.now()),
+                updated: 0,
                 removed: false,
                 recipes: new LinkedList<string>()
             };
         }
         let label:Label = new Label();
         label.import(data);
+        label.touch();
         return label;
     }
 
-    public add (label: Label) {
+    public add(label: Label) {
         this.labels.add(label);
+    }
+    
+    public remove(id: string): boolean {
+        let label: Label = this.getLabelByID(id);
+        if (label) {
+            if (!this.labels.remove(label)) {
+                return false;
+            }
+            label.remove();
+            label.syncIDB();
+        }
+        return true;
+    }
+    
+    public getLabelByID(id: string): Label {
+        let retv: Label = null;
+        this.labels.forEach( (label: Label) => {
+            if (label.id == id) {
+                retv = label;
+                return false;
+            }
+        });
+        return retv;
     }
 
     get userid(): string {
@@ -94,11 +118,11 @@ export class Label implements ILabel, DBObject {
         this._db.init();
     }
     
-    public import (data: ILabel): ILabel {
+    public import(data: ILabel): ILabel {
         return $.extend(this, data);
     }
     
-    public export (): ILabel {
+    public export(): ILabel {
         return {
             id: this.id,
             owner: this.owner,
@@ -107,6 +131,15 @@ export class Label implements ILabel, DBObject {
             removed: this.removed
             // recipes: this.recipes
         };
+    }
+    
+    public touch() {
+        this.updated = Util.toUnixTimestamp(Config.now());
+    }
+    
+    public remove() {
+        this.removed = true;
+        this.touch();
     }
     
     // Sync recipes between memory and IndexedDB(localStorage)

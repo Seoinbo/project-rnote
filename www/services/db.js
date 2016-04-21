@@ -32,7 +32,6 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                         src = [src];
                     }
                     var store = this.table(tableName);
-                    console.log(tableName, store);
                     var length = src.length;
                     var count = 0;
                     var res = [];

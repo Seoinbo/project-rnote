@@ -25,20 +25,62 @@
     z-index: 502;
     margin: 0 auto;
     width: 95%;
-    max-width: 320px;
-    max-height: 75%;
+    max-width: 480px;
+    max-height: 280px;
+    min-height: 350px;
     box-sizing: border-box;
-    perspective: 1300px; }
+    perspective: 1300px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
     :host .box .inner-wrapper {
       opacity: 0;
       width: 100%;
       height: auto;
-      min-height: 120px;
+      max-width: inherit;
+      min-height: inherit;
       box-sizing: border-box;
       background-color: #e5e5e5;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       transform-style: preserve-3d;
-      transform: rotateY(-80deg); }
+      transform: rotateY(-80deg);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
   :host .box[active=true] .inner-wrapper {
     opacity: 1;
     transform: rotateY(0deg); }
+  :host section.content {
+    max-height: 235px;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-sizing: border-box;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; }
+  :host section.bottom {
+    height: 10px; }
+
+@media screen and (min-height: 480px) and (max-height: 640px) {
+  .box {
+    max-height: 380px; }
+  .box section.content {
+    max-height: 335px; } }
+
+@media screen and (min-height: 640px) and (max-height: 720px) {
+  .box {
+    max-height: 540px; }
+  .box section.content {
+    max-height: 495px; } }
+
+@media screen and (min-height: 720px) and (max-height: 731px) {
+  .box {
+    max-height: 620px; }
+  .box section.content {
+    max-height: 575px; } }
+
+@media screen and (min-height: 731px) and (max-height: 768px) {
+  .box {
+    max-height: 631px; }
+  .box section.content {
+    max-height: 586px; } }
+
+@media screen and (min-height: 768px) {
+  .box {
+    max-height: 668px; }
+  .box section.content {
+    max-height: 623px; } }

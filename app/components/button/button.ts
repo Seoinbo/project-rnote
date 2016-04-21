@@ -3,14 +3,13 @@ import {Platform} from '../../services/platform';
 import {ClickEffect} from './click-effect/click-effect';
 
 @Component({
-  selector: 'button',
-  templateUrl: Platform.prependBaseURL('components/button/button.html'),
-  styleUrls: [Platform.prependBaseURL('components/button/button.css')],
-  directives: [
-      ClickEffect
-  ]
+    selector: 'button',
+    templateUrl: Platform.prependBaseURL('components/button/button.html'),
+    styleUrls: [Platform.prependBaseURL('components/button/button.css')],
+    directives: [
+        ClickEffect
+    ]
 })
-
 export class Button {
     @Input() title: string = '';
     @Input() name: string = '';
@@ -20,7 +19,7 @@ export class Button {
 
     @HostListener('click', ['$event', 'name'])
     onClick (e: any, n: string) {
-        this.btnClick.emit([e, n]);
+        // this.btnClick.emit([e, n]);
     }
 
     constructor(_elementRef: ElementRef) {

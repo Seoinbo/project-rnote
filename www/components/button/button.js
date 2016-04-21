@@ -32,7 +32,7 @@ System.register(['angular2/core', '../../services/platform', './click-effect/cli
                     this._element = _elementRef.nativeElement;
                 }
                 Button.prototype.onClick = function (e, n) {
-                    this.btnClick.emit([e, n]);
+                    // this.btnClick.emit([e, n]);
                 };
                 __decorate([
                     core_1.Input(), 

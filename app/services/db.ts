@@ -5,6 +5,7 @@ import Dexie from 'dexie';
 export interface DBObject {
     import<T>(data: T): void,
     export(): any,
+    touch(): void,
     syncIDB(): void
 }
 
@@ -27,7 +28,6 @@ export class DB extends Dexie {
         }
         
         let store = this.table(tableName);
-        console.log(tableName, store);
         let length: number = src.length;
         let count: number = 0;
         let res: Array<any> = [];

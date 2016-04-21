@@ -1,5 +1,6 @@
 import {Component, ElementRef} from 'angular2/core';
 import {Platform} from '../../../services/platform';
+import {Util, exceptRemoved} from '../../../services/util';
 import {ViewObject} from '../../../directives/view-object';
 import {Nav, NavTitle} from '../../nav/nav';
 import {Panel} from '../../panel/panel';
@@ -26,25 +27,36 @@ declare var $: any;
         Panel,
         Button
     ],
-    providers: [
-        LabelService
+    pipes: [
+        exceptRemoved
     ]
 })
 export class PopupLabels extends PopupWindow {
+    private _editing: boolean = false;
+    
     constructor(
         elementRef: ElementRef,
-        private _userAccount: UserAccount,
         private _labelService: LabelService
     ) {
         super(elementRef);
-        this._labelService.userid = this._userAccount.user.id;
     }
     
     // Add a new label.
     public add() {
         let label = this._labelService.create();
-        console.log(label);
         label.syncIDB();
         this._labelService.add(label);
+    }
+    
+    public removeLabel(id: string) {
+        this._labelService.remove(id);
+    }
+    
+    public enterEditMode() {
+        this._editing = true;
+    }
+    
+    public exitEditMode() {
+        this._editing = false;
     }
 }

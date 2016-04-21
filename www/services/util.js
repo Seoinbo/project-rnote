@@ -11,7 +11,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var JSON2Array, Util, String;
+    var JSON2Array, exceptRemoved, Util, String;
     return {
         setters:[
             function (core_1_1) {
@@ -31,6 +31,19 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 return JSON2Array;
             }());
             exports_1("JSON2Array", JSON2Array);
+            exceptRemoved = (function () {
+                function exceptRemoved() {
+                }
+                exceptRemoved.prototype.transform = function (list, args) {
+                    return Util.exceptRemoved(list);
+                };
+                exceptRemoved = __decorate([
+                    core_1.Pipe({ name: 'exceptRemoved', pure: false }), 
+                    __metadata('design:paramtypes', [])
+                ], exceptRemoved);
+                return exceptRemoved;
+            }());
+            exports_1("exceptRemoved", exceptRemoved);
             (function (Util) {
                 function extractViewChildren(parent, arr) {
                     arr.forEach(function (list) {
@@ -55,6 +68,18 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return objectArray;
                 }
                 Util.JSON2Array = JSON2Array;
+                function exceptRemoved(list) {
+                    var temp = [];
+                    for (var _i = 0, list_1 = list; _i < list_1.length; _i++) {
+                        var item = list_1[_i];
+                        if (item.removed) {
+                            continue;
+                        }
+                        temp.push(item);
+                    }
+                    return temp;
+                }
+                Util.exceptRemoved = exceptRemoved;
                 function lazyApply(count, length, callback, parameter) {
                     if (++count >= length) {
                         callback.apply(null, parameter);

@@ -7,6 +7,13 @@ export class JSON2Array implements PipeTransform {
     }
 }
 
+@Pipe({name:'exceptRemoved', pure: false})
+export class exceptRemoved implements PipeTransform {
+    transform(list: any, args:string[]): any {
+        return Util.exceptRemoved(list);
+    }
+}
+
 export module Util {
     export function extractViewChildren(parent: any, arr: Array<any>): void {
         arr.forEach( (list: any) => {
@@ -22,13 +29,24 @@ export module Util {
     }
 
     export function JSON2Array(objects: Object) {
-        var objectArray: Object[] = [];
+        let objectArray: Object[] = [];
         for (let key in objects) {
             let item: any = objects[key];
             item._key = key;
             objectArray.push(item);
         }
         return objectArray;
+    }
+
+    export function exceptRemoved(list: Array<any>) {
+        let temp: Array<any> = [];
+        for (let item of list) {
+            if (item.removed) {
+                continue;
+            }
+            temp.push(item);
+        }
+        return temp;
     }
 
     export function lazyApply(count: number, length: number, callback: Function, parameter?: Array<any>) {

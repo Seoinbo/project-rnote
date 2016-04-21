@@ -55,17 +55,39 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             id: this._userid + '-l' + util_1.Util.uniqID(config_1.Config.now()),
                             owner: this._userid,
                             name: 'New label',
-                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
+                            updated: 0,
                             removed: false,
                             recipes: new LinkedList_1.LinkedList()
                         };
                     }
                     var label = new Label();
                     label.import(data);
+                    label.touch();
                     return label;
                 };
                 LabelService.prototype.add = function (label) {
                     this.labels.add(label);
+                };
+                LabelService.prototype.remove = function (id) {
+                    var label = this.getLabelByID(id);
+                    if (label) {
+                        if (!this.labels.remove(label)) {
+                            return false;
+                        }
+                        label.remove();
+                        label.syncIDB();
+                    }
+                    return true;
+                };
+                LabelService.prototype.getLabelByID = function (id) {
+                    var retv = null;
+                    this.labels.forEach(function (label) {
+                        if (label.id == id) {
+                            retv = label;
+                            return false;
+                        }
+                    });
+                    return retv;
                 };
                 Object.defineProperty(LabelService.prototype, "userid", {
                     get: function () {
@@ -112,6 +134,13 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         updated: this.updated,
                         removed: this.removed
                     };
+                };
+                Label.prototype.touch = function () {
+                    this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
+                };
+                Label.prototype.remove = function () {
+                    this.removed = true;
+                    this.touch();
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
                 Label.prototype.syncIDB = function () {

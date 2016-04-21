@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-labels/popup-labels', './popup-menu/popup-menu', '../services/recipe'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-labels/popup-labels', './popup-menu/popup-menu', '../services/recipe', '../services/label'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_labels_1, popup_menu_1, recipe_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_labels_1, popup_menu_1, recipe_1, label_1;
     var Recipenote;
     return {
         setters:[
@@ -58,12 +58,16 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
+            },
+            function (label_1_1) {
+                label_1 = label_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(_elementRef, _recipeService, _userAccount, _dcl, _injector, _zone) {
+                function Recipenote(_elementRef, _recipeService, _labelService, _userAccount, _dcl, _injector, _zone) {
                     this._elementRef = _elementRef;
                     this._recipeService = _recipeService;
+                    this._labelService = _labelService;
                     this._userAccount = _userAccount;
                     this._dcl = _dcl;
                     this._injector = _injector;
@@ -78,10 +82,14 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     this._userAccount.user = {
                         id: 'g1625346125341653'
                     };
+                    this._labelService.userid = this._userAccount.user.id;
                     this._recipeService.userid = this._userAccount.user.id;
                 }
                 Recipenote.prototype.ngOnInit = function () {
                     var _this = this;
+                    this._labelService.downloadAll(function () {
+                        _this._zone.run(function () { });
+                    });
                     this._recipeService.downloadAll(function () {
                         _this._zone.run(function () { });
                     });
@@ -195,13 +203,14 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         providers: [
                             router_1.ROUTER_PROVIDERS,
                             recipe_1.RecipeService,
+                            label_1.LabelService,
                             user_account_1.UserAccount
                         ],
                         pipes: [
                             util_1.JSON2Array
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, user_account_1.UserAccount, core_1.DynamicComponentLoader, core_1.Injector, core_1.NgZone])
+                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, label_1.LabelService, user_account_1.UserAccount, core_1.DynamicComponentLoader, core_1.Injector, core_1.NgZone])
                 ], Recipenote);
                 return Recipenote;
             }());

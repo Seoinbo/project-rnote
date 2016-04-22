@@ -11,7 +11,7 @@ popup-menu {
     display: block;
     background-color: #fff;
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.4s;
     transform-style: preserve-3d;
     transform: rotateX(35deg);
     transform-origin: 50% 0; }
@@ -22,7 +22,7 @@ popup-menu {
 
 popup-menu[flip-up] panel {
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.4s;
   transform-style: preserve-3d;
   transform: rotateX(-35deg);
   transform-origin: 50% 100%; }

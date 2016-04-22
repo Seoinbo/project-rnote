@@ -2,20 +2,30 @@
 <div class="box" [attr.active]="_boxActivation" [attr.editing]="_editing">
     <div class="inner-wrapper">
         <nav>
-            <panel id="popup-labels-view">
-                <button name="back" title="<<" (click)="close();"></button>
-                <title nav>Lables</title>
-                <button name="edit" title="E" (click)="enterEditMode();"></button>
-            </panel>
-            <panel id="popup-labels-view">
-                <button name="back" title="<<" (click)="close();"></button>
-                <title nav>Edit</title>
-                <button name="add" title="A" (click)="add();"></button>
-            </panel>
+            <multi-panel>
+                <panel-mask>
+                    <panel-group>
+                        <panel id="popup-labels-view">
+                            <button name="back" title="←" (click)="close();"></button>
+                            <title nav>Lables</title>
+                            <button name="edit" title="E" (click)="enterEditMode();"></button>
+                        </panel>
+                        <panel id="popup-labels-edit">
+                            <button name="back" title="↑" (click)="exitEditMode();"></button>
+                            <title nav>Edit</title>
+                            <button name="add" title="A" (click)="add();"></button>
+                        </panel>
+                    </panel-group>
+                </panel-mask>
+            </multi-panel>
         </nav>
         <section class="content">
             <ul>
-                <li *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)"><input type="checkbox"/><label class="title">{{labelData.name}}</label><button remove name="remove" title="X" (click)="removeLabel(labelData.id);"></button></li>
+                <li *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)">
+                    <input type="checkbox"/>
+                    <label class="title">{{labelData.name}}</label>
+                    <button remove name="remove" title="X" (click)="removeLabel(labelData.id);"></button>
+                </li>
             </ul>
         </section>
         <section class="bottom"></section>

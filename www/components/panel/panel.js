@@ -11,7 +11,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var Panel;
+    var Panel, MultiPanel;
     return {
         setters:[
             function (core_1_1) {
@@ -38,6 +38,53 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 return Panel;
             }());
             exports_1("Panel", Panel);
+            MultiPanel = (function () {
+                function MultiPanel(_elementRef) {
+                    this._element = _elementRef.nativeElement;
+                }
+                MultiPanel.prototype.ngAfterViewInit = function () {
+                    var args = {
+                        "wrap": this._element,
+                        "mask": "panel-mask",
+                        "group": {
+                            "element": "panel-group",
+                            "count": 1
+                        },
+                        "unit": "panel",
+                        "startIndex": 0,
+                        "play": {
+                            "auto": false,
+                            "direction": ibr.dir.ver,
+                            "moveto": ibr.move.up,
+                            "intervalTime": 2000,
+                            "movingCnt": 1
+                        },
+                        "events": {
+                            "init": function (index) { },
+                            "focus": function (index) { },
+                            "play": function (index) { },
+                            "pause": function (index) { },
+                            "timeout": function (t) { }
+                        }
+                    };
+                    this.ibr = new ibr(args);
+                };
+                Object.defineProperty(MultiPanel.prototype, "element", {
+                    get: function () {
+                        return this._element;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                MultiPanel = __decorate([
+                    core_1.Directive({
+                        selector: 'multi-panel'
+                    }), 
+                    __metadata('design:paramtypes', [core_1.ElementRef])
+                ], MultiPanel);
+                return MultiPanel;
+            }());
+            exports_1("MultiPanel", MultiPanel);
         }
     }
 });

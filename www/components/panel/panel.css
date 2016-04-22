@@ -6,3 +6,40 @@ panel {
   -o-display: flex;
   width: 100%;
   height: auto; }
+
+multi-panel {
+  display: block;
+  width: 100%;
+  height: inherit; }
+  multi-panel panel-mask {
+    display: block;
+    width: 100%;
+    height: inherit; }
+    multi-panel panel-mask panel-group {
+      display: block;
+      width: 100%;
+      height: inherit; }
+  multi-panel .ibr_move_down .ibr_ready {
+    transition: none; }
+  multi-panel .ibr_move_down .ibr_r0 {
+    top: 45px; }
+  multi-panel .ibr_move_down .ibr_active {
+    transition: all 0.4s; }
+  multi-panel .ibr_move_down .ibr_a0 {
+    top: 0; }
+  multi-panel .ibr_move_down .ibr_idle {
+    transition: all 0.4s; }
+  multi-panel .ibr_move_down .ibr_i0 {
+    top: -45px; }
+  multi-panel .ibr_move_up .ibr_ready {
+    transition: none; }
+  multi-panel .ibr_move_up .ibr_r0 {
+    top: -45px; }
+  multi-panel .ibr_move_up .ibr_active {
+    transition: all 0.4s; }
+  multi-panel .ibr_move_up .ibr_a0 {
+    top: 0; }
+  multi-panel .ibr_move_up .ibr_idle {
+    transition: all 0.4s; }
+  multi-panel .ibr_move_up .ibr_i0 {
+    top: 45px; }

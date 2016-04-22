@@ -74,14 +74,12 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
         execute: function() {
             View = (function (_super) {
                 __extends(View, _super);
-                // private _elementRef: ElementRef;
                 function View(elementRef, _dcl, _recipeService) {
                     _super.call(this, elementRef);
                     this._dcl = _dcl;
                     this._recipeService = _recipeService;
                     // view-object instances
                     this.viewComponents = new LinkedList_1.LinkedList();
-                    // this._elementRef = elementRef;
                 }
                 View.prototype.ngAfterViewInit = function () {
                     util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);

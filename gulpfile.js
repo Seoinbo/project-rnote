@@ -35,7 +35,7 @@ gulp.task('watch', function() {
 
 gulp.task('clean', function () {
     return gulp.src('www/**/*', {read: false})
-    .pipe(ignore(['index.html', 'styles.css']))
+    .pipe(ignore(['index.html', 'styles.css', 'ibr.*']))
     .pipe(clean());
 
 });

@@ -56,14 +56,12 @@ export class View extends ViewObject {
     public viewComponents = new LinkedList<ComponentRef>();
     // current recipe-object.
     private _recipe: Recipe;
-    // private _elementRef: ElementRef;
 
     constructor(
         elementRef: ElementRef,
         private _dcl: DynamicComponentLoader,
         private _recipeService: RecipeService) {
         super(elementRef);
-        // this._elementRef = elementRef;
     }
 
     ngAfterViewInit() {

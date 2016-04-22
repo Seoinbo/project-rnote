@@ -1,9 +1,9 @@
-import {Component, ElementRef} from 'angular2/core';
+import {Component, ElementRef, ViewChild} from 'angular2/core';
 import {Platform} from '../../../services/platform';
 import {Util, exceptRemoved} from '../../../services/util';
 import {ViewObject} from '../../../directives/view-object';
 import {Nav, NavTitle} from '../../nav/nav';
-import {Panel} from '../../panel/panel';
+import {Panel, MultiPanel} from '../../panel/panel';
 import {Button} from '../../button/button';
 import {PopupWindow} from '../popup-window';
 import {ILinkedListNode, LinkedList} from '../../../services/collections/LinkedList';
@@ -25,6 +25,7 @@ declare var $: any;
         Nav,
         NavTitle,
         Panel,
+        MultiPanel,
         Button
     ],
     pipes: [
@@ -32,6 +33,8 @@ declare var $: any;
     ]
 })
 export class PopupLabels extends PopupWindow {
+    @ViewChild(MultiPanel) multiPanel: MultiPanel;
+    
     private _editing: boolean = false;
     
     constructor(
@@ -54,9 +57,11 @@ export class PopupLabels extends PopupWindow {
     
     public enterEditMode() {
         this._editing = true;
+        this.multiPanel.ibr.next();
     }
     
     public exitEditMode() {
         this._editing = false;
+        this.multiPanel.ibr.prev();
     }
 }

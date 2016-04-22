@@ -18,7 +18,7 @@
     height: 100%;
     background-color: #000;
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    transition: all 0.4s; }
   :host .bg[active=true] {
     opacity: 0.6; }
   :host .box {
@@ -30,7 +30,7 @@
     min-height: 350px;
     box-sizing: border-box;
     perspective: 1300px;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    transition: all 0.4s; }
     :host .box .inner-wrapper {
       opacity: 0;
       width: 100%;
@@ -39,16 +39,18 @@
       min-height: inherit;
       box-sizing: border-box;
       background-color: #e5e5e5;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.4s;
       transform-style: preserve-3d;
       transform: rotateY(-80deg);
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+      transition: all 0.4s; }
   :host .box[active=true] .inner-wrapper {
     opacity: 1;
     transform: rotateY(0deg); }
+  :host .box nav #popup-labels-edit * {
+    background-color: #e5cd6c; }
   :host section.content {
     max-height: 235px;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.4s;
     box-sizing: border-box;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch; }

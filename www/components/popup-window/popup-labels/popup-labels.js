@@ -62,10 +62,16 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 };
                 PopupLabels.prototype.enterEditMode = function () {
                     this._editing = true;
+                    this.multiPanel.ibr.next();
                 };
                 PopupLabels.prototype.exitEditMode = function () {
                     this._editing = false;
+                    this.multiPanel.ibr.prev();
                 };
+                __decorate([
+                    core_1.ViewChild(panel_1.MultiPanel), 
+                    __metadata('design:type', panel_1.MultiPanel)
+                ], PopupLabels.prototype, "multiPanel", void 0);
                 PopupLabels = __decorate([
                     core_1.Component({
                         selector: 'popup-window[labels]',
@@ -80,6 +86,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                             nav_1.Nav,
                             nav_1.NavTitle,
                             panel_1.Panel,
+                            panel_1.MultiPanel,
                             button_1.Button
                         ],
                         pipes: [

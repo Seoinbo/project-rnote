@@ -1,11 +1,13 @@
 :host {
   align-items: flex-start;
   top: 10%; }
+  :host .box nav {
+    height: 45px; }
   :host .box section.content ul {
     box-sizing: border-box;
     list-style-type: none;
     padding: 0 24px;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+    transition: all 0.4s; }
     :host .box section.content ul li {
       display: flex;
       flex-wrap: nowrap;

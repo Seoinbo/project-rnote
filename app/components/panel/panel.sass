@@ -4,3 +4,42 @@ panel
     @include prefix(display, flex)
     width: 100%
     height: auto
+
+multi-panel
+    display: block
+    width: 100%
+    height: inherit
+    panel-mask
+        display: block
+        width: 100%
+        height: inherit
+        panel-group
+            display: block
+            width: 100%
+            height: inherit
+    .ibr_move_down
+        .ibr_ready 
+            transition: none
+        .ibr_r0 
+            top: $popup_nav_height
+        .ibr_active 
+            transition: $transition_default
+        .ibr_a0 
+            top: 0
+        .ibr_idle 
+            transition: $transition_default
+        .ibr_i0 
+            top: $popup_nav_height * -1
+    .ibr_move_up
+        .ibr_ready 
+            transition: none
+        .ibr_r0 
+            top: $popup_nav_height * -1
+        .ibr_active 
+            transition: $transition_default
+        .ibr_a0 
+            top: 0
+        .ibr_idle 
+            transition: $transition_default
+        .ibr_i0 
+            top: $popup_nav_height

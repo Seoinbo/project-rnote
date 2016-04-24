@@ -1,6 +1,6 @@
 import {Component, ElementRef} from 'angular2/core';
 import {Platform} from '../../../services/platform';
-import {ViewObject} from '../../../directives/view-object';
+import {ViewObject} from '../../../directives/view-object/view-object';
 
 @Component({
     selector: 'p[view-empty-msg]',

@@ -4,3 +4,7 @@ export module Config {
         return new Date().getTime();
     }
 }
+
+export module Animation {
+    export var intervalTime = 20;
+}

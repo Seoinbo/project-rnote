@@ -92,6 +92,18 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         this.show();
                     }
                 };
+                // Animations
+                ViewObject.prototype.ready = function (type) {
+                    this._element.classList.add(type);
+                };
+                ViewObject.prototype.in = function (type) {
+                    this._element.classList.remove(type + '-out');
+                    this._element.classList.add(type + '-in');
+                };
+                ViewObject.prototype.out = function (type) {
+                    this._element.classList.remove(type + '-in');
+                    this._element.classList.add(type + '-out');
+                };
                 Object.defineProperty(ViewObject.prototype, "visibility", {
                     get: function () {
                         return this._visibility;
@@ -159,6 +171,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], ViewObject.prototype, "id", void 0);
+                ViewObject = __decorate([
+                    core_1.Directive({
+                        selector: '.view-object',
+                    }), 
+                    __metadata('design:paramtypes', [core_1.ElementRef])
+                ], ViewObject);
                 return ViewObject;
             }());
             exports_1("ViewObject", ViewObject);

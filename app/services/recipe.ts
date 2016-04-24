@@ -2,7 +2,7 @@ import {Injectable, ElementRef} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
-import {ViewObject} from '../directives/view-object';
+import {ViewObject} from '../directives/view-object/view-object';
 import {DBObject} from './db';
 import {RecipeDB} from './recipedb';
 

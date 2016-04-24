@@ -16,7 +16,7 @@ import {LinkedList, ILinkedListNode} from '../../services/collections/LinkedList
 import {RecipeService, Recipe, gRecipes, IRecipeItem, RecipeItem} from '../../services/recipe';
 import {Config} from '../../services/config';
 
-import {ViewObject} from '../../directives/view-object';
+import {ViewObject} from '../../directives/view-object/view-object';
 import {Baseline} from './baseline/baseline';
 import {ViewHeader} from './header/header';
 import {ViewEmptyMsg} from './empty-msg/empty-msg';

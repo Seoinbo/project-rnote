@@ -1,0 +1,6 @@
+/*test*/
+.ibroller {}
+.ibroller .ibr_mask {overflow:hidden; position:relative;}
+.ibroller .ibr_group {}
+.ibroller .ibr_unit {position:absolute;}
+.ibr_noani {transition:none !important; -webkit-transition:none !important; -moz-transition:none !important; -ms-transition:none !important; -o-transition:none !important;}

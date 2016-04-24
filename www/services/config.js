@@ -1,7 +1,7 @@
 System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Config;
+    var Config, Animation;
     return {
         setters:[],
         execute: function() {
@@ -14,6 +14,10 @@ System.register([], function(exports_1, context_1) {
                 Config.now = now;
             })(Config = Config || (Config = {}));
             exports_1("Config", Config);
+            (function (Animation) {
+                Animation.intervalTime = 20;
+            })(Animation = Animation || (Animation = {}));
+            exports_1("Animation", Animation);
         }
     }
 });

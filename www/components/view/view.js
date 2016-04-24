@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {

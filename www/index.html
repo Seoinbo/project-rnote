@@ -31,9 +31,9 @@
     <script src="modules/angular2/bundles/router.js"></script>
     <script src="modules/jquery/dist/jquery.min.js"></script>
     <!-- IBRoller -->
-    <script src="modules/ibr/ibr.js"></script>
-    <link rel="stylesheet" type="text/css" href="modules/ibr/ibr.css">
-    
+    <script src="statics/ibr/ibr.js"></script>
+    <link rel="stylesheet" type="text/css" href="statics/ibr/ibr.css">
+
     <base href="/" />
     <script>
         // Configure SystemJS
@@ -46,19 +46,19 @@
                  "dexie": "modules/dexie/dist/dexie.min"
             }
         });
-        
+
         // Detect platform
         var platform = 'browser'; // 'browser', 'android', 'ios'
         if (window.cordova) {
             platform = window.cordova.platformId;
         }
-        
+
         // Append platform tag
         var platformTag = document.createElement("meta");
         platformTag.name = "platform";
         platformTag.content = platform;
         document.getElementsByTagName("head")[0].appendChild(platformTag);
-        
+
         // Launch apps
         if (platform == 'browser') {
             System.import('./bootstrap');

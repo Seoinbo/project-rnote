@@ -1,4 +1,4 @@
-System.register(['angular2/core', './util', './config', './collections/LinkedList', '../directives/view-object', './recipedb'], function(exports_1, context_1) {
+System.register(['angular2/core', './util', './config', './collections/LinkedList', '../directives/view-object/view-object', './recipedb'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {

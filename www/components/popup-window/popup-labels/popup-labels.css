@@ -20,8 +20,5 @@
       :host .box section.content ul li .title {
         width: 100%; }
       :host .box section.content ul li button[remove] {
-        display: none;
         line-height: 48px;
         width: 48px; }
-  :host .box[editing=true] section.content ul li button[remove] {
-    display: inline-block; }

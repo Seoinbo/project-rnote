@@ -1,7 +1,8 @@
-import {ElementRef, Input} from 'angular2/core';
-import {Config} from '../services/config';
-import {IRecipeItem} from '../services/recipe';
+import {Directive, ElementRef, Pipe, PipeTransform, Input} from 'angular2/core';
 
+@Directive({
+    selector: '.view-object',
+})
 export class ViewObject {
     protected _elementRef: ElementRef;
     protected _element: HTMLElement;
@@ -81,6 +82,21 @@ export class ViewObject {
         } else {
             this.show();
         }
+    }
+
+    // Animations
+    public ready(type: string) {
+        this._element.classList.add(type);
+    }
+
+    public in(type: string) {
+        this._element.classList.remove(type + '-out');
+        this._element.classList.add(type + '-in');
+    }
+
+    public out(type: string) {
+        this._element.classList.remove(type + '-in');
+        this._element.classList.add(type + '-out');
     }
 
     get visibility(): boolean {

@@ -1,5 +1,6 @@
 import {Component, ElementRef, HostListener, EventEmitter, Input, Output} from 'angular2/core';
 import {Platform} from '../../services/platform';
+import {ViewObject} from '../../directives/view-object/view-object';
 import {ClickEffect} from './click-effect/click-effect';
 
 @Component({
@@ -10,7 +11,7 @@ import {ClickEffect} from './click-effect/click-effect';
         ClickEffect
     ]
 })
-export class Button {
+export class Button extends ViewObject {
     @Input() title: string = '';
     @Input() name: string = '';
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
@@ -22,7 +23,7 @@ export class Button {
         // this.btnClick.emit([e, n]);
     }
 
-    constructor(_elementRef: ElementRef) {
-        this._element = _elementRef.nativeElement;
+    constructor(elementRef: ElementRef) {
+        super(elementRef);
     }
 }

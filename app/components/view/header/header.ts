@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input} from 'angular2/core';
 import {Platform} from '../../../services/platform';
 import {IRecipeItem, RecipeItem} from '../../../services/recipe';
-import {ViewObject} from '../../../directives/view-object';
+import {ViewObject} from '../../../directives/view-object/view-object';
 
 @Component({
     selector: 'h1',

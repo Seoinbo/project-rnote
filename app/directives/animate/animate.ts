@@ -20,7 +20,7 @@ export class Animate {
     protected _event: EventManager;
     protected _animateid: string;
     
-    public static intervalTime = 20;
+    public static intervalTime = 25;
     
     @HostListener('transitionend', ['$event.target'])
     onTransitionEnd (target: any) {
@@ -76,21 +76,23 @@ export class Animate {
     public in(type: string, complete?: Function) {
         this._element.classList.remove(type + '-out');
         this._element.classList.add(type + '-in');
-        if (complete) {
-            this._event.addEvent(this.animateid + "-in", () => {
+        this._element.style.visibility = 'visible';
+        this._event.addEvent(this.animateid + "-in", () => {
+            if (complete) {
                 complete.apply(null, [this]);
-            }, 1);
-        }
+            }
+        }, 1);
     }
 
     public out(type: string, complete?: Function) {
         this._element.classList.remove(type + '-in');
         this._element.classList.add(type + '-out');
-        if (complete) {
-            this._event.addEvent(this.animateid + "-out", () => {
+        this._event.addEvent(this.animateid + "-out", () => {
+            this._element.style.visibility = 'hidden';
+            if (complete) {
                 complete.apply(null, [this]);
-            }, 1);
-        }
+            }
+        }, 1);
     }
 }
 

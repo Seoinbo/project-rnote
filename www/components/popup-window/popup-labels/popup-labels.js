@@ -61,13 +61,16 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                             object.ready('zoom');
                         }
                     });
-                    // subscribe aniobject change.
                     this._aniRemoveButtons = new animate_1.AniList(this.aniObjects.toArray(), 'remove');
+                    this._aniMoveButtons = new animate_1.AniList(this.aniObjects.toArray(), 'move');
+                    // subscribe aniobject change.
                     this.aniObjects.changes.subscribe(function () {
                         _this._aniRemoveButtons.import(_this.aniObjects.toArray(), 'remove');
+                        _this._aniMoveButtons.import(_this.aniObjects.toArray(), 'move');
                     });
                     // ready for animations.
                     this._aniRemoveButtons.streamReady('zoom', null, 0);
+                    this._aniMoveButtons.streamReady('zoom', null, 0);
                 };
                 // Add a new label.
                 PopupLabels.prototype.add = function () {
@@ -83,21 +86,19 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                     this.multiPanel.ibr.next();
                     // 에니매이션 효과
                     this._aniRemoveButtons.streamIn('zoom');
+                    this._aniMoveButtons.streamIn('zoom');
                 };
                 PopupLabels.prototype.exitEditMode = function () {
                     this._editing = false;
                     this.multiPanel.ibr.prev();
                     // 에니매이션 효과
                     this._aniRemoveButtons.streamOut('zoom');
+                    this._aniMoveButtons.streamOut('zoom');
                 };
                 __decorate([
                     core_1.ViewChild(panel_1.MultiPanel), 
                     __metadata('design:type', panel_1.MultiPanel)
                 ], PopupLabels.prototype, "multiPanel", void 0);
-                __decorate([
-                    core_1.ViewChildren(button_1.Button), 
-                    __metadata('design:type', core_1.QueryList)
-                ], PopupLabels.prototype, "closeButtons", void 0);
                 __decorate([
                     core_1.ViewChildren(animate_1.Animate), 
                     __metadata('design:type', core_1.QueryList)

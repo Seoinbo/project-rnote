@@ -3,22 +3,38 @@
   top: 10%; }
   :host .box nav {
     height: 45px; }
+  :host .box section.content button {
+    background-color: transparent !important; }
   :host .box section.content ul {
     box-sizing: border-box;
     list-style-type: none;
-    padding: 0 24px;
-    transition: all 0.4s; }
+    padding: 0 24px; }
     :host .box section.content ul li {
+      position: relative;
       display: flex;
       flex-wrap: nowrap;
       flex-flow: space-between;
       align-items: center;
       box-sizing: border-box;
       width: 100%;
-      min-height: 48px;
+      min-height: 45px;
       padding: 0; }
       :host .box section.content ul li .title {
         width: 100%; }
-      :host .box section.content ul li button[remove] {
-        line-height: 48px;
-        width: 48px; }
+      :host .box section.content ul li input[name=chk-label] {
+        display: inline-block;
+        line-height: 45px;
+        width: 45px;
+        margin: 0 15px 0 9px;
+        vertical-align: center;
+        transition: all 300ms;
+        opacity: 1; }
+      :host .box section.content ul li button[name=remove] {
+        line-height: 45px;
+        width: 45px; }
+      :host .box section.content ul li button[name=move] {
+        position: absolute;
+        line-height: 45px;
+        width: 45px; }
+  :host .box[editing=true] section.content ul li input[name=chk-label] {
+    opacity: 0; }

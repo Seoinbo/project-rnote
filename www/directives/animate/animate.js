@@ -86,23 +86,25 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
                     var _this = this;
                     this._element.classList.remove(type + '-out');
                     this._element.classList.add(type + '-in');
-                    if (complete) {
-                        this._event.addEvent(this.animateid + "-in", function () {
+                    this._element.style.visibility = 'visible';
+                    this._event.addEvent(this.animateid + "-in", function () {
+                        if (complete) {
                             complete.apply(null, [_this]);
-                        }, 1);
-                    }
+                        }
+                    }, 1);
                 };
                 Animate.prototype.out = function (type, complete) {
                     var _this = this;
                     this._element.classList.remove(type + '-in');
                     this._element.classList.add(type + '-out');
-                    if (complete) {
-                        this._event.addEvent(this.animateid + "-out", function () {
+                    this._event.addEvent(this.animateid + "-out", function () {
+                        _this._element.style.visibility = 'hidden';
+                        if (complete) {
                             complete.apply(null, [_this]);
-                        }, 1);
-                    }
+                        }
+                    }, 1);
                 };
-                Animate.intervalTime = 20;
+                Animate.intervalTime = 25;
                 __decorate([
                     core_1.HostListener('transitionend', ['$event.target']), 
                     __metadata('design:type', Function), 

@@ -38,11 +38,11 @@ declare var $: any;
 })
 export class PopupLabels extends PopupWindow {
     @ViewChild(MultiPanel) multiPanel: MultiPanel;
-    @ViewChildren(Button) closeButtons: QueryList<Button>;
     @ViewChildren(Animate) aniObjects: QueryList<Animate>;
 
     private _editing: boolean = false;
     private _aniRemoveButtons: AniList;
+    private _aniMoveButtons: AniList;
 
     constructor(
         elementRef: ElementRef,
@@ -59,14 +59,18 @@ export class PopupLabels extends PopupWindow {
             }
         });
         
-        // subscribe aniobject change.
         this._aniRemoveButtons = new AniList(this.aniObjects.toArray(), 'remove');
+        this._aniMoveButtons = new AniList(this.aniObjects.toArray(), 'move');
+        
+        // subscribe aniobject change.
         this.aniObjects.changes.subscribe( () => {
             this._aniRemoveButtons.import(this.aniObjects.toArray(), 'remove');
+            this._aniMoveButtons.import(this.aniObjects.toArray(), 'move');
         });
         
         // ready for animations.
         this._aniRemoveButtons.streamReady('zoom', null, 0);
+        this._aniMoveButtons.streamReady('zoom', null, 0);
     }
 
     // Add a new label.
@@ -85,6 +89,7 @@ export class PopupLabels extends PopupWindow {
         this.multiPanel.ibr.next();
         // 에니매이션 효과
         this._aniRemoveButtons.streamIn('zoom');
+        this._aniMoveButtons.streamIn('zoom');
     }
 
     public exitEditMode() {
@@ -92,5 +97,6 @@ export class PopupLabels extends PopupWindow {
         this.multiPanel.ibr.prev();
         // 에니매이션 효과
         this._aniRemoveButtons.streamOut('zoom');
+        this._aniMoveButtons.streamOut('zoom');
     }
 }

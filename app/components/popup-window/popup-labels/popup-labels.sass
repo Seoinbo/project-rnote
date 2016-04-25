@@ -8,27 +8,42 @@
             height: $popup_nav_height
 
         section.content
+            button
+                background-color: transparent !important
             ul
                 box-sizing: border-box
                 list-style-type: none
                 padding: 0 24px
-                transition: $transition_default
                 li
+                    position: relative
                     display: flex
                     flex-wrap: nowrap
                     flex-flow: space-between
                     align-items: center
                     box-sizing: border-box
                     width: 100%
-                    min-height: 48px
+                    min-height: 45px
                     padding: 0
                     .title
                         width: 100%
-                    button[remove]
-                        line-height: 48px
-                        width: 48px
+                    input[name=chk-label]
+                        display: inline-block
+                        line-height: 45px
+                        width: 45px
+                        margin: 0 15px 0 9px
+                        vertical-align: center
+                        transition: all 300ms
+                        opacity: 1
+                    button[name=remove]
+                        line-height: 45px
+                        width: 45px
+                    button[name=move]
+                        position: absolute
+                        line-height: 45px
+                        width: 45px
     .box[editing=true]
         section.content
             ul
                 li
-                    button[remove]
+                    input[name=chk-label]
+                        opacity: 0

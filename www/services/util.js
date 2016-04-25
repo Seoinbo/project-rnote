@@ -81,7 +81,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 }
                 Util.exceptRemoved = exceptRemoved;
                 function lazyApply(count, length, callback, parameter) {
-                    if (++count >= length) {
+                    if (++count >= length && typeof callback === "function") {
                         callback.apply(null, parameter);
                     }
                 }

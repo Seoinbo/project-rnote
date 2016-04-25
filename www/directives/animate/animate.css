@@ -1,0 +1,13 @@
+.zoom {
+  transform: scale(0);
+  opacity: 0; }
+
+.zoom-in {
+  transition: all 0.4s;
+  transform: scale(1);
+  opacity: 1; }
+
+.zoom-out {
+  transition: all 0.4s;
+  transform: scale(0);
+  opacity: 1; }

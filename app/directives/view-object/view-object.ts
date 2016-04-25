@@ -84,21 +84,6 @@ export class ViewObject {
         }
     }
 
-    // Animations
-    public ready(type: string) {
-        this._element.classList.add(type);
-    }
-
-    public in(type: string) {
-        this._element.classList.remove(type + '-out');
-        this._element.classList.add(type + '-in');
-    }
-
-    public out(type: string) {
-        this._element.classList.remove(type + '-in');
-        this._element.classList.add(type + '-out');
-    }
-
     get visibility(): boolean {
         return this._visibility;
     }

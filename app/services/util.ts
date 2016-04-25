@@ -50,7 +50,7 @@ export module Util {
     }
 
     export function lazyApply(count: number, length: number, callback: Function, parameter?: Array<any>) {
-        if (++count >= length) {
+        if (++count >= length && typeof callback === "function") {
             callback.apply(null, parameter);
         }
     }

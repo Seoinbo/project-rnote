@@ -22,7 +22,7 @@ export class LabelService {
     private _userid: string;
     private _db: LabelDB;
     private _labels: LinkedList<Label>;
-    
+
     constructor () {
         this._db = new LabelDB();
         this._db.init();
@@ -54,14 +54,13 @@ export class LabelService {
         }
         let label:Label = new Label();
         label.import(data);
-        label.touch();
         return label;
     }
 
     public add(label: Label) {
         this.labels.add(label);
     }
-    
+
     public remove(id: string): boolean {
         let label: Label = this.getLabelByID(id);
         if (label) {
@@ -73,7 +72,7 @@ export class LabelService {
         }
         return true;
     }
-    
+
     public getLabelByID(id: string): Label {
         let retv: Label = null;
         this.labels.forEach( (label: Label) => {
@@ -92,11 +91,11 @@ export class LabelService {
     set userid(id: string) {
         this._userid = id;
     }
-    
+
     get labels(): LinkedList<Label> {
         return this._labels;
     }
-    
+
     set labels(labels: LinkedList<Label>) {
         this._labels = labels;
     }
@@ -104,24 +103,24 @@ export class LabelService {
 
 export class Label implements ILabel, DBObject {
     private _db: LabelDB;
-    
+
     public id: string;
     public owner: string;
     public name: string;
     public updated: number;
     public removed: boolean = false;
     public recipes: LinkedList<string>;
-    
+
     constructor (labelID?: string) {
         this.id = labelID;
         this._db = new LabelDB();
         this._db.init();
     }
-    
+
     public import(data: ILabel): ILabel {
         return $.extend(this, data);
     }
-    
+
     public export(): ILabel {
         return {
             id: this.id,
@@ -132,16 +131,16 @@ export class Label implements ILabel, DBObject {
             // recipes: this.recipes
         };
     }
-    
+
     public touch() {
         this.updated = Util.toUnixTimestamp(Config.now());
     }
-    
+
     public remove() {
         this.removed = true;
         this.touch();
     }
-    
+
     // Sync recipes between memory and IndexedDB(localStorage)
     public syncIDB() {
         this._db.open().then( () => {

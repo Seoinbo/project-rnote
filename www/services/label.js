@@ -62,7 +62,6 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                     }
                     var label = new Label();
                     label.import(data);
-                    label.touch();
                     return label;
                 };
                 LabelService.prototype.add = function (label) {

@@ -37,18 +37,6 @@ declare var $: any;
     ]
 })
 export class PopupLabels extends PopupWindow {
-    _name: string = 'asdf';
-    
-    @Input ()
-    set name(name: string) {
-        console.log(name);
-        this._name = name;
-    }
-    
-    get name() {
-        return this._name;
-    }
-    
     private _aniRemoveButtons: AniList;
     private _aniMoveButtons: AniList;
     private _currentFocusIndex: number = 0;
@@ -62,15 +50,6 @@ export class PopupLabels extends PopupWindow {
     }
 
     public ngAfterViewInit() {
-        $(this._element).find('input[type=text]').on("focus", (e: Event, i: number) => {
-            let $target: any = $(e.target);
-            $target.parent().parent('li').attr('editing', true);
-        });
-        
-        $(this._element).find('input[type=text]').on("focusout", (e: Event, i: number) => {
-            let $target: any = $(e.target);
-            $target.parent().parent('li').attr('editing', false);
-        });
     }
 
     // Add a new label.
@@ -83,7 +62,7 @@ export class PopupLabels extends PopupWindow {
     public removeLabel(id: string) {
         this._labelService.remove(id);
     }
-    
+
     private _focusNext() {
         window.setTimeout( () => {
             let children: NodeListOf<any> = this._element.querySelectorAll('.content li.label .title input[type=text]');
@@ -100,15 +79,16 @@ export class PopupLabels extends PopupWindow {
             }
         }, 100);
     }
-    
+
     private _focusLabelName(index: number) {
         this._editingStates[index] = true;
         this._currentFocusIndex = index;
     }
-    
+
     private _focusOutLabelName(index: number) {
         this._editingStates[index] = false;
-        console.log(this._labelService.labels.toArray());
-        
+        // Sync label-name with IDB.
+        let label: Label = this._labelService.labels.elementAtIndex(index);
+        label.syncIDB();
     }
 }

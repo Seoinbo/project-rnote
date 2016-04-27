@@ -30,7 +30,7 @@
             <ul>
                 <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
                     <span class="chkwrap"><input name="chk-label" type="checkbox"/></span>
-                    <span class="title"><input type="text" value="{{labelData.name}}" (focus)="_focusLabelName(index)" (focusout)="_focusOutLabelName(index)"></span>
+                    <span class="title"><input type="text" [(ngModel)]="labelData.name" (focus)="_focusLabelName(index)" (focusout)="_focusOutLabelName(index)"></span>
                     <button name="remove" title="X" (click)="removeLabel(labelData.id); _focusNext();"></button>
                 </li>
             </ul>

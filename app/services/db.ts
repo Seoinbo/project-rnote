@@ -20,13 +20,13 @@ export class DB extends Dexie {
             console.log(e);
         });
     }
-    
+
     // src - local data
     public __syncIDB(tableName: string, src: any, complete?: Function) {
         if (src instanceof Array === false) {
             src = [src];
         }
-        
+
         let store = this.table(tableName);
         let length: number = src.length;
         let count: number = 0;
@@ -55,14 +55,14 @@ export class DB extends Dexie {
             });
         }
     }
-    
+
     public syncIDB(tableName: string, src: any, complete?: Function) {
         window.setTimeout( () => {
             this.__syncIDB(tableName, src, complete);
         }, 0);
     }
 }
-// 
+//
 // export class RecipeDBT<T, key> implements Dexie.T {
-//     
+//
 // }

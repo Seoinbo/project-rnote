@@ -55,30 +55,10 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 function PopupLabels(elementRef, _labelService) {
                     _super.call(this, elementRef);
                     this._labelService = _labelService;
-                    this._name = 'asdf';
                     this._currentFocusIndex = 0;
                     this._editingStates = [];
                 }
-                Object.defineProperty(PopupLabels.prototype, "name", {
-                    get: function () {
-                        return this._name;
-                    },
-                    set: function (name) {
-                        console.log(name);
-                        this._name = name;
-                    },
-                    enumerable: true,
-                    configurable: true
-                });
                 PopupLabels.prototype.ngAfterViewInit = function () {
-                    $(this._element).find('input[type=text]').on("focus", function (e, i) {
-                        var $target = $(e.target);
-                        $target.parent().parent('li').attr('editing', true);
-                    });
-                    $(this._element).find('input[type=text]').on("focusout", function (e, i) {
-                        var $target = $(e.target);
-                        $target.parent().parent('li').attr('editing', false);
-                    });
                 };
                 // Add a new label.
                 PopupLabels.prototype.add = function () {
@@ -112,13 +92,10 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 };
                 PopupLabels.prototype._focusOutLabelName = function (index) {
                     this._editingStates[index] = false;
-                    console.log(this._labelService.labels.toArray());
+                    // Sync label-name with IDB.
+                    var label = this._labelService.labels.elementAtIndex(index);
+                    label.syncIDB();
                 };
-                __decorate([
-                    core_1.Input(), 
-                    __metadata('design:type', String), 
-                    __metadata('design:paramtypes', [String])
-                ], PopupLabels.prototype, "name", null);
                 PopupLabels = __decorate([
                     core_1.Component({
                         selector: 'popup-window[labels]',

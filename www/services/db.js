@@ -78,7 +78,7 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
         }
     }
 });
-// 
+//
 // export class RecipeDBT<T, key> implements Dexie.T {
-//     
+//
 // }

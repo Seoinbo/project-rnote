@@ -26,24 +26,23 @@
                     padding: 0
                     .title
                         width: 100%
-                    input[name=chk-label]
+                        input[type=text]
+                            border: none
+                            background-color: transparent
+                    .chkwrap
                         display: inline-block
-                        line-height: 45px
                         width: 45px
-                        margin: 0 15px 0 9px
-                        vertical-align: center
-                        transition: all 300ms
-                        opacity: 1
+                        min-width: 45px
+                        height: 45px
+                        line-height: 50px
+                        text-align: center
                     button[name=remove]
                         line-height: 45px
                         width: 45px
-                    button[name=move]
-                        position: absolute
-                        line-height: 45px
-                        width: 45px
-    .box[editing=true]
-        section.content
-            ul
-                li
-                    input[name=chk-label]
                         opacity: 0
+                        transform: scale(0)
+                        transition: all 300ms
+                li[editing=true]
+                    button[name=remove]
+                        opacity: 1
+                        transform: scale(1)

@@ -1,7 +1,14 @@
 <div class="bg" [attr.active]="_bgActivation" (click)="close();"></div>
-<div class="box" [attr.active]="_boxActivation" [attr.editing]="_editing">
+<div class="box" [attr.active]="_boxActivation">
     <div class="inner-wrapper">
         <nav>
+            <panel id="popup-labels-view">
+                <button name="back" title="←" (click)="close();"></button>
+                <title nav>Lables</title>
+                <button name="add" title="A" (click)="add();"></button>
+            </panel>
+        </nav>
+        <!-- <nav>
             <multi-panel>
                 <panel-mask>
                     <panel-group>
@@ -18,14 +25,13 @@
                     </panel-group>
                 </panel-mask>
             </multi-panel>
-        </nav>
+        </nav> -->
         <section class="content">
             <ul>
-                <li *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)">
-                    <button animate name="move" title="="></button>
-                    <input name="chk-label" type="checkbox"/>
-                    <label class="title">{{labelData.name}}</label>
-                    <button animate name="remove" title="X" (click)="removeLabel(labelData.id);"></button>
+                <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
+                    <span class="chkwrap"><input name="chk-label" type="checkbox"/></span>
+                    <span class="title"><input type="text" value="{{labelData.name}}" (focus)="_focusLabelName(index)" (focusout)="_focusOutLabelName(index)"></span>
+                    <button name="remove" title="X" (click)="removeLabel(labelData.id); _focusNext();"></button>
                 </li>
             </ul>
         </section>

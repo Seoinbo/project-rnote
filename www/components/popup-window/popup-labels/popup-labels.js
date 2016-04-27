@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../../services/util', '../../../directives/animate/animate', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../../../services/util', '../../../directives/view-object/view-object', '../../../directives/animate/animate', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, util_1, animate_1, nav_1, panel_1, button_1, popup_window_1, label_1;
+    var core_1, platform_1, util_1, view_object_1, animate_1, nav_1, panel_1, button_1, popup_window_1, label_1;
     var PopupLabels;
     return {
         setters:[
@@ -27,6 +27,9 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
             },
             function (util_1_1) {
                 util_1 = util_1_1;
+            },
+            function (view_object_1_1) {
+                view_object_1 = view_object_1_1;
             },
             function (animate_1_1) {
                 animate_1 = animate_1_1;
@@ -52,25 +55,30 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 function PopupLabels(elementRef, _labelService) {
                     _super.call(this, elementRef);
                     this._labelService = _labelService;
-                    this._editing = false;
+                    this._name = 'asdf';
+                    this._currentFocusIndex = 0;
+                    this._editingStates = [];
                 }
+                Object.defineProperty(PopupLabels.prototype, "name", {
+                    get: function () {
+                        return this._name;
+                    },
+                    set: function (name) {
+                        console.log(name);
+                        this._name = name;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 PopupLabels.prototype.ngAfterViewInit = function () {
-                    var _this = this;
-                    this.aniObjects.forEach(function (object) {
-                        if (object.element.getAttribute('name') == 'remove') {
-                            object.ready('zoom');
-                        }
+                    $(this._element).find('input[type=text]').on("focus", function (e, i) {
+                        var $target = $(e.target);
+                        $target.parent().parent('li').attr('editing', true);
                     });
-                    this._aniRemoveButtons = new animate_1.AniList(this.aniObjects.toArray(), 'remove');
-                    this._aniMoveButtons = new animate_1.AniList(this.aniObjects.toArray(), 'move');
-                    // subscribe aniobject change.
-                    this.aniObjects.changes.subscribe(function () {
-                        _this._aniRemoveButtons.import(_this.aniObjects.toArray(), 'remove');
-                        _this._aniMoveButtons.import(_this.aniObjects.toArray(), 'move');
+                    $(this._element).find('input[type=text]').on("focusout", function (e, i) {
+                        var $target = $(e.target);
+                        $target.parent().parent('li').attr('editing', false);
                     });
-                    // ready for animations.
-                    this._aniRemoveButtons.streamReady('zoom', null, 0);
-                    this._aniMoveButtons.streamReady('zoom', null, 0);
                 };
                 // Add a new label.
                 PopupLabels.prototype.add = function () {
@@ -81,28 +89,36 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 PopupLabels.prototype.removeLabel = function (id) {
                     this._labelService.remove(id);
                 };
-                PopupLabels.prototype.enterEditMode = function () {
-                    this._editing = true;
-                    this.multiPanel.ibr.next();
-                    // 에니매이션 효과
-                    this._aniRemoveButtons.streamIn('zoom');
-                    this._aniMoveButtons.streamIn('zoom');
+                PopupLabels.prototype._focusNext = function () {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        var children = _this._element.querySelectorAll('.content li.label .title input[type=text]');
+                        var length = children.length;
+                        var current = _this._currentFocusIndex;
+                        if (current > length - 1) {
+                            current = length - 1;
+                        }
+                        for (var i = 0; i <= length; i++) {
+                            if (current == i) {
+                                children[i].focus();
+                                break;
+                            }
+                        }
+                    }, 100);
                 };
-                PopupLabels.prototype.exitEditMode = function () {
-                    this._editing = false;
-                    this.multiPanel.ibr.prev();
-                    // 에니매이션 효과
-                    this._aniRemoveButtons.streamOut('zoom');
-                    this._aniMoveButtons.streamOut('zoom');
+                PopupLabels.prototype._focusLabelName = function (index) {
+                    this._editingStates[index] = true;
+                    this._currentFocusIndex = index;
+                };
+                PopupLabels.prototype._focusOutLabelName = function (index) {
+                    this._editingStates[index] = false;
+                    console.log(this._labelService.labels.toArray());
                 };
                 __decorate([
-                    core_1.ViewChild(panel_1.MultiPanel), 
-                    __metadata('design:type', panel_1.MultiPanel)
-                ], PopupLabels.prototype, "multiPanel", void 0);
-                __decorate([
-                    core_1.ViewChildren(animate_1.Animate), 
-                    __metadata('design:type', core_1.QueryList)
-                ], PopupLabels.prototype, "aniObjects", void 0);
+                    core_1.Input(), 
+                    __metadata('design:type', String), 
+                    __metadata('design:paramtypes', [String])
+                ], PopupLabels.prototype, "name", null);
                 PopupLabels = __decorate([
                     core_1.Component({
                         selector: 'popup-window[labels]',
@@ -119,8 +135,8 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                             nav_1.Nav,
                             nav_1.NavTitle,
                             panel_1.Panel,
-                            panel_1.MultiPanel,
-                            button_1.Button
+                            button_1.Button,
+                            view_object_1.ViewObject
                         ],
                         pipes: [
                             util_1.exceptRemoved

@@ -72,6 +72,10 @@
 
 * {
     -webkit-tap-highlight-color: transparent;
+    
+}
+*:focus {
+    outline: none;
 }
 html {
     height: 100%;

@@ -24,6 +24,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._activation = false;
                     this._visibility = false;
                     this._rendering = true;
+                    this._editing = false;
                     this._elementRef = elementRef;
                     this._element = elementRef.nativeElement;
                 }
@@ -64,6 +65,17 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         this.active();
                     }
                 };
+                Object.defineProperty(ViewObject.prototype, "editing", {
+                    get: function () {
+                        return this._editing;
+                    },
+                    set: function (value) {
+                        console.log(this.id, value);
+                        this._editing = value;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Object.defineProperty(ViewObject.prototype, "activation", {
                     /*
                      * css visibility func.

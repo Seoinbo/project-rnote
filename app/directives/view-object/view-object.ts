@@ -12,10 +12,11 @@ export class ViewObject {
     protected _originDisplay: string;
     protected _rendering: boolean = true;
     protected _viewid: string;
+    protected _editing: boolean = false;
 
     @Input() id: string;
     public data: any;
-
+    
     constructor(elementRef: ElementRef) {
         this._elementRef = elementRef;
         this._element = elementRef.nativeElement;
@@ -54,6 +55,14 @@ export class ViewObject {
         } else {
             this.active();
         }
+    }
+    get editing(): boolean {
+        return this._editing;
+    }
+
+    set editing(value: boolean) {
+        console.log(this.id, value);
+        this._editing = value;
     }
 
     /*

@@ -26,8 +26,7 @@
     margin: 0 auto;
     width: 95%;
     max-width: 480px;
-    max-height: 280px;
-    min-height: 350px;
+    min-height: 200px;
     box-sizing: border-box;
     perspective: 1300px;
     transition: all 0.4s; }
@@ -49,7 +48,7 @@
   :host .box nav #popup-labels-edit * {
     background-color: #e5cd6c; }
   :host section.content {
-    max-height: 235px;
+    max-height: 155px;
     transition: all 0.4s;
     box-sizing: border-box;
     overflow-y: auto;

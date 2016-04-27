@@ -1,11 +1,11 @@
-import {Component, ElementRef, ViewChild, ViewChildren, QueryList} from 'angular2/core';
+import {Component, ElementRef, ViewChild, ViewChildren, QueryList, Input} from 'angular2/core';
 import {Platform} from '../../../services/platform';
 import {Config} from '../../../services/config';
 import {Util, exceptRemoved} from '../../../services/util';
 import {ViewObject} from '../../../directives/view-object/view-object';
 import {Animate, AniList} from '../../../directives/animate/animate';
 import {Nav, NavTitle} from '../../nav/nav';
-import {Panel, MultiPanel} from '../../panel/panel';
+import {Panel} from '../../panel/panel';
 import {Button} from '../../button/button';
 import {PopupWindow} from '../popup-window';
 import {ILinkedListNode, LinkedList} from '../../../services/collections/LinkedList';
@@ -29,48 +29,48 @@ declare var $: any;
         Nav,
         NavTitle,
         Panel,
-        MultiPanel,
-        Button
+        Button,
+        ViewObject
     ],
     pipes: [
         exceptRemoved
     ]
 })
 export class PopupLabels extends PopupWindow {
-    @ViewChild(MultiPanel) multiPanel: MultiPanel;
-    @ViewChildren(Animate) aniObjects: QueryList<Animate>;
-
-    private _editing: boolean = false;
+    _name: string = 'asdf';
+    
+    @Input ()
+    set name(name: string) {
+        console.log(name);
+        this._name = name;
+    }
+    
+    get name() {
+        return this._name;
+    }
+    
     private _aniRemoveButtons: AniList;
     private _aniMoveButtons: AniList;
+    private _currentFocusIndex: number = 0;
+    private _editingStates: Array<boolean> = [];
 
     constructor(
         elementRef: ElementRef,
         private _labelService: LabelService
     ) {
         super(elementRef);
-        
     }
 
     public ngAfterViewInit() {
-        this.aniObjects.forEach( (object: Animate) => {
-            if (object.element.getAttribute('name') == 'remove') {
-                object.ready('zoom');
-            }
+        $(this._element).find('input[type=text]').on("focus", (e: Event, i: number) => {
+            let $target: any = $(e.target);
+            $target.parent().parent('li').attr('editing', true);
         });
         
-        this._aniRemoveButtons = new AniList(this.aniObjects.toArray(), 'remove');
-        this._aniMoveButtons = new AniList(this.aniObjects.toArray(), 'move');
-        
-        // subscribe aniobject change.
-        this.aniObjects.changes.subscribe( () => {
-            this._aniRemoveButtons.import(this.aniObjects.toArray(), 'remove');
-            this._aniMoveButtons.import(this.aniObjects.toArray(), 'move');
+        $(this._element).find('input[type=text]').on("focusout", (e: Event, i: number) => {
+            let $target: any = $(e.target);
+            $target.parent().parent('li').attr('editing', false);
         });
-        
-        // ready for animations.
-        this._aniRemoveButtons.streamReady('zoom', null, 0);
-        this._aniMoveButtons.streamReady('zoom', null, 0);
     }
 
     // Add a new label.
@@ -83,20 +83,32 @@ export class PopupLabels extends PopupWindow {
     public removeLabel(id: string) {
         this._labelService.remove(id);
     }
-
-    public enterEditMode() {
-        this._editing = true;
-        this.multiPanel.ibr.next();
-        // 에니매이션 효과
-        this._aniRemoveButtons.streamIn('zoom');
-        this._aniMoveButtons.streamIn('zoom');
+    
+    private _focusNext() {
+        window.setTimeout( () => {
+            let children: NodeListOf<any> = this._element.querySelectorAll('.content li.label .title input[type=text]');
+            let length: number = children.length;
+            let current: number = this._currentFocusIndex;
+            if (current > length -1) {
+                current = length -1;
+            }
+            for (let i = 0; i <= length; i++) {
+                if (current == i) {
+                    children[i].focus();
+                    break;
+                }
+            }
+        }, 100);
     }
-
-    public exitEditMode() {
-        this._editing = false;
-        this.multiPanel.ibr.prev();
-        // 에니매이션 효과
-        this._aniRemoveButtons.streamOut('zoom');
-        this._aniMoveButtons.streamOut('zoom');
+    
+    private _focusLabelName(index: number) {
+        this._editingStates[index] = true;
+        this._currentFocusIndex = index;
+    }
+    
+    private _focusOutLabelName(index: number) {
+        this._editingStates[index] = false;
+        console.log(this._labelService.labels.toArray());
+        
     }
 }

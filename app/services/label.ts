@@ -13,7 +13,7 @@ export interface ILabel {
     name: string;
     updated: number;
     removed: boolean;
-    recipes?: LinkedList<string>;
+    recipes?: Array<string>;
 }
 
 // You have to set userid first.
@@ -47,9 +47,9 @@ export class LabelService {
                 id: this._userid + '-l' + Util.uniqID(Config.now()),
                 owner: this._userid,
                 name: 'New label',
-                updated: 0,
+                updated: Util.toUnixTimestamp(Config.now()),
                 removed: false,
-                recipes: new LinkedList<string>()
+                recipes: []
             };
         }
         let label:Label = new Label();
@@ -103,13 +103,14 @@ export class LabelService {
 
 export class Label implements ILabel, DBObject {
     private _db: LabelDB;
+    public origin: any;
 
     public id: string;
     public owner: string;
     public name: string;
     public updated: number;
     public removed: boolean = false;
-    public recipes: LinkedList<string>;
+    public recipes: Array<string> = [];
 
     constructor (labelID?: string) {
         this.id = labelID;
@@ -117,8 +118,25 @@ export class Label implements ILabel, DBObject {
         this._db.init();
     }
 
+    public inRecipes(recipID: string): boolean {
+        if (this.recipes.indexOf(recipID) > -1) {
+            return true;
+        }
+        return false;
+    }
+        
+    public updateOrigin(forceUpdate: boolean = false): any {
+        let current: any = this.export();
+        if (forceUpdate || !this.origin) {
+            this.origin = $.extend(true, {}, current);
+        }
+        return this.origin;
+    }
+
     public import(data: ILabel): ILabel {
-        return $.extend(this, data);
+        $.extend(this, data);
+        this.updateOrigin();
+        return this.export();
     }
 
     public export(): ILabel {
@@ -127,13 +145,23 @@ export class Label implements ILabel, DBObject {
             owner: this.owner,
             name: this.name,
             updated: this.updated,
-            removed: this.removed
-            // recipes: this.recipes
+            removed: this.removed,
+            recipes: this.recipes
         };
     }
 
-    public touch() {
+    public touch(): Label {
         this.updated = Util.toUnixTimestamp(Config.now());
+        return this;
+    }
+    
+    // 'updated' 제외한 속성들이 변했는가?
+    public changed(prop?: string): boolean {
+        let includes: Array<string>;
+        if (prop) {
+            includes = [prop];
+        }
+        return !Util.isEqual(this.origin, this.export(), includes, ['updated']);
     }
 
     public remove() {
@@ -144,8 +172,9 @@ export class Label implements ILabel, DBObject {
     // Sync recipes between memory and IndexedDB(localStorage)
     public syncIDB() {
         this._db.open().then( () => {
-            this._db.syncIDB("labels", this.export(), () => {
+            this._db.syncIDB("labels", this.export(), (state: string) => {
                 console.log("Complete syncIndexdDB() at Label.");
+                this.updateOrigin(true);
                 this._db.close();
             });
         }).catch( (e) => {

@@ -25,7 +25,7 @@
           border: none;
           background-color: transparent; }
       :host .box section.content ul li .chkwrap {
-        display: inline-block;
+        display: none;
         width: 45px;
         min-width: 45px;
         height: 45px;
@@ -40,3 +40,5 @@
     :host .box section.content ul li[editing=true] button[name=remove] {
       opacity: 1;
       transform: scale(1); }
+  :host .box[mode=select] section.content ul li .chkwrap {
+    display: inline-block; }

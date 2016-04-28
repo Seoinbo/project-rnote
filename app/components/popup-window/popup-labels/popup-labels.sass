@@ -30,7 +30,7 @@
                             border: none
                             background-color: transparent
                     .chkwrap
-                        display: inline-block
+                        display: none
                         width: 45px
                         min-width: 45px
                         height: 45px
@@ -46,3 +46,10 @@
                     button[name=remove]
                         opacity: 1
                         transform: scale(1)
+                        
+    .box[mode=select]
+        section.content
+            ul
+                li
+                    .chkwrap
+                        display: inline-block

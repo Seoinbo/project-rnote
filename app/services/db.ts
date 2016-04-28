@@ -3,9 +3,12 @@ import {Config} from './config';
 import Dexie from 'dexie';
 
 export interface DBObject {
+    origin: any,
+    updateOrigin(forceUpdate: boolean): any,
     import<T>(data: T): void,
     export(): any,
-    touch(): void,
+    touch(): any,
+    changed(prop?: string): boolean,
     syncIDB(): void
 }
 
@@ -37,17 +40,17 @@ export class DB extends Dexie {
                     if (src[i].updated > item.updated) {
                         store.put(src[i]).then( () => {
                             res.push(src[i]);
-                            Util.lazyApply(++count, length, complete, res);
+                            Util.lazyApply(++count, length, complete, [res]);
                         });
-                    } else {
+                    } else if (src[i].updated < item.updated){
                         src[i] = item;
                         res.push(src[i]);
-                        Util.lazyApply(++count, length, complete, res);
-                    }
+                        Util.lazyApply(++count, length, complete, [res]);
+                    } else;
                 } else {
                     res.push(src[i]);
                     store.add(src[i]).then( () => {
-                        Util.lazyApply(++count, length, complete, res);
+                        Util.lazyApply(++count, length, complete, [res]);
                     });
                 }
             }).catch( (e) => {

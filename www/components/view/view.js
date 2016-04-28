@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../directives/view-object/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/popup', '../../directives/view-object/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, recipe_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, popup_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View;
     function viewComponentObject(type) {
         var component;
@@ -47,6 +47,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             function (recipe_1_1) {
                 recipe_1 = recipe_1_1;
             },
+            function (popup_1_1) {
+                popup_1 = popup_1_1;
+            },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
             },
@@ -74,9 +77,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
         execute: function() {
             View = (function (_super) {
                 __extends(View, _super);
-                function View(elementRef, _dcl, _recipeService) {
+                function View(elementRef, _dcl, _popupService, _recipeService) {
                     _super.call(this, elementRef);
                     this._dcl = _dcl;
+                    this._popupService = _popupService;
                     this._recipeService = _recipeService;
                     // view-object instances
                     this.viewComponents = new LinkedList_1.LinkedList();
@@ -177,7 +181,6 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         var item = cref.instance;
                         item.viewid = data.id;
                         item.import(data);
-                        item.touch();
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
                         // if (headIndex) {
                         //     this._sortIndex(this.items);
@@ -227,6 +230,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 View.prototype.remove = function () {
                     this.recipe.remove();
                 };
+                View.prototype.openLabelWindow = function () {
+                    this._popupService.openLabel(this.recipe.id);
+                };
                 View.prototype._sortIndex = function (items) {
                     if (items) {
                         var i_1 = 0;
@@ -275,7 +281,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             popup_menu_1.PopupMenu
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.DynamicComponentLoader, recipe_1.RecipeService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, core_1.DynamicComponentLoader, popup_1.PopupService, recipe_1.RecipeService])
                 ], View);
                 return View;
             }(view_object_1.ViewObject));

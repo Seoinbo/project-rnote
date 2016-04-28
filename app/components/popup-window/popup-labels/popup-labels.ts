@@ -41,6 +41,8 @@ export class PopupLabels extends PopupWindow {
     private _aniMoveButtons: AniList;
     private _currentFocusIndex: number = 0;
     private _editingStates: Array<boolean> = [];
+    private _mode: string = 'view'; // 'view'|'select'
+    private _currentRecipeID: string;
 
     constructor(
         elementRef: ElementRef,
@@ -62,7 +64,19 @@ export class PopupLabels extends PopupWindow {
     public removeLabel(id: string) {
         this._labelService.remove(id);
     }
-
+    
+    public select(recipeID: string) {
+        this._currentRecipeID = recipeID;
+        this._mode = 'select';
+        this.open();
+    }
+    
+    public view() {
+        this._currentRecipeID = null;
+        this._mode = 'view';
+        this.open();
+    }
+    
     private _focusNext() {
         window.setTimeout( () => {
             let children: NodeListOf<any> = this._element.querySelectorAll('.content li.label .title input[type=text]');
@@ -80,15 +94,30 @@ export class PopupLabels extends PopupWindow {
         }, 100);
     }
 
-    private _focusLabelName(index: number) {
+    private _onFocusName(index: number) {
         this._editingStates[index] = true;
         this._currentFocusIndex = index;
     }
 
-    private _focusOutLabelName(index: number) {
+    private _onFocusOutName(index: number, label: Label) {
         this._editingStates[index] = false;
         // Sync label-name with IDB.
-        let label: Label = this._labelService.labels.elementAtIndex(index);
-        label.syncIDB();
+        if (label.changed('name')) {
+            label.touch().syncIDB();
+        }
+    }
+    
+    private _onChangeCheckbox(e: Event, label: Label) {
+        let target: any = e.target;
+        if (target.checked) {
+            label.recipes.push(this._currentRecipeID);
+        } else {
+            Util.removeArrayElementByValue(label.recipes, this._currentRecipeID);
+        }
+        
+        // Sync label-data with IDB.
+        if (label.changed('recipes')) {
+            label.touch().syncIDB();
+        }
     }
 }

@@ -10,11 +10,13 @@ import {
 
 declare var $: any;
 
+import {Config} from '../../services/config';
 import {Util, String} from '../../services/util';
 import {Platform} from '../../services/platform';
 import {LinkedList, ILinkedListNode} from '../../services/collections/LinkedList';
 import {RecipeService, Recipe, gRecipes, IRecipeItem, RecipeItem} from '../../services/recipe';
-import {Config} from '../../services/config';
+import {PopupService} from '../../services/popup';
+
 
 import {ViewObject} from '../../directives/view-object/view-object';
 import {Baseline} from './baseline/baseline';
@@ -60,7 +62,9 @@ export class View extends ViewObject {
     constructor(
         elementRef: ElementRef,
         private _dcl: DynamicComponentLoader,
-        private _recipeService: RecipeService) {
+        private _popupService: PopupService,
+        private _recipeService: RecipeService
+    ) {
         super(elementRef);
     }
 
@@ -170,7 +174,6 @@ export class View extends ViewObject {
             let item: RecipeItem = cref.instance;
             item.viewid = data.id;
             item.import(data);
-            item.touch();
 
             // 중간에 아이템이 추가되면 인덱스 번호 재정렬
             // if (headIndex) {
@@ -223,6 +226,10 @@ export class View extends ViewObject {
     // 현재 보고 있는 레시피를 휴지통에 버림.
     public remove() {
         this.recipe.remove();
+    }
+    
+    public openLabelWindow() {
+        this._popupService.openLabel(this.recipe.id);
     }
 
     private _sortIndex(items: LinkedList<IRecipeItem>): LinkedList<IRecipeItem> {

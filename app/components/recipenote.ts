@@ -28,6 +28,7 @@ import {PopupLabels} from './popup-window/popup-labels/popup-labels';
 import {PopupMenu} from './popup-menu/popup-menu';
 import {RecipeService, Recipe, gRecipes} from '../services/recipe';
 import {LabelService, Label} from '../services/label';
+import {PopupService} from '../services/popup';
 
 @Component({
     selector: 'app',
@@ -56,6 +57,7 @@ import {LabelService, Label} from '../services/label';
         ROUTER_PROVIDERS,
         RecipeService,
         LabelService,
+        PopupService,
         UserAccount
     ],
     pipes: [
@@ -77,14 +79,12 @@ export class Recipenote {
     protected _element: HTMLElement;
     private _sidebarActive: boolean = false;
     private _recipes = gRecipes;
-    
-    // popup-windows <ComponentRef>
-    private _popupCRefList = {};
 
     constructor(
         private _elementRef: ElementRef,
         private _recipeService: RecipeService,
         private _labelService: LabelService,
+        private _popupService: PopupService,
         private _userAccount: UserAccount,
         private _dcl: DynamicComponentLoader,
         private _injector: Injector,
@@ -97,6 +97,8 @@ export class Recipenote {
         };
         this._labelService.userid = this._userAccount.user.id;
         this._recipeService.userid = this._userAccount.user.id;
+        // register containerRef of popup-window.
+        this._popupService.setViewContainer(this._elementRef);
     }
 
     ngOnInit() {
@@ -133,22 +135,8 @@ export class Recipenote {
     
     // 팝업 윈도우 열기.
     public openWindow(type: string) {
-        let component: any;
-        switch (type) {
-            case 'labels':
-                component = PopupLabels;
-                break;
-        }
-        if (this._popupCRefList[type] === undefined) {
-            this._dcl.loadIntoLocation(component, this._elementRef, 'popupWindowHead').then( (cref: ComponentRef) => {
-                this._popupCRefList[type] = cref;
-                window.setTimeout( () => {
-                    cref.instance.open();
-                }, 0);
-            });
-        } else {
-            this._popupCRefList[type].instance.open();
-        }
+        // console.log(this._popupService);
+        this._popupService.openLabel();
     }
 
     public addRecipe() {

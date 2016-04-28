@@ -41,19 +41,21 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                                 if (src[i].updated > item.updated) {
                                     store.put(src[i]).then(function () {
                                         res.push(src[i]);
-                                        util_1.Util.lazyApply(++count, length, complete, res);
+                                        util_1.Util.lazyApply(++count, length, complete, [res]);
                                     });
                                 }
-                                else {
+                                else if (src[i].updated < item.updated) {
                                     src[i] = item;
                                     res.push(src[i]);
-                                    util_1.Util.lazyApply(++count, length, complete, res);
+                                    util_1.Util.lazyApply(++count, length, complete, [res]);
                                 }
+                                else
+                                    ;
                             }
                             else {
                                 res.push(src[i]);
                                 store.add(src[i]).then(function () {
-                                    util_1.Util.lazyApply(++count, length, complete, res);
+                                    util_1.Util.lazyApply(++count, length, complete, [res]);
                                 });
                             }
                         }).catch(function (e) {

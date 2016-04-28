@@ -60,12 +60,11 @@ export class RecipeService {
                 owner: this._userid,
                 name: 'untitled',
                 removed: false,
-                updated: 0
+                updated: Util.toUnixTimestamp(Config.now())
             };
         }
         let recipe = new Recipe();
         recipe.import(data);
-        recipe.touch();
         return recipe;
     }
 
@@ -85,6 +84,7 @@ export class RecipeService {
 export class Recipe implements IRecipe, DBObject {
     private _db: RecipeDB;
     private _children: LinkedList<IRecipeItem> = new LinkedList<IRecipeItem>();
+    public origin: any = {};
 
     public id: string;
     public owner: string;
@@ -98,9 +98,19 @@ export class Recipe implements IRecipe, DBObject {
         this._db = new RecipeDB();
         this._db.init();
     }
+    
+    public updateOrigin(forceUpdate: boolean = false): any {
+        let current: any = this.export();
+        if (forceUpdate || !this.origin) {
+            this.origin = $.extend(true, {}, current);
+        }
+        return this.origin;
+    }
 
     public import (data: IRecipe): IRecipe {
-        return $.extend(this, data);
+        $.extend(this, data);
+        this.updateOrigin();
+        return this.export();
     }
 
     public export (): IRecipe {
@@ -114,8 +124,18 @@ export class Recipe implements IRecipe, DBObject {
         };
     }
 
-    public touch() {
+    public touch(): Recipe {
         this.updated = Util.toUnixTimestamp(Config.now());
+        return this;
+    }
+    
+    // 'updated' 제외한 속성들이 변했는가?
+    public changed(prop?: string): boolean {
+        let includes: Array<string>;
+        if (prop) {
+            includes = [prop];
+        }
+        return !Util.isEqual(this.origin, this.export(), includes, ['updated']);
     }
 
     // Sync recipes between memory and IndexedDB(localStorage)
@@ -123,6 +143,7 @@ export class Recipe implements IRecipe, DBObject {
         this._db.open().then( () => {
             this._db.syncIDB("recipes", this.export(), () => {
                 console.log("Complete syncIndexdDB() at RecipeItem.");
+                this.updateOrigin(true);
                 this._db.close();
             });
         });
@@ -151,7 +172,7 @@ export class Recipe implements IRecipe, DBObject {
             type: type,
             parent: this.id,
             removed: false,
-            updated: 0
+            updated: Util.toUnixTimestamp(Config.now())
         };
         return child;
     }
@@ -175,6 +196,7 @@ export class Recipe implements IRecipe, DBObject {
 
 export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
     private _db: RecipeDB;
+    public origin: any = {};
 
     public id: string;
     public index: number;
@@ -182,36 +204,58 @@ export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
     public parent: string;
     public updated: number;
     public removed: boolean = false;
-    public sources: any[];
+    public source: any[];
 
     constructor (elementRef: ElementRef) {
         super(elementRef);
         this._db = new RecipeDB();
         this._db.init();
     }
-
-    public import (data: IRecipeItem): IRecipeItem {
-        return $.extend(this, data);
+    
+    public updateOrigin(forceUpdate: boolean = false): any {
+        let current: any = this.export();
+        if (forceUpdate || !this.origin) {
+            this.origin = $.extend(true, {}, current);
+        }
+        return this.origin;
+    }
+    public import(data: IRecipeItem): IRecipeItem {
+        $.extend(this, data);
+        this.updateOrigin();
+        return this.export();
     }
 
-    public export () {
+    public export(): IRecipeItem {
         return {
             id: this.id,
+            index: this.index,
             parent: this.parent,
             type: this.type,
             updated: this.updated,
-            sources: this.sources
+            removed: this.removed,
+            source: this.source
         };
     }
 
-    public touch() {
+    public touch(): RecipeItem {
         this.updated = Util.toUnixTimestamp(Config.now());
+        return this;
+    }
+    
+    // 'updated' 제외한 속성들이 변했는가?
+    public changed(prop?: string): boolean {
+        let includes: Array<string>;
+        if (prop) {
+            includes = [prop];
+        }
+        return !Util.isEqual(this.origin, this.export(), includes, ['updated']);
     }
 
     public syncIDB() {
         this._db.open().then( () => {
             this._db.syncIDB("recipe_items", this.export(), () => {
                 console.log("Complete syncIndexdDB() at RecipeItem.");
+                this.updateOrigin(true);
                 this._db.close();
             });
         });

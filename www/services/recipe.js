@@ -65,12 +65,11 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             owner: this._userid,
                             name: 'untitled',
                             removed: false,
-                            updated: 0
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
                         };
                     }
                     var recipe = new Recipe();
                     recipe.import(data);
-                    recipe.touch();
                     return recipe;
                 };
                 RecipeService.prototype.add = function (recipe) {
@@ -96,13 +95,24 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
             Recipe = (function () {
                 function Recipe(recipeID) {
                     this._children = new LinkedList_1.LinkedList();
+                    this.origin = {};
                     this.removed = false;
                     this.id = recipeID;
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
+                Recipe.prototype.updateOrigin = function (forceUpdate) {
+                    if (forceUpdate === void 0) { forceUpdate = false; }
+                    var current = this.export();
+                    if (forceUpdate || !this.origin) {
+                        this.origin = $.extend(true, {}, current);
+                    }
+                    return this.origin;
+                };
                 Recipe.prototype.import = function (data) {
-                    return $.extend(this, data);
+                    $.extend(this, data);
+                    this.updateOrigin();
+                    return this.export();
                 };
                 Recipe.prototype.export = function () {
                     return {
@@ -116,6 +126,15 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 };
                 Recipe.prototype.touch = function () {
                     this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
+                    return this;
+                };
+                // 'updated' 제외한 속성들이 변했는가?
+                Recipe.prototype.changed = function (prop) {
+                    var includes;
+                    if (prop) {
+                        includes = [prop];
+                    }
+                    return !util_1.Util.isEqual(this.origin, this.export(), includes, ['updated']);
                 };
                 // Sync recipes between memory and IndexedDB(localStorage)
                 Recipe.prototype.syncIDB = function () {
@@ -123,6 +142,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                     this._db.open().then(function () {
                         _this._db.syncIDB("recipes", _this.export(), function () {
                             console.log("Complete syncIndexdDB() at RecipeItem.");
+                            _this.updateOrigin(true);
                             _this._db.close();
                         });
                     });
@@ -151,7 +171,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         type: type,
                         parent: this.id,
                         removed: false,
-                        updated: 0
+                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
                     };
                     return child;
                 };
@@ -178,30 +198,53 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 __extends(RecipeItem, _super);
                 function RecipeItem(elementRef) {
                     _super.call(this, elementRef);
+                    this.origin = {};
                     this.removed = false;
                     this._db = new recipedb_1.RecipeDB();
                     this._db.init();
                 }
+                RecipeItem.prototype.updateOrigin = function (forceUpdate) {
+                    if (forceUpdate === void 0) { forceUpdate = false; }
+                    var current = this.export();
+                    if (forceUpdate || !this.origin) {
+                        this.origin = $.extend(true, {}, current);
+                    }
+                    return this.origin;
+                };
                 RecipeItem.prototype.import = function (data) {
-                    return $.extend(this, data);
+                    $.extend(this, data);
+                    this.updateOrigin();
+                    return this.export();
                 };
                 RecipeItem.prototype.export = function () {
                     return {
                         id: this.id,
+                        index: this.index,
                         parent: this.parent,
                         type: this.type,
                         updated: this.updated,
-                        sources: this.sources
+                        removed: this.removed,
+                        source: this.source
                     };
                 };
                 RecipeItem.prototype.touch = function () {
                     this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
+                    return this;
+                };
+                // 'updated' 제외한 속성들이 변했는가?
+                RecipeItem.prototype.changed = function (prop) {
+                    var includes;
+                    if (prop) {
+                        includes = [prop];
+                    }
+                    return !util_1.Util.isEqual(this.origin, this.export(), includes, ['updated']);
                 };
                 RecipeItem.prototype.syncIDB = function () {
                     var _this = this;
                     this._db.open().then(function () {
                         _this._db.syncIDB("recipe_items", _this.export(), function () {
                             console.log("Complete syncIndexdDB() at RecipeItem.");
+                            _this.updateOrigin(true);
                             _this._db.close();
                         });
                     });

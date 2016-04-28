@@ -58,6 +58,40 @@ export module Util {
     export function uniqID(timestamp: number): string {
         return timestamp.toString(36).toLowerCase();
     }
+    
+    export function isEqual(src: any, dest: any, includes?: Array<string>, excludes?: Array<string>): boolean {
+        for (let key in src) {
+            if (includes && includes.indexOf(key) == -1) {
+                continue;
+            }
+            if (excludes && excludes.indexOf(key) > -1) {
+                continue;
+            }
+            if (!src.hasOwnProperty || !src.hasOwnProperty(key)) {
+                continue;
+            }
+            if (typeof src[key] === "undefined") {
+				continue;
+			} else if (Object.prototype.toString.call(src[key]) === "[object Object]") {
+				if (!this.isEqual(src[key], dest[key], includes, excludes)) {
+                    return false;
+                }
+			} else {
+				if (src[key] != dest[key]) {
+                    return false;
+                }
+			}
+        }
+        return true;
+    }
+    
+    export function removeArrayElementByValue(array: Array<any>, value: any) {
+        let index = array.indexOf(value);
+        if (index >= 0) {
+          array.splice(index, 1);
+        }
+        return array;
+    }
 }
 
 export module String {
@@ -75,5 +109,13 @@ export module String {
 
     export function toUnderscore(str: string): string {
     	return str.replace(/([A-Z])/g, function($1){return "_"+$1.toLowerCase();});
+    }
+    
+    export function getFunctionName(str: string): string {
+        let temp: Array<string> = str.match(/^function (\w*)/);
+        if (temp == null) {
+            return null;
+        }
+        return temp[1];
     }
 }

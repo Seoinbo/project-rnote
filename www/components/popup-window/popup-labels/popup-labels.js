@@ -57,6 +57,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                     this._labelService = _labelService;
                     this._currentFocusIndex = 0;
                     this._editingStates = [];
+                    this._mode = 'view'; // 'view'|'select'
                 }
                 PopupLabels.prototype.ngAfterViewInit = function () {
                 };
@@ -68,6 +69,16 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                 };
                 PopupLabels.prototype.removeLabel = function (id) {
                     this._labelService.remove(id);
+                };
+                PopupLabels.prototype.select = function (recipeID) {
+                    this._currentRecipeID = recipeID;
+                    this._mode = 'select';
+                    this.open();
+                };
+                PopupLabels.prototype.view = function () {
+                    this._currentRecipeID = null;
+                    this._mode = 'view';
+                    this.open();
                 };
                 PopupLabels.prototype._focusNext = function () {
                     var _this = this;
@@ -86,15 +97,29 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                         }
                     }, 100);
                 };
-                PopupLabels.prototype._focusLabelName = function (index) {
+                PopupLabels.prototype._onFocusName = function (index) {
                     this._editingStates[index] = true;
                     this._currentFocusIndex = index;
                 };
-                PopupLabels.prototype._focusOutLabelName = function (index) {
+                PopupLabels.prototype._onFocusOutName = function (index, label) {
                     this._editingStates[index] = false;
                     // Sync label-name with IDB.
-                    var label = this._labelService.labels.elementAtIndex(index);
-                    label.syncIDB();
+                    if (label.changed('name')) {
+                        label.touch().syncIDB();
+                    }
+                };
+                PopupLabels.prototype._onChangeCheckbox = function (e, label) {
+                    var target = e.target;
+                    if (target.checked) {
+                        label.recipes.push(this._currentRecipeID);
+                    }
+                    else {
+                        util_1.Util.removeArrayElementByValue(label.recipes, this._currentRecipeID);
+                    }
+                    // Sync label-data with IDB.
+                    if (label.changed('recipes')) {
+                        label.touch().syncIDB();
+                    }
                 };
                 PopupLabels = __decorate([
                     core_1.Component({

@@ -55,9 +55,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             id: this._userid + '-l' + util_1.Util.uniqID(config_1.Config.now()),
                             owner: this._userid,
                             name: 'New label',
-                            updated: 0,
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
                             removed: false,
-                            recipes: new LinkedList_1.LinkedList()
+                            recipes: []
                         };
                     }
                     var label = new Label();
@@ -118,12 +118,29 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
             Label = (function () {
                 function Label(labelID) {
                     this.removed = false;
+                    this.recipes = [];
                     this.id = labelID;
                     this._db = new labeldb_1.LabelDB();
                     this._db.init();
                 }
+                Label.prototype.inRecipes = function (recipID) {
+                    if (this.recipes.indexOf(recipID) > -1) {
+                        return true;
+                    }
+                    return false;
+                };
+                Label.prototype.updateOrigin = function (forceUpdate) {
+                    if (forceUpdate === void 0) { forceUpdate = false; }
+                    var current = this.export();
+                    if (forceUpdate || !this.origin) {
+                        this.origin = $.extend(true, {}, current);
+                    }
+                    return this.origin;
+                };
                 Label.prototype.import = function (data) {
-                    return $.extend(this, data);
+                    $.extend(this, data);
+                    this.updateOrigin();
+                    return this.export();
                 };
                 Label.prototype.export = function () {
                     return {
@@ -131,11 +148,21 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         owner: this.owner,
                         name: this.name,
                         updated: this.updated,
-                        removed: this.removed
+                        removed: this.removed,
+                        recipes: this.recipes
                     };
                 };
                 Label.prototype.touch = function () {
                     this.updated = util_1.Util.toUnixTimestamp(config_1.Config.now());
+                    return this;
+                };
+                // 'updated' 제외한 속성들이 변했는가?
+                Label.prototype.changed = function (prop) {
+                    var includes;
+                    if (prop) {
+                        includes = [prop];
+                    }
+                    return !util_1.Util.isEqual(this.origin, this.export(), includes, ['updated']);
                 };
                 Label.prototype.remove = function () {
                     this.removed = true;
@@ -145,8 +172,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 Label.prototype.syncIDB = function () {
                     var _this = this;
                     this._db.open().then(function () {
-                        _this._db.syncIDB("labels", _this.export(), function () {
+                        _this._db.syncIDB("labels", _this.export(), function (state) {
                             console.log("Complete syncIndexdDB() at Label.");
+                            _this.updateOrigin(true);
                             _this._db.close();
                         });
                     }).catch(function (e) {

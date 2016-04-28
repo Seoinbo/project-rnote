@@ -90,6 +90,42 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return timestamp.toString(36).toLowerCase();
                 }
                 Util.uniqID = uniqID;
+                function isEqual(src, dest, includes, excludes) {
+                    for (var key in src) {
+                        if (includes && includes.indexOf(key) == -1) {
+                            continue;
+                        }
+                        if (excludes && excludes.indexOf(key) > -1) {
+                            continue;
+                        }
+                        if (!src.hasOwnProperty || !src.hasOwnProperty(key)) {
+                            continue;
+                        }
+                        if (typeof src[key] === "undefined") {
+                            continue;
+                        }
+                        else if (Object.prototype.toString.call(src[key]) === "[object Object]") {
+                            if (!this.isEqual(src[key], dest[key], includes, excludes)) {
+                                return false;
+                            }
+                        }
+                        else {
+                            if (src[key] != dest[key]) {
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+                Util.isEqual = isEqual;
+                function removeArrayElementByValue(array, value) {
+                    var index = array.indexOf(value);
+                    if (index >= 0) {
+                        array.splice(index, 1);
+                    }
+                    return array;
+                }
+                Util.removeArrayElementByValue = removeArrayElementByValue;
             })(Util = Util || (Util = {}));
             exports_1("Util", Util);
             (function (String) {
@@ -109,6 +145,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return str.replace(/([A-Z])/g, function ($1) { return "_" + $1.toLowerCase(); });
                 }
                 String.toUnderscore = toUnderscore;
+                function getFunctionName(str) {
+                    var temp = str.match(/^function (\w*)/);
+                    if (temp == null) {
+                        return null;
+                    }
+                    return temp[1];
+                }
+                String.getFunctionName = getFunctionName;
             })(String = String || (String = {}));
             exports_1("String", String);
         }

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-window/popup-labels/popup-labels', './popup-menu/popup-menu', '../services/recipe', '../services/label'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', './view/view', './view/header/header', './sidebar/sidebar', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe', '../services/label', '../services/popup'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_labels_1, popup_menu_1, recipe_1, label_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_1, header_1, sidebar_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1, label_1, popup_1;
     var Recipenote;
     return {
         setters:[
@@ -50,9 +50,6 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             function (button_1_1) {
                 button_1 = button_1_1;
             },
-            function (popup_labels_1_1) {
-                popup_labels_1 = popup_labels_1_1;
-            },
             function (popup_menu_1_1) {
                 popup_menu_1 = popup_menu_1_1;
             },
@@ -61,13 +58,17 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (label_1_1) {
                 label_1 = label_1_1;
+            },
+            function (popup_1_1) {
+                popup_1 = popup_1_1;
             }],
         execute: function() {
             Recipenote = (function () {
-                function Recipenote(_elementRef, _recipeService, _labelService, _userAccount, _dcl, _injector, _zone) {
+                function Recipenote(_elementRef, _recipeService, _labelService, _popupService, _userAccount, _dcl, _injector, _zone) {
                     this._elementRef = _elementRef;
                     this._recipeService = _recipeService;
                     this._labelService = _labelService;
+                    this._popupService = _popupService;
                     this._userAccount = _userAccount;
                     this._dcl = _dcl;
                     this._injector = _injector;
@@ -75,8 +76,6 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     this.onChangeSidebarDisplay = new core_1.EventEmitter();
                     this._sidebarActive = false;
                     this._recipes = recipe_1.gRecipes;
-                    // popup-windows <ComponentRef>
-                    this._popupCRefList = {};
                     this._element = this._elementRef.nativeElement;
                     // test-userAccount
                     this._userAccount.user = {
@@ -84,6 +83,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     };
                     this._labelService.userid = this._userAccount.user.id;
                     this._recipeService.userid = this._userAccount.user.id;
+                    // register containerRef of popup-window.
+                    this._popupService.setViewContainer(this._elementRef);
                 }
                 Recipenote.prototype.ngOnInit = function () {
                     var _this = this;
@@ -116,24 +117,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                 };
                 // 팝업 윈도우 열기.
                 Recipenote.prototype.openWindow = function (type) {
-                    var _this = this;
-                    var component;
-                    switch (type) {
-                        case 'labels':
-                            component = popup_labels_1.PopupLabels;
-                            break;
-                    }
-                    if (this._popupCRefList[type] === undefined) {
-                        this._dcl.loadIntoLocation(component, this._elementRef, 'popupWindowHead').then(function (cref) {
-                            _this._popupCRefList[type] = cref;
-                            window.setTimeout(function () {
-                                cref.instance.open();
-                            }, 0);
-                        });
-                    }
-                    else {
-                        this._popupCRefList[type].instance.open();
-                    }
+                    // console.log(this._popupService);
+                    this._popupService.openLabel();
                 };
                 Recipenote.prototype.addRecipe = function () {
                     var newRecipe = this._recipeService.create();
@@ -204,13 +189,14 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             router_1.ROUTER_PROVIDERS,
                             recipe_1.RecipeService,
                             label_1.LabelService,
+                            popup_1.PopupService,
                             user_account_1.UserAccount
                         ],
                         pipes: [
                             util_1.JSON2Array
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, label_1.LabelService, user_account_1.UserAccount, core_1.DynamicComponentLoader, core_1.Injector, core_1.NgZone])
+                    __metadata('design:paramtypes', [core_1.ElementRef, recipe_1.RecipeService, label_1.LabelService, popup_1.PopupService, user_account_1.UserAccount, core_1.DynamicComponentLoader, core_1.Injector, core_1.NgZone])
                 ], Recipenote);
                 return Recipenote;
             }());

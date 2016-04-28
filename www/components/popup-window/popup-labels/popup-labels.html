@@ -1,5 +1,5 @@
 <div class="bg" [attr.active]="_bgActivation" (click)="close();"></div>
-<div class="box" [attr.active]="_boxActivation">
+<div class="box" [attr.active]="_boxActivation" [attr.mode]="_mode">
     <div class="inner-wrapper">
         <nav>
             <panel id="popup-labels-view">
@@ -28,9 +28,9 @@
         </nav> -->
         <section class="content">
             <ul>
-                <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
-                    <span class="chkwrap"><input name="chk-label" type="checkbox"/></span>
-                    <span class="title"><input type="text" [(ngModel)]="labelData.name" (focus)="_focusLabelName(index)" (focusout)="_focusOutLabelName(index)"></span>
+                <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]" [attr.aa]="index">
+                    <span class="chkwrap"><input name="chk-label" type="checkbox" [ngModel]="labelData.inRecipes(_currentRecipeID)" (change)="_onChangeCheckbox($event, labelData)"/></span>
+                    <span class="title"><input type="text" [(ngModel)]="labelData.name" (focus)="_onFocusName(index)" (focusout)="_onFocusOutName(index, labelData)"></span>
                     <button name="remove" title="X" (click)="removeLabel(labelData.id); _focusNext();"></button>
                 </li>
             </ul>

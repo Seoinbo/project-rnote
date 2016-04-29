@@ -15,13 +15,12 @@ import {
 } from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {Platform} from '../services/platform';
-import {Util, String, JSON2Array} from '../services/util';
+import {Util, String, JSON2Array, exceptRemoved} from '../services/util';
 import {UserAccount, User} from '../services/user-account';
 import {List, ListItem} from './list/list';
 import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
-import {Sidebar} from './sidebar/sidebar';
-import {Nav, NavTitle} from './nav/nav';
+import {Nav} from './nav/nav';
 import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupLabels} from './popup-window/popup-labels/popup-labels';
@@ -43,13 +42,11 @@ import {PopupService} from '../services/popup';
     directives: [
         ROUTER_DIRECTIVES,
         Nav,
-        NavTitle,
         Panel,
         List,
         ListItem,
         View,
         ViewHeader,
-        Sidebar,
         Button,
         PopupMenu
     ],
@@ -61,7 +58,8 @@ import {PopupService} from '../services/popup';
         UserAccount
     ],
     pipes: [
-        JSON2Array
+        JSON2Array,
+        exceptRemoved
     ]
 })
 
@@ -71,14 +69,12 @@ import {PopupService} from '../services/popup';
 // ])
 
 export class Recipenote {
-    @Output() onChangeSidebarDisplay: EventEmitter<any> = new EventEmitter();
-    @ViewChild(NavTitle) navTitle: NavTitle;
     @ViewChild(View) view: View;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
 
     protected _element: HTMLElement;
-    private _sidebarActive: boolean = false;
     private _recipes = gRecipes;
+    private _labelListActivation: boolean = false;
 
     constructor(
         private _elementRef: ElementRef,
@@ -111,26 +107,7 @@ export class Recipenote {
     }
 
     ngAfterViewInit() {
-        this.navTitle.text = 'test';
         Util.extractViewChildren(this, [this.arrPopupMenu]);
-    }
-
-    showSidebar(): void {
-        this.sidebarActive = true;
-        this.onChangeSidebarDisplay.emit(true);
-    }
-
-    hideSidebar(): void {
-        this.sidebarActive = false;
-        this.onChangeSidebarDisplay.emit(false);
-    }
-
-    toggleSidebar(): void {
-        if (this.sidebarActive) {
-            this.hideSidebar();
-        } else {
-            this.showSidebar();
-        }
     }
     
     // 팝업 윈도우 열기.
@@ -138,19 +115,19 @@ export class Recipenote {
         // console.log(this._popupService);
         this._popupService.openLabel();
     }
+    
+    public toggleLabelList() {
+        if (this._labelListActivation) {
+            this._labelListActivation = false;
+        } else {
+            this._labelListActivation = true;
+        }
+    }
 
     public addRecipe() {
         let newRecipe: Recipe = this._recipeService.create();
         this._recipeService.add(newRecipe);
         newRecipe.syncIDB();
-    }
-
-    set sidebarActive(value: boolean) {
-        this._sidebarActive = value;
-    }
-
-    get sidebarActive():boolean {
-        return this._sidebarActive;
     }
 
     set recipes(value: any) {

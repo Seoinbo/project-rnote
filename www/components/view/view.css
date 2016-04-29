@@ -73,15 +73,15 @@
   nav panel#view-header btn-group {
     width: 135px !important; } }
 
-@media screen and (min-width: 740px) and (max-width: 890px) {
+@media screen and (min-width: 740px) and (max-width: 640px) {
   nav panel#view-header btn-group {
     width: 180px !important; } }
 
-@media screen and (min-width: 890px) and (max-width: 1140px) {
+@media screen and (min-width: 640px) and (max-width: 890px) {
   nav panel#view-header btn-group {
     width: 135px !important; } }
 
-@media screen and (min-width: 1140px) {
+@media screen and (min-width: 890px) {
   nav panel#view-header btn-group {
     width: 225px !important; } }
 

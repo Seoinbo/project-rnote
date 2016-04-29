@@ -1,37 +1,20 @@
-sidebar {
-  position: fixed;
-  z-index: 20;
-  flex: 0 0 auto;
-  bottom: 0;
-  box-sizing: border-box;
-  width: 250px;
-  height: 100%;
-  background-color: #323943; }
-
 container {
   position: relative;
   z-index: 30;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   width: 100%;
   min-width: 320px;
   height: 100%;
-  background-color: #777;
+  background-color: #fff;
   box-sizing: border-box;
   transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05); }
-  container .sidebar-close-area {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .7;
-    background-color: #9BF0E9; }
   container nav {
     position: relative;
-    background-color: #777;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     flex: 0 0 auto;
     width: 100%;
     height: 45px; }
@@ -39,6 +22,40 @@ container {
       line-height: 45px; }
       container nav panel button {
         width: 45px; }
+    container nav #main-header {
+      flex: 0 0 auto; }
+      container nav #main-header #main-titlebox {
+        width: 100%;
+        text-align: center;
+        cursor: pointer; }
+        container nav #main-header #main-titlebox #main-title {
+          width: 100%;
+          height: 32px;
+          line-height: 42px; }
+        container nav #main-header #main-titlebox .down-arrow {
+          width: 100%;
+          height: 13px;
+          line-height: 5px; }
+
+#label-list {
+  position: absolute;
+  overflow-y: auto;
+  top: 0;
+  width: 100%;
+  height: 200px;
+  background: #fff;
+  transition: all 0.4s;
+  border-bottom: 1px solid #e5e5e5;
+  color: #888; }
+  #label-list ul {
+    box-sizing: border-box;
+    list-style-type: none;
+    padding: 0 24px;
+    margin: 3px;
+    text-align: center;
+    line-height: 30px; }
+    #label-list ul li {
+      position: relative; }
 
 content {
   position: relative;
@@ -49,7 +66,7 @@ content {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  background-color: #111; }
+  background-color: #fff; }
   content panel[id=cart] {
     display: none; }
   content panel[id=main] list {
@@ -62,17 +79,37 @@ content {
     max-width: 640px;
     height: auto;
     box-sizing: border-box;
-    background-color: #EDE5E2; }
+    background-color: #fff; }
+    content panel[id=main] list #list-inner {
+      z-index: 1;
+      transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05); }
+    content panel[id=main] list #list-inner[active=true] {
+      transform: translateY(201px); }
+    content panel[id=main] list #list-bottom {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 0 auto;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 100%;
+      height: 45px;
+      background-color: #fff; }
     content panel[id=main] list #recipe-add-icon {
+      z-index: 3;
       position: absolute;
       z-index: 0;
-      bottom: 15px;
       right: 15px;
       width: 45px;
       height: 45px;
+      bottom: 55px;
+      left: 50%;
+      margin-left: -22px;
       border-radius: 50%;
       overflow: hidden;
-      background-color: #777; }
+      background-color: #fff; }
       content panel[id=main] list #recipe-add-icon button {
         font-size: 15px;
         line-height: 48px; }
@@ -80,20 +117,3 @@ content {
 @media screen and (max-width: 640px) {
   content panel[id=main] list {
     width: 100%; } }
-
-@media screen and (min-width: 640px) {
-  nav .view-open {
-    display: none; } }
-
-@media screen and (min-width: 890px) {
-  sidebar {
-    position: relative;
-    width: 250px; }
-  nav panel [name=menu] {
-    display: none; } }
-
-@media screen and (max-width: 890px) {
-  container .sidebar-close-area[active=true] {
-    display: block; }
-  container[active=true] {
-    transform: translateX(250px); } }

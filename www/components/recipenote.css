@@ -4,8 +4,7 @@ sidebar {
   flex: 0 0 auto;
   bottom: 0;
   box-sizing: border-box;
-  width: 65%;
-  min-width: 250px;
+  width: 250px;
   height: 100%;
   background-color: #323943; }
 
@@ -86,15 +85,15 @@ content {
   nav .view-open {
     display: none; } }
 
-@media screen and (min-width: 920px) {
+@media screen and (min-width: 890px) {
   sidebar {
     position: relative;
-    width: 280px; }
+    width: 250px; }
   nav panel [name=menu] {
     display: none; } }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 890px) {
   container .sidebar-close-area[active=true] {
     display: block; }
   container[active=true] {
-    transform: translate3d(60%, 0, 0) scale3d(0.85, 0.85, 1); } }
+    transform: translateX(250px); } }

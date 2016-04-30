@@ -1,46 +1,44 @@
 <container>
-    <nav>
-        <panel id="main-header">
-            <button nav name="setting" title="S"></button>
-            <div id="main-titlebox" (click)="toggleLabelList()">
-                <div id="main-title">All labels</div>
-                <div class="down-arrow">∨</div>
+    <recipe-list>
+        <nav>
+            <panel id="main-header">
+                <button nav name="setting" title="S"></button>
+                <div id="main-titlebox" (click)="toggleLabelList()">
+                    <div id="main-title">All labels</div>
+                    <div class="down-arrow">∨</div>
+                </div>
+                <button nav name="sync" title="Y" (click)="openWindow('label');"></button>
+            </panel>
+        </nav>
+        <list>
+            <div id="list-inner" [attr.active]="_labelListActivation">
+                <item
+                *ngFor="#recipe of (recipes | JSON2Array)"
+                [recipeData]="recipe"
+                (click)="view.open(recipe.id);">
+                </item>
             </div>
-            <button nav name="sync" title="Y" (click)="openWindow('label');"></button>
-        </panel>
-    </nav>
+            <div id="label-list" [attr.active]="_labelListActivation">
+                <ul>
+                    <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)">{{labelData.name}}</li>
+                </ul>
+            </div>
+            <div id="recipe-add-icon">
+                <button name="add-item" title="+" (click)="addRecipe();"></button>
+            </div>
+            <div id="list-bottom">
+                <button nav name="market" title="M" (click)="openWindow('label');"></button>
+                <button nav name="wastebasket" title="W" (click)="openWindow('label');"></button>
+                <button nav name="cart" title="C" (click)="openWindow('label');"></button>
+                <button nav name="search" title="S" (click)="openWindow('label');"></button>
+            </div>
+        </list>
+    </recipe-list>
     <content>
         <panel id="main">
-            <list>
-                <div id="list-inner" [attr.active]="_labelListActivation">
-                    <item
-                    *ngFor="#recipe of (recipes | JSON2Array)"
-                    [recipeData]="recipe"
-                    (click)="view.open(recipe.id);">
-                    </item>
-                </div>
-                <div id="label-list" [attr.active]="_labelListActivation">
-                    <ul>
-                        <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)">{{labelData.name}}</li>
-                    </ul>
-                </div>
-                <div id="recipe-add-icon">
-                    <button name="add-item" title="+" (click)="addRecipe();"></button>
-                </div>
-                <div id="list-bottom">
-                    <button nav name="market" title="M" (click)="openWindow('label');"></button>
-                    <button nav name="wastebasket" title="W" (click)="openWindow('label');"></button>
-                    <button nav name="cart" title="C" (click)="openWindow('label');"></button>
-                    <button nav name="search" title="S" (click)="openWindow('label');"></button>
-                </div>
-            </list>
+
             <view></view>
         </panel>
-        <panel id="cart">
-
-        </panel>
-        
     </content>
-    
 </container>
 <input type="hidden" #popupWindowHead />

@@ -2,7 +2,7 @@ container {
   position: relative;
   z-index: 30;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex: 0 1 auto;
   width: 100%;
   min-width: 320px;
@@ -10,7 +10,20 @@ container {
   background-color: #fff;
   box-sizing: border-box;
   transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05); }
-  container nav {
+
+recipe-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  flex: 1 1 auto;
+  min-width: 320px;
+  max-width: 640px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background-color: #fff; }
+  recipe-list nav {
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -18,24 +31,66 @@ container {
     flex: 0 0 auto;
     width: 100%;
     height: 45px; }
-    container nav panel {
+    recipe-list nav panel {
       line-height: 45px; }
-      container nav panel button {
+      recipe-list nav panel button {
         width: 45px; }
-    container nav #main-header {
+    recipe-list nav #main-header {
       flex: 0 0 auto; }
-      container nav #main-header #main-titlebox {
+      recipe-list nav #main-header #main-titlebox {
         width: 100%;
         text-align: center;
         cursor: pointer; }
-        container nav #main-header #main-titlebox #main-title {
+        recipe-list nav #main-header #main-titlebox #main-title {
           width: 100%;
           height: 32px;
           line-height: 42px; }
-        container nav #main-header #main-titlebox .down-arrow {
+        recipe-list nav #main-header #main-titlebox .down-arrow {
           width: 100%;
           height: 13px;
           line-height: 5px; }
+  recipe-list list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #fff; }
+    recipe-list list #list-inner {
+      z-index: 1;
+      transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05); }
+    recipe-list list #list-inner[active=true] {
+      transform: translateY(201px); }
+    recipe-list list #list-bottom {
+      z-index: 2;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      flex: 0 0 auto;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 100%;
+      height: 45px;
+      background-color: #fff; }
+    recipe-list list #recipe-add-icon {
+      z-index: 3;
+      position: absolute;
+      z-index: 0;
+      right: 15px;
+      width: 45px;
+      height: 45px;
+      bottom: 55px;
+      left: 50%;
+      margin-left: -22px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #fff; }
+      recipe-list list #recipe-add-icon button {
+        font-size: 15px;
+        line-height: 48px; }
 
 #label-list {
   position: absolute;
@@ -69,50 +124,6 @@ content {
   background-color: #fff; }
   content panel[id=cart] {
     display: none; }
-  content panel[id=main] list {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 auto;
-    width: 50%;
-    min-width: 320px;
-    max-width: 640px;
-    height: auto;
-    box-sizing: border-box;
-    background-color: #fff; }
-    content panel[id=main] list #list-inner {
-      z-index: 1;
-      transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05); }
-    content panel[id=main] list #list-inner[active=true] {
-      transform: translateY(201px); }
-    content panel[id=main] list #list-bottom {
-      z-index: 2;
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      flex: 0 0 auto;
-      justify-content: center;
-      box-sizing: border-box;
-      width: 100%;
-      height: 45px;
-      background-color: #fff; }
-    content panel[id=main] list #recipe-add-icon {
-      z-index: 3;
-      position: absolute;
-      z-index: 0;
-      right: 15px;
-      width: 45px;
-      height: 45px;
-      bottom: 55px;
-      left: 50%;
-      margin-left: -22px;
-      border-radius: 50%;
-      overflow: hidden;
-      background-color: #fff; }
-      content panel[id=main] list #recipe-add-icon button {
-        font-size: 15px;
-        line-height: 48px; }
 
 @media screen and (max-width: 640px) {
   content panel[id=main] list {

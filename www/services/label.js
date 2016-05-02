@@ -33,6 +33,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
             // You have to set userid first.
             LabelService = (function () {
                 function LabelService() {
+                    this._currentLabel = "all";
                     this._db = new labeldb_1.LabelDB();
                     this._db.init();
                     this._labels = new LinkedList_1.LinkedList();
@@ -104,6 +105,16 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                     },
                     set: function (labels) {
                         this._labels = labels;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                Object.defineProperty(LabelService.prototype, "currentLabel", {
+                    get: function () {
+                        return this._currentLabel;
+                    },
+                    set: function (labelID) {
+                        this._currentLabel = labelID;
                     },
                     enumerable: true,
                     configurable: true

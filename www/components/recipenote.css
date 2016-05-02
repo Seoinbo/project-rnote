@@ -92,26 +92,27 @@ recipe-list {
       recipe-list list #recipe-add-icon button {
         font-size: 15px;
         line-height: 48px; }
-
-#label-list {
-  position: absolute;
-  overflow-y: auto;
-  top: 0;
-  width: 100%;
-  height: 200px;
-  background: #fff;
-  transition: all 0.4s;
-  border-bottom: 1px solid #e5e5e5;
-  color: #888; }
-  #label-list ul {
-    box-sizing: border-box;
-    list-style-type: none;
-    padding: 0 24px;
-    margin: 3px;
-    text-align: center;
-    line-height: 30px; }
-    #label-list ul li {
-      position: relative; }
+    recipe-list list #label-list {
+      position: absolute;
+      overflow-y: auto;
+      top: 0;
+      width: 100%;
+      height: 200px;
+      background: #fff;
+      transition: all 0.4s;
+      border-bottom: 1px solid #e5e5e5;
+      color: #888; }
+      recipe-list list #label-list ul {
+        box-sizing: border-box;
+        list-style-type: none;
+        padding: 0 24px;
+        margin: 3px;
+        text-align: center;
+        line-height: 30px; }
+        recipe-list list #label-list ul li {
+          position: relative; }
+        recipe-list list #label-list ul li[selected=true] {
+          color: #000; }
 
 content {
   position: relative;

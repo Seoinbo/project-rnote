@@ -110,13 +110,39 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     // console.log(this._popupService);
                     this._popupService.openLabel();
                 };
+                //
+                // -~= fot Labels =~-
+                // 
                 Recipenote.prototype.toggleLabelList = function () {
                     if (this._labelListActivation) {
-                        this._labelListActivation = false;
+                        this.closeLabelList();
                     }
                     else {
-                        this._labelListActivation = true;
+                        this.openLabelList();
                     }
+                };
+                Recipenote.prototype.openLabelList = function () {
+                    this._labelListActivation = true;
+                };
+                Recipenote.prototype.closeLabelList = function () {
+                    this._labelListActivation = false;
+                };
+                Recipenote.prototype.selectLabel = function (labelID) {
+                    this._labelService.currentLabel = labelID;
+                    this.closeLabelList();
+                };
+                Recipenote.prototype.labelNameByID = function (labelID) {
+                    if (labelID == "all") {
+                        return "all labels";
+                    }
+                    var name = "labels";
+                    this._labelService.labels.forEach(function (label) {
+                        if (label.id == labelID) {
+                            name = label.name;
+                            return false;
+                        }
+                    });
+                    return name;
                 };
                 Recipenote.prototype.addRecipe = function () {
                     var newRecipe = this._recipeService.create();

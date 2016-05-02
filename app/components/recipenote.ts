@@ -130,14 +130,46 @@ export class Recipenote {
         this._popupService.openLabel();
     }
     
+    
+    
+    //
+    // -~= fot Labels =~-
+    // 
     public toggleLabelList() {
         if (this._labelListActivation) {
-            this._labelListActivation = false;
+            this.closeLabelList();
         } else {
-            this._labelListActivation = true;
+            this.openLabelList();
         }
     }
-
+    
+    public openLabelList() {
+        this._labelListActivation = true;
+    }
+    
+    public closeLabelList() {
+        this._labelListActivation = false;
+    }
+    
+    public selectLabel(labelID: string) {
+        this._labelService.currentLabel = labelID;
+        this.closeLabelList();
+    }
+    
+    public labelNameByID(labelID: string): string {
+        if (labelID == "all") {
+            return "all labels";
+        }
+        let name: string = "labels";
+        this._labelService.labels.forEach( (label: Label) => {
+            if (label.id == labelID) {
+                name = label.name;
+                return false;
+            }
+        });
+        return name;
+    }
+    
     public addRecipe() {
         let newRecipe: Recipe = this._recipeService.create();
         this._recipeService.add(newRecipe);

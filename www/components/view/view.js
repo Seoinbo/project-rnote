@@ -82,6 +82,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     this._dcl = _dcl;
                     this._popupService = _popupService;
                     this._recipeService = _recipeService;
+                    this.eClose = new core_1.EventEmitter();
                     // view-object instances
                     this.viewComponents = new LinkedList_1.LinkedList();
                 }
@@ -92,7 +93,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     if (recipeID) {
                         this.load(recipeID);
                     }
-                    this.active();
+                };
+                View.prototype.close = function () {
+                    this.eClose.next({});
                 };
                 View.prototype.load = function (recipeID) {
                     var _this = this;
@@ -260,6 +263,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     core_1.ViewChildren(popup_menu_1.PopupMenu), 
                     __metadata('design:type', core_1.QueryList)
                 ], View.prototype, "arrPopupMenu", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], View.prototype, "eClose", void 0);
                 View = __decorate([
                     core_1.Component({
                         selector: 'view',

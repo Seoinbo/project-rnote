@@ -86,14 +86,3 @@
 @media screen and (min-width: $width_level5)
     nav panel#view-header btn-group
         width: ($nav_button_width * 5) !important
-
-// <= tablet
-@media screen and (max-width: $min_container_width * 2)
-    :host[active=true]
-        transform: translateX(-100%)
-    :host
-        position: fixed
-        top: 0
-        height: 100%
-        transform: translateX(0)
-        transition: $transition_default

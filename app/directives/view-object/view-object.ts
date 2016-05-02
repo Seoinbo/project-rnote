@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Pipe, PipeTransform, Input} from 'angular2/core';
+import {Directive, ElementRef, Pipe, PipeTransform, Input, Output, EventEmitter} from 'angular2/core';
 
 @Directive({
     selector: '.view-object',
@@ -15,6 +15,7 @@ export class ViewObject {
     protected _editing: boolean = false;
 
     @Input() id: string;
+    
     public data: any;
     
     constructor(elementRef: ElementRef) {
@@ -76,7 +77,7 @@ export class ViewObject {
         this._activation = value;
         this._element.setAttribute('active', this._activation.toString());
     }
-
+    
     public show(): void {
         this.visibility = true;
     }

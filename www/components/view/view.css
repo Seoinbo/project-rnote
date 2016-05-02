@@ -84,13 +84,3 @@
 @media screen and (min-width: 890px) {
   nav panel#view-header btn-group {
     width: 225px !important; } }
-
-@media screen and (max-width: 640px) {
-  :host[active=true] {
-    transform: translateX(-100%); }
-  :host {
-    position: fixed;
-    top: 0;
-    height: 100%;
-    transform: translateX(0);
-    transition: all 0.4s; } }

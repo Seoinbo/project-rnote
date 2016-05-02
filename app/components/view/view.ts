@@ -2,6 +2,8 @@ import {
     Component,
     ElementRef,
     QueryList,
+    Output,
+    EventEmitter,
     ViewChild,
     ViewChildren,
     DynamicComponentLoader,
@@ -53,7 +55,9 @@ import {PopupMenu} from '../popup-menu/popup-menu';
 export class View extends ViewObject {
     @ViewChild(Baseline) baseline: Baseline;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
-
+    
+    @Output() eClose: EventEmitter<any> = new EventEmitter();
+    
     // view-object instances
     public viewComponents = new LinkedList<ComponentRef>();
     // current recipe-object.
@@ -76,7 +80,10 @@ export class View extends ViewObject {
         if (recipeID) {
             this.load(recipeID);
         }
-        this.active();
+    }
+    
+    public close() {
+        this.eClose.next({});
     }
 
     public load(recipeID: string): boolean {

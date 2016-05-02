@@ -18,6 +18,7 @@ import {Platform} from '../services/platform';
 import {Util, String, JSON2Array, exceptRemoved} from '../services/util';
 import {UserAccount, User} from '../services/user-account';
 import {List, ListItem} from './list/list';
+import {ViewObject} from '../directives/view-object/view-object';
 import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
 import {Nav} from './nav/nav';
@@ -45,6 +46,7 @@ import {PopupService} from '../services/popup';
         Panel,
         List,
         ListItem,
+        ViewObject,
         View,
         ViewHeader,
         Button,
@@ -70,11 +72,13 @@ import {PopupService} from '../services/popup';
 
 export class Recipenote {
     @ViewChild(View) view: View;
+    @ViewChildren(ViewObject) arrViewObject: QueryList<ViewObject>;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
 
     protected _element: HTMLElement;
     private _recipes = gRecipes;
     private _labelListActivation: boolean = false;
+    private _content: ViewObject;
 
     constructor(
         private _elementRef: ElementRef,
@@ -107,7 +111,17 @@ export class Recipenote {
     }
 
     ngAfterViewInit() {
-        Util.extractViewChildren(this, [this.arrPopupMenu]);
+        Util.extractViewChildren(this, [this.arrViewObject, this.arrPopupMenu]);
+    }
+    
+    public openView(recipeID: string) {
+        this._content.active();
+        this.view.open(recipeID);
+    }
+    
+    public closeContentBox() {
+        console.log("inactive");
+        this._content.inactive();
     }
     
     // 팝업 윈도우 열기.

@@ -15,7 +15,7 @@
                 <item
                 *ngFor="#recipe of (recipes | JSON2Array)"
                 [recipeData]="recipe"
-                (click)="view.open(recipe.id);">
+                (click)="openView(recipe.id)">
                 </item>
             </div>
             <div id="label-list" [attr.active]="_labelListActivation">
@@ -34,10 +34,9 @@
             </div>
         </list>
     </recipe-list>
-    <content>
+    <content id="_content" class="view-object">
         <panel id="main">
-
-            <view></view>
+            <view (eClose)="closeContentBox($event)"></view>
         </panel>
     </content>
 </container>

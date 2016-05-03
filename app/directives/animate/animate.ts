@@ -18,15 +18,15 @@ declare var Bounce: any;
 })
 export class Animate {
     @Input() id: string;
-    
+
     protected _elementRef: ElementRef;
     protected _element: HTMLElement;
     protected _event: EventManager;
     protected _animateid: string;
     protected _bounce: any;
-    
+
     public static intervalTime = 25;
-    
+
     @HostListener('transitionend', ['$event.target'])
     onTransitionEnd (target: any) {
         target.classList.forEach( (cls: string) => {
@@ -38,7 +38,7 @@ export class Animate {
             }
         });
     }
-    
+
     @HostListener('animationend', ['$event.target'])
     onAnimationEnd (target: any) {
         target.classList.forEach( (cls: string) => {
@@ -71,7 +71,7 @@ export class Animate {
     set element(value: HTMLElement) {
         this._element = value;
     }
-    
+
     get animateid(): string {
         return this._animateid;
     }
@@ -80,7 +80,7 @@ export class Animate {
         this._element.setAttribute('animateid', id);
         this._animateid = id;
     }
-    
+
     public ready(type: string, complete?: Function) {
         this._element.classList.add(type);
         if (complete) {
@@ -109,7 +109,7 @@ export class Animate {
             }
         }, 1);
     }
-    
+
     public bounceIn(type: string, complete?: Function) {
         this._element.classList.add(type + '-in-bounce');
         this._event.addEvent(this.animateid + "-in-bounce", () => {
@@ -119,14 +119,14 @@ export class Animate {
             }
         }, 1);
     }
-    
+
     get Bounce(): any {
         if (!this._bounce) {
             this._bounce = new Bounce();
         }
         return this._bounce;
     }
-    
+
     set Bounce(instance: any) {
         this._bounce = instance;
     }
@@ -134,11 +134,11 @@ export class Animate {
 
 export class AniList {
     private _members: Array<Animate> = [];
-    
+
     public constructor(list?: Array<any>, filter?: string) {
         this.import(list, filter);
     }
-    
+
     public import(list: Array<any>, filter?: string) {
         this._members = [];
         if (filter) {
@@ -151,7 +151,7 @@ export class AniList {
             this._members = list;
         }
     }
-    
+
     public filter(name: string): AniList {
         let temp: Array<any> = [];
         this._members.forEach( (item: any) => {
@@ -162,19 +162,19 @@ export class AniList {
         this._members = temp;
         return this;
     }
-    
+
     public streamReady(type: string, complete?: Function, interval?: number) {
         this._stream(type, 'ready', complete, interval);
     }
-    
+
     public streamIn(type: string, complete?: Function, interval?: number) {
         this._stream(type, 'in', complete, interval);
     }
-    
+
     public streamOut(type: string, complete?: Function, interval?: number) {
         this._stream(type, 'out', complete, interval);
     }
-    
+
     private _stream(type: string, state: string, complete?: Function, interval?: number) {
         if (!interval) {
             interval = Animate.intervalTime;

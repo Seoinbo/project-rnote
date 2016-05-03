@@ -117,7 +117,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                 };
                 //
                 // -~= fot Labels =~-
-                // 
+                //
                 Recipenote.prototype.toggleLabelList = function () {
                     if (this._labelListActivation) {
                         this.closeLabelList();

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/popup', '../../directives/view-object/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/util', '../../services/platform', '../../services/collections/LinkedList', '../../services/recipe', '../../services/popup', '../../directives/animate/animate', '../../directives/view-object/view-object', './baseline/baseline', './header/header', './empty-msg/empty-msg', '../nav/nav', '../panel/panel', '../button/button', '../popup-menu/popup-menu'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, util_1, platform_1, LinkedList_1, recipe_1, popup_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
+    var core_1, util_1, platform_1, LinkedList_1, recipe_1, popup_1, animate_1, view_object_1, baseline_1, header_1, empty_msg_1, nav_1, panel_1, button_1, popup_menu_1;
     var View;
     function viewComponentObject(type) {
         var component;
@@ -49,6 +49,9 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
             },
             function (popup_1_1) {
                 popup_1 = popup_1_1;
+            },
+            function (animate_1_1) {
+                animate_1 = animate_1_1;
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
@@ -87,7 +90,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     this.viewComponents = new LinkedList_1.LinkedList();
                 }
                 View.prototype.ngAfterViewInit = function () {
-                    util_1.Util.extractViewChildren(this, [this.arrPopupMenu]);
+                    util_1.Util.extractViewChildren(this, [
+                        this.arrPopupMenu,
+                        this.arrAnimate
+                    ]);
                 };
                 View.prototype.open = function (recipeID) {
                     if (recipeID) {
@@ -265,9 +271,17 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     __metadata('design:type', baseline_1.Baseline)
                 ], View.prototype, "baseline", void 0);
                 __decorate([
+                    core_1.ViewChild(nav_1.Nav), 
+                    __metadata('design:type', nav_1.Nav)
+                ], View.prototype, "nav", void 0);
+                __decorate([
                     core_1.ViewChildren(popup_menu_1.PopupMenu), 
                     __metadata('design:type', core_1.QueryList)
                 ], View.prototype, "arrPopupMenu", void 0);
+                __decorate([
+                    core_1.ViewChildren(animate_1.Animate), 
+                    __metadata('design:type', core_1.QueryList)
+                ], View.prototype, "arrAnimate", void 0);
                 __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
@@ -280,7 +294,8 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             platform_1.Platform.prependBaseURL('components/view/view.css'),
                             platform_1.Platform.prependBaseURL('components/nav/nav.css'),
                             platform_1.Platform.prependBaseURL('components/panel/panel.css'),
-                            platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css')
+                            platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css'),
+                            platform_1.Platform.prependBaseURL('directives/animate/animate.css')
                         ],
                         directives: [
                             header_1.ViewHeader,
@@ -290,7 +305,8 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                             nav_1.NavTitle,
                             panel_1.Panel,
                             button_1.Button,
-                            popup_menu_1.PopupMenu
+                            popup_menu_1.PopupMenu,
+                            animate_1.Animate
                         ]
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef, core_1.DynamicComponentLoader, popup_1.PopupService, recipe_1.RecipeService])

@@ -3,7 +3,7 @@
 panel
     @include prefix(display, flex)
     width: 100%
-    height: auto
+    height: 100%
 
 multi-panel
     display: block
@@ -18,28 +18,28 @@ multi-panel
             width: 100%
             height: inherit
     .ibr_move_down
-        .ibr_ready 
+        .ibr_ready
             transition: none
-        .ibr_r0 
+        .ibr_r0
             top: $popup_nav_height
-        .ibr_active 
+        .ibr_active
             transition: $transition_default
-        .ibr_a0 
+        .ibr_a0
             top: 0
-        .ibr_idle 
+        .ibr_idle
             transition: $transition_default
-        .ibr_i0 
+        .ibr_i0
             top: $popup_nav_height * -1
     .ibr_move_up
-        .ibr_ready 
+        .ibr_ready
             transition: none
-        .ibr_r0 
+        .ibr_r0
             top: $popup_nav_height * -1
-        .ibr_active 
+        .ibr_active
             transition: $transition_default
-        .ibr_a0 
+        .ibr_a0
             top: 0
-        .ibr_idle 
+        .ibr_idle
             transition: $transition_default
-        .ibr_i0 
+        .ibr_i0
             top: $popup_nav_height

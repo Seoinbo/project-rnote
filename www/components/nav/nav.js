@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
+System.register(['angular2/core', "../../directives/animate/animate"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, animate_1;
     var Nav, NavTitle;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (animate_1_1) {
+                animate_1 = animate_1_1;
             }],
         execute: function() {
             Nav = (function () {
@@ -23,6 +26,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this._elementRef = _elementRef;
                     this.btnClick = new core_1.EventEmitter();
                     this._element = _elementRef.nativeElement;
+                    this._animate = new animate_1.Animate(this._elementRef);
                 }
                 Nav.prototype.ngAfterContentInit = function () {
                 };
@@ -37,6 +41,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 //         // this.btnClick.emit(['$event']);
                 //     })
                 // }
+                Nav.prototype.onAnimationEnd = function (target) {
+                    console.log(1);
+                    this._animate.bounceIn('jelly');
+                };
                 Nav.prototype.onClick = function (e) {
                     console.log('a:', e);
                 };
@@ -44,6 +52,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], Nav.prototype, "btnClick", void 0);
+                __decorate([
+                    core_1.HostListener('click', ['$event.target']), 
+                    __metadata('design:type', Function), 
+                    __metadata('design:paramtypes', [Object]), 
+                    __metadata('design:returntype', void 0)
+                ], Nav.prototype, "onAnimationEnd", null);
                 Nav = __decorate([
                     core_1.Directive({
                         selector: 'nav'

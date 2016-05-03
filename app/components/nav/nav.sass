@@ -4,7 +4,7 @@ title
     display: inline-block
     width: 100%
     height: $navbar_height
-    line-height: 23px
+    line-height: 26px
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
@@ -19,6 +19,7 @@ title[expend=true]
 button
     width: $nav_button_width
     line-height: $navbar_height
+    height: $navbar_height
 
 button[name=more]
     position: absolute
@@ -26,3 +27,4 @@ button[name=more]
 
 btn-group
     @include prefix(display, flex !important)
+    height: $navbar_height

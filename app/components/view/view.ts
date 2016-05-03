@@ -18,7 +18,7 @@ import {Platform} from '../../services/platform';
 import {LinkedList, ILinkedListNode} from '../../services/collections/LinkedList';
 import {RecipeService, Recipe, gRecipes, IRecipeItem, RecipeItem} from '../../services/recipe';
 import {PopupService} from '../../services/popup';
-
+import {Animate} from '../../directives/animate/animate';
 
 import {ViewObject} from '../../directives/view-object/view-object';
 import {Baseline} from './baseline/baseline';
@@ -38,7 +38,8 @@ import {PopupMenu} from '../popup-menu/popup-menu';
         Platform.prependBaseURL('components/view/view.css'),
         Platform.prependBaseURL('components/nav/nav.css'),
         Platform.prependBaseURL('components/panel/panel.css'),
-        Platform.prependBaseURL('components/popup-menu/popup-menu.css')
+        Platform.prependBaseURL('components/popup-menu/popup-menu.css'),
+        Platform.prependBaseURL('directives/animate/animate.css')
     ],
     directives: [
         ViewHeader,
@@ -48,16 +49,19 @@ import {PopupMenu} from '../popup-menu/popup-menu';
         NavTitle,
         Panel,
         Button,
-        PopupMenu
+        PopupMenu,
+        Animate
     ]
 })
 
 export class View extends ViewObject {
     @ViewChild(Baseline) baseline: Baseline;
+    @ViewChild(Nav) nav: Nav;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
-    
+    @ViewChildren(Animate) arrAnimate: QueryList<Animate>;
+
     @Output() eClose: EventEmitter<any> = new EventEmitter();
-    
+
     // view-object instances
     public viewComponents = new LinkedList<ComponentRef>();
     // current recipe-object.
@@ -73,7 +77,10 @@ export class View extends ViewObject {
     }
 
     ngAfterViewInit() {
-        Util.extractViewChildren(this, [this.arrPopupMenu]);
+        Util.extractViewChildren(this, [
+            this.arrPopupMenu,
+            this.arrAnimate
+        ]);
     }
 
     public open(recipeID?: string) {
@@ -81,7 +88,7 @@ export class View extends ViewObject {
             this.load(recipeID);
         }
     }
-    
+
     public close() {
         this.eClose.next({});
     }
@@ -238,7 +245,7 @@ export class View extends ViewObject {
         this.recipe.remove();
         this.recipe.touch().syncIDB();
     }
-    
+
     public openLabelWindow() {
         this._popupService.openLabel(this.recipe.id);
     }

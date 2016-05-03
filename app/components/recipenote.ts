@@ -31,8 +31,6 @@ import {RecipeService, Recipe, gRecipes, gRecipeIDArray} from '../services/recip
 import {LabelService, Label} from '../services/label';
 import {PopupService} from '../services/popup';
 
-declare var Bounce: any;
-
 @Component({
     selector: 'app',
     templateUrl: Platform.prependBaseURL('components/recipenote.html'),
@@ -84,7 +82,7 @@ export class Recipenote {
     protected _element: HTMLElement;
     private _recipes = gRecipes;
     private _labelListActivation: boolean = false;
-    
+
     private _content: ViewObject;
     private _mainTitle: Animate;
 
@@ -125,26 +123,26 @@ export class Recipenote {
             this.arrAnimate
         ]);
     }
-    
+
     public openView(recipeID: string) {
         this._content.active();
         this.view.open(recipeID);
     }
-    
+
     public closeContentBox() {
         this._content.inactive();
     }
-    
+
     // 팝업 윈도우 열기.
     public openWindow(type: string) {
         this._popupService.openLabel();
     }
-    
-    
-    
+
+
+
     //
     // -~= fot Labels =~-
-    // 
+    //
     public toggleLabelList() {
         if (this._labelListActivation) {
             this.closeLabelList();
@@ -152,21 +150,21 @@ export class Recipenote {
             this.openLabelList();
         }
     }
-    
+
     public openLabelList() {
         this._labelListActivation = true;
     }
-    
+
     public closeLabelList() {
         this._labelListActivation = false;
     }
-    
+
     public selectLabel(labelID: string) {
         this._labelService.currentLabelID = labelID;
         this._mainTitle.bounceIn('jelly');
         this.closeLabelList();
     }
-    
+
     public labelNameByID(labelID: string): string {
         if (labelID == "all") {
             return "all labels";
@@ -180,7 +178,7 @@ export class Recipenote {
         });
         return name;
     }
-    
+
     private _filterRecipeByLabelID(labelID: string = this._labelService.currentLabelID): Array<Recipe> {
         let src: Array<string> = [];
         let dest: Array<Recipe> = [];
@@ -199,7 +197,7 @@ export class Recipenote {
         });
         return dest;
     }
-    
+
     public addRecipe() {
         let newRecipe: Recipe = this._recipeService.create();
         this._recipeService.add(newRecipe);

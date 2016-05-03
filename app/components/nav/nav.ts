@@ -1,16 +1,29 @@
-import {Directive, ElementRef, HostListener, EventEmitter, Injectable, Input, Output, Query, QueryList, ViewChildren, Renderer} from 'angular2/core';
-import {DOM} from "angular2/src/platform/dom/dom_adapter";
+import {Directive,
+    ElementRef,
+    HostListener,
+    EventEmitter,
+    Injectable,
+    Input,
+    Output,
+    Query,
+    QueryList,
+    ViewChildren,
+    Renderer
+} from 'angular2/core';
+import {Animate} from "../../directives/animate/animate";
 
 @Directive({
     selector: 'nav'
 })
 export class Nav {
     protected _element: HTMLElement;
+    protected _animate: Animate;
 
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
 
     constructor(protected _elementRef: ElementRef) {
         this._element = _elementRef.nativeElement;
+        this._animate = new Animate(this._elementRef);
     }
 
     ngAfterContentInit() {
@@ -30,8 +43,16 @@ export class Nav {
     //     })
     // }
 
+
+    @HostListener('click', ['$event.target'])
+    onAnimationEnd (target: any) {
+        console.log(1);
+        this._animate.bounceIn('jelly');
+    }
+
     onClick(e: any) {
         console.log('a:', e);
+
     }
 }
 
@@ -54,7 +75,7 @@ export class NavTitle {
     public renderText(): void {
         this._element.innerText = this._text;
     }
-    
+
     public toggleExpend(): void {
         if (this._expend) {
             this.collapse();
@@ -62,11 +83,11 @@ export class NavTitle {
             this.expend();
         }
     }
-    
+
     public expend(): void {
         this._expend = true;
     }
-    
+
     public collapse(): void {
         this._expend = false;
     }

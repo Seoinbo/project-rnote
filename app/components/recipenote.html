@@ -4,7 +4,7 @@
             <panel id="main-header">
                 <button nav name="setting" title="S"></button>
                 <div id="main-titlebox" (click)="toggleLabelList()">
-                    <div id="main-title">{{labelNameByID(_labelService.currentLabel)}}</div>
+                    <div animate id="_main-title">{{labelNameByID(_labelService.currentLabelID)}}</div>
                     <div class="down-arrow">∨</div>
                 </div>
                 <button nav name="sync" title="Y" (click)="openWindow('label');"></button>
@@ -13,15 +13,15 @@
         <list>
             <div id="list-inner" [attr.active]="_labelListActivation">
                 <item
-                *ngFor="#recipe of (recipes | JSON2Array)"
-                [recipeData]="recipe"
-                (click)="openView(recipe.id)">
+                *ngFor="#recipeData of _filterRecipeByLabelID()"
+                [recipeData]="recipeData"
+                (click)="openView(recipeData.id)">
                 </item>
             </div>
             <div id="label-list" [attr.active]="_labelListActivation">
                 <ul>
-                    <li class="label" (click)="selectLabel('all')" [attr.selected]="_labelService.currentLabel == 'all' ? true : false">all labels</li>
-                    <li class="label" (click)="selectLabel(labelData.id)"  [attr.selected]="_labelService.currentLabel == labelData.id ? true : false" *ngFor="#labelData of (_labelService.labels .toArray() | exceptRemoved)">{{labelData.name}}</li>
+                    <li class="label" (click)="selectLabel('all')" [attr.selected]="_labelService.currentLabelID == 'all' ? true : false">all labels</li>
+                    <li class="label" (click)="selectLabel(labelData.id)"  [attr.selected]="_labelService.currentLabelID == labelData.id ? true : false" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved)">{{labelData.name}}</li>
                 </ul>
             </div>
             <div id="recipe-add-icon">

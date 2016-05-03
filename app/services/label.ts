@@ -21,7 +21,8 @@ export interface ILabel {
 export class LabelService {
     private _userid: string;
     private _db: LabelDB;
-    private _currentLabel: string = "all";
+    private _currentLabelID: string = "all";
+    private _currentLabel: Label;
     private _labels: LinkedList<Label>;
 
     constructor () {
@@ -101,12 +102,20 @@ export class LabelService {
         this._labels = labels;
     }
     
-    get currentLabel(): string {
-        return this._currentLabel;
+    get currentLabelID(): string {
+        return this._currentLabelID;
     }
     
-    set currentLabel(labelID: string) {
-        this._currentLabel  = labelID;
+    set currentLabelID(labelID: string) {
+        this._currentLabelID = labelID;
+    }
+    
+    get currentLabel(): Label {
+        return this.getLabelByID(this._currentLabelID);
+    }
+    
+    set currentLabel(label: Label) {
+        this._currentLabel = label;
     }
 }
 

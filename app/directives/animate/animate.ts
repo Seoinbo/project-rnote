@@ -4,21 +4,26 @@ import {
     Pipe,
     PipeTransform,
     QueryList,
-    HostListener
+    HostListener,
+    Input
 } from 'angular2/core';
 import {Util} from '../../services/util';
 import {Config} from '../../services/config';
 import {EventManager} from '../../services/event-manager';
 
+declare var Bounce: any;
+
 @Directive({
-    selector: '[animate]',
-    
+    selector: '[animate]'
 })
 export class Animate {
+    @Input() id: string;
+    
     protected _elementRef: ElementRef;
     protected _element: HTMLElement;
     protected _event: EventManager;
     protected _animateid: string;
+    protected _bounce: any;
     
     public static intervalTime = 25;
     
@@ -33,6 +38,16 @@ export class Animate {
             }
         });
     }
+    
+    @HostListener('animationend', ['$event.target'])
+    onAnimationEnd (target: any) {
+        target.classList.forEach( (cls: string) => {
+            if (cls.indexOf("-in-bounce") > -1) {
+                this._event.fireEvent(this.animateid + "-in-bounce");
+            }
+        });
+    }
+
 
     public constructor(elementRef: ElementRef) {
         this._elementRef = elementRef;
@@ -93,6 +108,27 @@ export class Animate {
                 complete.apply(null, [this]);
             }
         }, 1);
+    }
+    
+    public bounceIn(type: string, complete?: Function) {
+        this._element.classList.add(type + '-in-bounce');
+        this._event.addEvent(this.animateid + "-in-bounce", () => {
+            this._element.classList.remove(type + '-in-bounce');
+            if (complete) {
+                complete.apply(null, [this]);
+            }
+        }, 1);
+    }
+    
+    get Bounce(): any {
+        if (!this._bounce) {
+            this._bounce = new Bounce();
+        }
+        return this._bounce;
+    }
+    
+    set Bounce(instance: any) {
+        this._bounce = instance;
     }
 }
 

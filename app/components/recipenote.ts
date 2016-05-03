@@ -19,6 +19,7 @@ import {Util, String, JSON2Array, exceptRemoved} from '../services/util';
 import {UserAccount, User} from '../services/user-account';
 import {List, ListItem} from './list/list';
 import {ViewObject} from '../directives/view-object/view-object';
+import {Animate} from '../directives/animate/animate';
 import {View} from './view/view';
 import {ViewHeader} from './view/header/header';
 import {Nav} from './nav/nav';
@@ -26,9 +27,11 @@ import {Panel} from './panel/panel';
 import {Button} from './button/button';
 import {PopupLabels} from './popup-window/popup-labels/popup-labels';
 import {PopupMenu} from './popup-menu/popup-menu';
-import {RecipeService, Recipe, gRecipes} from '../services/recipe';
+import {RecipeService, Recipe, gRecipes, gRecipeIDArray} from '../services/recipe';
 import {LabelService, Label} from '../services/label';
 import {PopupService} from '../services/popup';
+
+declare var Bounce: any;
 
 @Component({
     selector: 'app',
@@ -38,7 +41,8 @@ import {PopupService} from '../services/popup';
         Platform.prependBaseURL('components/nav/nav.css'),
         Platform.prependBaseURL('components/panel/panel.css'),
         Platform.prependBaseURL('components/list/list.css'),
-        Platform.prependBaseURL('components/popup-menu/popup-menu.css')
+        Platform.prependBaseURL('components/popup-menu/popup-menu.css'),
+        Platform.prependBaseURL('directives/animate/animate.css')
     ],
     directives: [
         ROUTER_DIRECTIVES,
@@ -50,7 +54,8 @@ import {PopupService} from '../services/popup';
         View,
         ViewHeader,
         Button,
-        PopupMenu
+        PopupMenu,
+        Animate
     ],
     providers: [
         ROUTER_PROVIDERS,
@@ -74,11 +79,14 @@ export class Recipenote {
     @ViewChild(View) view: View;
     @ViewChildren(ViewObject) arrViewObject: QueryList<ViewObject>;
     @ViewChildren(PopupMenu) arrPopupMenu: QueryList<PopupMenu>;
+    @ViewChildren(Animate) arrAnimate: QueryList<Animate>;
 
     protected _element: HTMLElement;
     private _recipes = gRecipes;
     private _labelListActivation: boolean = false;
+    
     private _content: ViewObject;
+    private _mainTitle: Animate;
 
     constructor(
         private _elementRef: ElementRef,
@@ -111,7 +119,11 @@ export class Recipenote {
     }
 
     ngAfterViewInit() {
-        Util.extractViewChildren(this, [this.arrViewObject, this.arrPopupMenu]);
+        Util.extractViewChildren(this, [
+            this.arrViewObject,
+            this.arrPopupMenu,
+            this.arrAnimate
+        ]);
     }
     
     public openView(recipeID: string) {
@@ -120,13 +132,11 @@ export class Recipenote {
     }
     
     public closeContentBox() {
-        console.log("inactive");
         this._content.inactive();
     }
     
     // 팝업 윈도우 열기.
     public openWindow(type: string) {
-        // console.log(this._popupService);
         this._popupService.openLabel();
     }
     
@@ -152,7 +162,8 @@ export class Recipenote {
     }
     
     public selectLabel(labelID: string) {
-        this._labelService.currentLabel = labelID;
+        this._labelService.currentLabelID = labelID;
+        this._mainTitle.bounceIn('jelly');
         this.closeLabelList();
     }
     
@@ -168,6 +179,25 @@ export class Recipenote {
             }
         });
         return name;
+    }
+    
+    private _filterRecipeByLabelID(labelID: string = this._labelService.currentLabelID): Array<Recipe> {
+        let src: Array<string> = [];
+        let dest: Array<Recipe> = [];
+        if (labelID == 'all') {
+            src = gRecipeIDArray;
+        } else {
+            src = this._labelService.getLabelByID(labelID).recipes;
+        }
+        let recipe: Recipe;
+        src.forEach( (id: string) => {
+            recipe = this._recipes[id];
+            if (recipe.removed) {
+                return true;
+            }
+            dest.push(recipe);
+        });
+        return dest;
     }
     
     public addRecipe() {

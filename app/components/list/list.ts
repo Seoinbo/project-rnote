@@ -20,7 +20,6 @@ export class List {
         ClickEffect
     ]
 })
-
 export class ListItem {
     @Input('recipeData') _recipe: Recipe;
     private _element: HTMLElement;

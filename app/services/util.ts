@@ -18,6 +18,7 @@ export module Util {
     export function extractViewChildren(parent: any, arr: Array<any>): void {
         arr.forEach( (list: any) => {
             list.forEach( (item: any) => {
+                console.log(item);
                 parent[String.toCamelCase(item.id)] = item;
             });
         });

@@ -45,6 +45,14 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
                         }
                     });
                 };
+                Animate.prototype.onAnimationEnd = function (target) {
+                    var _this = this;
+                    target.classList.forEach(function (cls) {
+                        if (cls.indexOf("-in-bounce") > -1) {
+                            _this._event.fireEvent(_this.animateid + "-in-bounce");
+                        }
+                    });
+                };
                 Object.defineProperty(Animate.prototype, "elementRef", {
                     get: function () {
                         return this._elementRef;
@@ -104,16 +112,49 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
                         }
                     }, 1);
                 };
+                Animate.prototype.bounceIn = function (type, complete) {
+                    var _this = this;
+                    this._element.classList.add(type + '-in-bounce');
+                    this._event.addEvent(this.animateid + "-in-bounce", function () {
+                        _this._element.classList.remove(type + '-in-bounce');
+                        if (complete) {
+                            complete.apply(null, [_this]);
+                        }
+                    }, 1);
+                };
+                Object.defineProperty(Animate.prototype, "Bounce", {
+                    get: function () {
+                        if (!this._bounce) {
+                            this._bounce = new Bounce();
+                        }
+                        return this._bounce;
+                    },
+                    set: function (instance) {
+                        this._bounce = instance;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 Animate.intervalTime = 25;
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], Animate.prototype, "id", void 0);
                 __decorate([
                     core_1.HostListener('transitionend', ['$event.target']), 
                     __metadata('design:type', Function), 
                     __metadata('design:paramtypes', [Object]), 
                     __metadata('design:returntype', void 0)
                 ], Animate.prototype, "onTransitionEnd", null);
+                __decorate([
+                    core_1.HostListener('animationend', ['$event.target']), 
+                    __metadata('design:type', Function), 
+                    __metadata('design:paramtypes', [Object]), 
+                    __metadata('design:returntype', void 0)
+                ], Animate.prototype, "onAnimationEnd", null);
                 Animate = __decorate([
                     core_1.Directive({
-                        selector: '[animate]',
+                        selector: '[animate]'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Animate);

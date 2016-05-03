@@ -44,7 +44,7 @@ recipe-list
                 width: 100%
                 text-align: center
                 cursor: pointer
-                #main-title
+                #_main-title
                     width: 100%
                     height: $navbar_height - 13
                     line-height: $navbar_height - 3
@@ -66,6 +66,7 @@ recipe-list
         background-color: #fff
         #list-inner
             z-index: 1
+            background-color: #fff
             transition: all 400ms cubic-bezier(0.175, 0.885, 0.335, 1.05)
         #list-inner[active=true]
             transform: translateY(201px)
@@ -105,7 +106,6 @@ recipe-list
             height: 200px
             background: #fff
             transition: $transition_default
-            border-bottom: 1px solid #e5e5e5
             color: #888
             ul
                 box-sizing: border-box

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', '../directives/view-object/view-object', './view/view', './view/header/header', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe', '../services/label', '../services/popup'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/platform', '../services/util', '../services/user-account', './list/list', '../directives/view-object/view-object', '../directives/animate/animate', './view/view', './view/header/header', './nav/nav', './panel/panel', './button/button', './popup-menu/popup-menu', '../services/recipe', '../services/label', '../services/popup'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_object_1, view_1, header_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1, label_1, popup_1;
+    var core_1, router_1, platform_1, util_1, user_account_1, list_1, view_object_1, animate_1, view_1, header_1, nav_1, panel_1, button_1, popup_menu_1, recipe_1, label_1, popup_1;
     var Recipenote;
     return {
         setters:[
@@ -34,6 +34,9 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
             },
             function (view_object_1_1) {
                 view_object_1 = view_object_1_1;
+            },
+            function (animate_1_1) {
+                animate_1 = animate_1_1;
             },
             function (view_1_1) {
                 view_1 = view_1_1;
@@ -95,19 +98,21 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     });
                 };
                 Recipenote.prototype.ngAfterViewInit = function () {
-                    util_1.Util.extractViewChildren(this, [this.arrViewObject, this.arrPopupMenu]);
+                    util_1.Util.extractViewChildren(this, [
+                        this.arrViewObject,
+                        this.arrPopupMenu,
+                        this.arrAnimate
+                    ]);
                 };
                 Recipenote.prototype.openView = function (recipeID) {
                     this._content.active();
                     this.view.open(recipeID);
                 };
                 Recipenote.prototype.closeContentBox = function () {
-                    console.log("inactive");
                     this._content.inactive();
                 };
                 // 팝업 윈도우 열기.
                 Recipenote.prototype.openWindow = function (type) {
-                    // console.log(this._popupService);
                     this._popupService.openLabel();
                 };
                 //
@@ -128,7 +133,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     this._labelListActivation = false;
                 };
                 Recipenote.prototype.selectLabel = function (labelID) {
-                    this._labelService.currentLabel = labelID;
+                    this._labelService.currentLabelID = labelID;
+                    this._mainTitle.bounceIn('jelly');
                     this.closeLabelList();
                 };
                 Recipenote.prototype.labelNameByID = function (labelID) {
@@ -143,6 +149,27 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                         }
                     });
                     return name;
+                };
+                Recipenote.prototype._filterRecipeByLabelID = function (labelID) {
+                    var _this = this;
+                    if (labelID === void 0) { labelID = this._labelService.currentLabelID; }
+                    var src = [];
+                    var dest = [];
+                    if (labelID == 'all') {
+                        src = recipe_1.gRecipeIDArray;
+                    }
+                    else {
+                        src = this._labelService.getLabelByID(labelID).recipes;
+                    }
+                    var recipe;
+                    src.forEach(function (id) {
+                        recipe = _this._recipes[id];
+                        if (recipe.removed) {
+                            return true;
+                        }
+                        dest.push(recipe);
+                    });
+                    return dest;
                 };
                 Recipenote.prototype.addRecipe = function () {
                     var newRecipe = this._recipeService.create();
@@ -171,6 +198,10 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                     core_1.ViewChildren(popup_menu_1.PopupMenu), 
                     __metadata('design:type', core_1.QueryList)
                 ], Recipenote.prototype, "arrPopupMenu", void 0);
+                __decorate([
+                    core_1.ViewChildren(animate_1.Animate), 
+                    __metadata('design:type', core_1.QueryList)
+                ], Recipenote.prototype, "arrAnimate", void 0);
                 Recipenote = __decorate([
                     core_1.Component({
                         selector: 'app',
@@ -180,7 +211,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             platform_1.Platform.prependBaseURL('components/nav/nav.css'),
                             platform_1.Platform.prependBaseURL('components/panel/panel.css'),
                             platform_1.Platform.prependBaseURL('components/list/list.css'),
-                            platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css')
+                            platform_1.Platform.prependBaseURL('components/popup-menu/popup-menu.css'),
+                            platform_1.Platform.prependBaseURL('directives/animate/animate.css')
                         ],
                         directives: [
                             router_1.ROUTER_DIRECTIVES,
@@ -192,7 +224,8 @@ System.register(['angular2/core', 'angular2/router', '../services/platform', '..
                             view_1.View,
                             header_1.ViewHeader,
                             button_1.Button,
-                            popup_menu_1.PopupMenu
+                            popup_menu_1.PopupMenu,
+                            animate_1.Animate
                         ],
                         providers: [
                             router_1.ROUTER_PROVIDERS,

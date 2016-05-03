@@ -232,7 +232,11 @@ export class View extends ViewObject {
 
     // 현재 보고 있는 레시피를 휴지통에 버림.
     public remove() {
+        window.setTimeout( () => {
+            this.close();
+        }, 250);
         this.recipe.remove();
+        this.recipe.touch().syncIDB();
     }
     
     public openLabelWindow() {

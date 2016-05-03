@@ -231,7 +231,12 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 };
                 // 현재 보고 있는 레시피를 휴지통에 버림.
                 View.prototype.remove = function () {
+                    var _this = this;
+                    window.setTimeout(function () {
+                        _this.close();
+                    }, 250);
                     this.recipe.remove();
+                    this.recipe.touch().syncIDB();
                 };
                 View.prototype.openLabelWindow = function () {
                     this._popupService.openLabel(this.recipe.id);

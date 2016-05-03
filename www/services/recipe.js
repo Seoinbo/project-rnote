@@ -16,7 +16,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, util_1, config_1, LinkedList_1, view_object_1, recipedb_1;
-    var gRecipes, RecipeService, Recipe, RecipeItem;
+    var gRecipes, gRecipeIDArray, RecipeService, Recipe, RecipeItem;
     return {
         setters:[
             function (core_1_1) {
@@ -39,6 +39,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
             }],
         execute: function() {
             exports_1("gRecipes", gRecipes = {});
+            exports_1("gRecipeIDArray", gRecipeIDArray = []);
             // You have to set userid first.
             RecipeService = (function () {
                 function RecipeService() {
@@ -74,6 +75,10 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 };
                 RecipeService.prototype.add = function (recipe) {
                     gRecipes[recipe.id] = recipe;
+                    gRecipeIDArray.push(recipe.id);
+                };
+                RecipeService.prototype.getRecipeByID = function (recipeID) {
+                    return gRecipes[recipeID];
                 };
                 Object.defineProperty(RecipeService.prototype, "userid", {
                     get: function () {

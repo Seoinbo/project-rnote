@@ -28,8 +28,7 @@
     max-width: 480px;
     min-height: 200px;
     box-sizing: border-box;
-    perspective: 1300px;
-    transition: all 0.4s; }
+    perspective: 1300px; }
     :host .box .inner-wrapper {
       opacity: 0;
       width: 100%;
@@ -49,7 +48,6 @@
     background-color: #e5cd6c; }
   :host section.content {
     max-height: 155px;
-    transition: all 0.4s;
     box-sizing: border-box;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch; }

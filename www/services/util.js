@@ -48,6 +48,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 function extractViewChildren(parent, arr) {
                     arr.forEach(function (list) {
                         list.forEach(function (item) {
+                            console.log(item);
                             parent[String.toCamelCase(item.id)] = item;
                         });
                     });

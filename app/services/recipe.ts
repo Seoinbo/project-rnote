@@ -9,6 +9,7 @@ import {RecipeDB} from './recipedb';
 
 declare var $: any;
 export var gRecipes: Object = {};
+export var gRecipeIDArray: Array<string> = [];
 
 export interface IRecipe {
     id: string;
@@ -70,6 +71,11 @@ export class RecipeService {
 
     public add (recipe: Recipe) {
         gRecipes[recipe.id] = recipe;
+        gRecipeIDArray.push(recipe.id);
+    }
+    
+    public getRecipeByID(recipeID: string): Recipe {
+        return gRecipes[recipeID];
     }
 
     get userid(): string {

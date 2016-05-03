@@ -1,6 +1,6 @@
 :host {
   align-items: flex-start;
-  top: 10%; }
+  top: 15px; }
   :host .box nav {
     height: 45px; }
   :host .box section.content ul {

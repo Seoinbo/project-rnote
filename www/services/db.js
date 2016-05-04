@@ -26,6 +26,16 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                         console.log(e);
                     });
                 }
+                DB.prototype.init = function () {
+                    if (this.isOpen()) {
+                        this.close();
+                    }
+                    this.version(DB.VERSION).stores({
+                        recipes: "id",
+                        recipe_items: "id, parent",
+                        labels: "id"
+                    });
+                };
                 // src - local data
                 DB.prototype.__syncIDB = function (tableName, src, complete) {
                     if (src instanceof Array === false) {

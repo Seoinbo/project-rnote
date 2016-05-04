@@ -23,6 +23,17 @@ export class DB extends Dexie {
             console.log(e);
         });
     }
+    
+    public init() {
+        if (this.isOpen()) {
+            this.close();
+        }
+        this.version(DB.VERSION).stores({
+            recipes: "id",
+            recipe_items: "id, parent",
+            labels: "id"
+        });
+    }
 
     // src - local data
     public __syncIDB(tableName: string, src: any, complete?: Function) {

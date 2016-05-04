@@ -60,8 +60,10 @@ export class RecipeService {
                 id: this._userid + '-r' + Util.uniqID(Config.now()),
                 owner: this._userid,
                 name: 'untitled',
+                updated: Util.toUnixTimestamp(Config.now()),
                 removed: false,
-                updated: Util.toUnixTimestamp(Config.now())
+                source: []
+                
             };
         }
         let recipe = new Recipe();
@@ -175,10 +177,12 @@ export class Recipe implements IRecipe, DBObject {
         let child: IRecipeItem = {
             id: this.id + '-i' + Util.uniqID(Config.now()),
             index: 0,
-            type: type,
             parent: this.id,
+            type: type,
+            updated: Util.toUnixTimestamp(Config.now()),
             removed: false,
-            updated: Util.toUnixTimestamp(Config.now())
+            source: []
+            
         };
         return child;
     }

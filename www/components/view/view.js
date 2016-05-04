@@ -186,7 +186,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     }
                     // 화면에 랭더링.
                     this._dcl.loadNextToLocation(component, target.elementRef).then(function (cref) {
-                        console.log("add new component to display: ", data.id);
+                        console.log("append new component to display: ", data.id);
                         var item = cref.instance;
                         item.viewid = data.id;
                         item.import(data);
@@ -246,6 +246,10 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                 };
                 View.prototype.openLabelWindow = function () {
                     this._popupService.openLabel(this.recipe.id);
+                };
+                View.prototype.enterEditMode = function () {
+                };
+                View.prototype.exitEditMode = function () {
                 };
                 View.prototype._sortIndex = function (items) {
                     if (items) {

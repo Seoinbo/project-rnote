@@ -153,6 +153,28 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     return temp[1];
                 }
                 String.getFunctionName = getFunctionName;
+                function width(selector) {
+                    var width = 0;
+                    var element;
+                    if (typeof selector === "string") {
+                        element = document.querySelector(selector);
+                    }
+                    else {
+                        element = selector;
+                    }
+                    var cloneElement = element.cloneNode(true);
+                    cloneElement.style = element.style;
+                    cloneElement.style.display = "inline";
+                    cloneElement.style.width = "auto";
+                    cloneElement.style.visibility = "hidden";
+                    cloneElement.style.whiteSpace = "nowrap";
+                    cloneElement.style.position = "absolute";
+                    document.body.appendChild(cloneElement);
+                    width = cloneElement.offsetWidth;
+                    cloneElement.remove();
+                    return width;
+                }
+                String.width = width;
             })(String = String || (String = {}));
             exports_1("String", String);
         }

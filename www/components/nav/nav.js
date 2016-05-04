@@ -1,4 +1,4 @@
-System.register(['angular2/core', "../../directives/animate/animate"], function(exports_1, context_1) {
+System.register(['angular2/core', "../../directives/animate/animate", "../../services/util"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', "../../directives/animate/animate"], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, animate_1;
+    var core_1, animate_1, util_1;
     var Nav, NavTitle;
     return {
         setters:[
@@ -19,6 +19,9 @@ System.register(['angular2/core', "../../directives/animate/animate"], function(
             },
             function (animate_1_1) {
                 animate_1 = animate_1_1;
+            },
+            function (util_1_1) {
+                util_1 = util_1_1;
             }],
         execute: function() {
             Nav = (function () {
@@ -33,18 +36,6 @@ System.register(['angular2/core', "../../directives/animate/animate"], function(
                 Nav.prototype.ngAfterViewInit = function () {
                     // this.initEvent();
                 };
-                // initEvent(): void {
-                //     this._navButtons.toArray().forEach(button => {
-                //         button.btnClick.subscribe( () => {
-                //             console.log(e);
-                //         })
-                //         // this.btnClick.emit(['$event']);
-                //     })
-                // }
-                Nav.prototype.onAnimationEnd = function (target) {
-                    console.log(1);
-                    this._animate.bounceIn('jelly');
-                };
                 Nav.prototype.onClick = function (e) {
                     console.log('a:', e);
                 };
@@ -52,12 +43,6 @@ System.register(['angular2/core', "../../directives/animate/animate"], function(
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], Nav.prototype, "btnClick", void 0);
-                __decorate([
-                    core_1.HostListener('click', ['$event.target']), 
-                    __metadata('design:type', Function), 
-                    __metadata('design:paramtypes', [Object]), 
-                    __metadata('design:returntype', void 0)
-                ], Nav.prototype, "onAnimationEnd", null);
                 Nav = __decorate([
                     core_1.Directive({
                         selector: 'nav'
@@ -69,20 +54,28 @@ System.register(['angular2/core', "../../directives/animate/animate"], function(
             exports_1("Nav", Nav);
             NavTitle = (function () {
                 function NavTitle(_elementRef) {
+                    this._elementRef = _elementRef;
                     this._text = 'TITLE';
                     this._expend = false;
-                    this._element = _elementRef.nativeElement;
+                    this._element = this._elementRef.nativeElement;
+                    this._animate = new animate_1.Animate(this._elementRef);
                 }
                 NavTitle.prototype.renderText = function () {
                     this._element.innerText = this._text;
                 };
                 NavTitle.prototype.toggleExpend = function () {
+                    var width = this._element.offsetWidth;
+                    var textWidth = util_1.String.width(this._element);
+                    if (width >= textWidth) {
+                        return;
+                    }
                     if (this._expend) {
                         this.collapse();
                     }
                     else {
                         this.expend();
                     }
+                    this._animate.bounceIn('jelly');
                 };
                 NavTitle.prototype.expend = function () {
                     this._expend = true;

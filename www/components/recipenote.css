@@ -80,7 +80,6 @@ recipe-list {
     recipe-list list #recipe-add-icon {
       z-index: 3;
       position: absolute;
-      z-index: 0;
       right: 15px;
       width: 45px;
       height: 45px;

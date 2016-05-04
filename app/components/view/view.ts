@@ -184,7 +184,7 @@ export class View extends ViewObject {
 
         // 화면에 랭더링.
         this._dcl.loadNextToLocation(component, target.elementRef).then( (cref: ComponentRef) => {
-            console.log("add new component to display: ", data.id);
+            console.log("append new component to display: ", data.id);
             let item: RecipeItem = cref.instance;
             item.viewid = data.id;
             item.import(data);
@@ -248,6 +248,14 @@ export class View extends ViewObject {
 
     public openLabelWindow() {
         this._popupService.openLabel(this.recipe.id);
+    }
+    
+    public enterEditMode() {
+        
+    }
+    
+    public exitEditMode() {
+        
     }
 
     private _sortIndex(items: LinkedList<IRecipeItem>): LinkedList<IRecipeItem> {

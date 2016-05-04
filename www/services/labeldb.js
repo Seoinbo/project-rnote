@@ -20,14 +20,6 @@ System.register(['./db'], function(exports_1, context_1) {
                 function LabelDB() {
                     _super.call(this);
                 }
-                LabelDB.prototype.init = function () {
-                    if (this.isOpen()) {
-                        this.close();
-                    }
-                    this.version(LabelDB.VERSION).stores({
-                        labels: "id"
-                    });
-                };
                 return LabelDB;
             }(db_1.DB));
             exports_1("LabelDB", LabelDB);

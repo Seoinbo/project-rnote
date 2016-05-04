@@ -2,6 +2,11 @@ import {Component, ElementRef, Input} from 'angular2/core';
 import {Platform} from '../../../services/platform';
 import {IRecipeItem, RecipeItem} from '../../../services/recipe';
 import {ViewObject} from '../../../directives/view-object/view-object';
+import {ViewItem, IViewItem} from '../view-item';
+
+export interface IViewHeader {
+    heading: string
+}
 
 @Component({
     selector: 'h1',
@@ -10,11 +15,19 @@ import {ViewObject} from '../../../directives/view-object/view-object';
         Platform.prependBaseURL('components/view/header/header.css')
     ]
 })
-export class ViewHeader extends RecipeItem {
-    @Input() text: string;
-
+export class ViewHeader extends ViewItem implements IViewItem, IViewHeader {
+    public heading: string = 'Heading';
+    
     constructor(elementRef: ElementRef) {
         super(elementRef);
-        this.type = 'header';
+        this.editing = true;
+    }
+    
+    public enterEditMode() {
+        this.editing = true;
+    }
+    
+    public exitEditMode() {
+        this.editing = false;
     }
 }

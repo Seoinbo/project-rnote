@@ -1,6 +1,13 @@
 :host {
   display: block;
-  padding: 10px;
+  box-sizing: border-box;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0;
   width: 100%;
   min-height: 25px;
-  font-size: 15px; }
+  font-size: 15px;
+  font-weight: 300;
+  background-color: #fff; }

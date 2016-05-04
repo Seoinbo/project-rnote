@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../view-item'], function(exports_1, context_1) {
+System.register(['angular2/core', "../../directives/animate/animate", '../../services/recipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,46 +15,38 @@ System.register(['angular2/core', '../../../services/platform', '../view-item'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, view_item_1;
-    var ViewHeader;
+    var core_1, animate_1, recipe_1;
+    var ViewItem;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (platform_1_1) {
-                platform_1 = platform_1_1;
+            function (animate_1_1) {
+                animate_1 = animate_1_1;
             },
-            function (view_item_1_1) {
-                view_item_1 = view_item_1_1;
+            function (recipe_1_1) {
+                recipe_1 = recipe_1_1;
             }],
         execute: function() {
-            ViewHeader = (function (_super) {
-                __extends(ViewHeader, _super);
-                function ViewHeader(elementRef) {
+            ViewItem = (function (_super) {
+                __extends(ViewItem, _super);
+                function ViewItem(elementRef) {
                     _super.call(this, elementRef);
-                    this.heading = 'Heading';
-                    this.editing = true;
+                    this._animate = new animate_1.Animate(elementRef);
                 }
-                ViewHeader.prototype.enterEditMode = function () {
-                    this.editing = true;
+                ViewItem.prototype.ngAfterViewInit = function () {
+                    // this.initEvent();
                 };
-                ViewHeader.prototype.exitEditMode = function () {
-                    this.editing = false;
-                };
-                ViewHeader = __decorate([
-                    core_1.Component({
-                        selector: 'h1',
-                        templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
-                        styleUrls: [
-                            platform_1.Platform.prependBaseURL('components/view/header/header.css')
-                        ]
+                ViewItem = __decorate([
+                    core_1.Directive({
+                        selector: '[view-item]'
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
-                ], ViewHeader);
-                return ViewHeader;
-            }(view_item_1.ViewItem));
-            exports_1("ViewHeader", ViewHeader);
+                ], ViewItem);
+                return ViewItem;
+            }(recipe_1.RecipeItem));
+            exports_1("ViewItem", ViewItem);
         }
     }
 });

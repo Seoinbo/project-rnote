@@ -118,4 +118,25 @@ export module String {
         }
         return temp[1];
     }
+    
+    export function width(selector: any): number {
+        let width: number = 0;
+        let element: any;
+        if (typeof selector === "string") {
+            element = document.querySelector(selector);
+        } else {
+            element = selector;
+        }
+        let cloneElement: any = element.cloneNode(true);
+        cloneElement.style = element.style;
+        cloneElement.style.display = "inline";
+        cloneElement.style.width = "auto";
+        cloneElement.style.visibility = "hidden";
+        cloneElement.style.whiteSpace = "nowrap";
+        cloneElement.style.position = "absolute";
+        document.body.appendChild(cloneElement);
+        width = cloneElement.offsetWidth;
+        cloneElement.remove();
+        return width;
+    }
 }

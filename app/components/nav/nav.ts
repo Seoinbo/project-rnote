@@ -11,6 +11,7 @@ import {Directive,
     Renderer
 } from 'angular2/core';
 import {Animate} from "../../directives/animate/animate";
+import {String} from "../../services/util";
 
 @Directive({
     selector: 'nav'
@@ -34,25 +35,8 @@ export class Nav {
         // this.initEvent();
     }
 
-    // initEvent(): void {
-    //     this._navButtons.toArray().forEach(button => {
-    //         button.btnClick.subscribe( () => {
-    //             console.log(e);
-    //         })
-    //         // this.btnClick.emit(['$event']);
-    //     })
-    // }
-
-
-    @HostListener('click', ['$event.target'])
-    onAnimationEnd (target: any) {
-        console.log(1);
-        this._animate.bounceIn('jelly');
-    }
-
     onClick(e: any) {
         console.log('a:', e);
-
     }
 }
 
@@ -67,9 +51,11 @@ export class NavTitle {
     protected _element: HTMLElement;
     private _text: string = 'TITLE';
     private _expend = false;
+    protected _animate: Animate;
 
-    constructor(_elementRef: ElementRef) {
-        this._element = _elementRef.nativeElement;
+    constructor(private _elementRef: ElementRef) {
+        this._element = this._elementRef.nativeElement;
+        this._animate = new Animate(this._elementRef);
     }
 
     public renderText(): void {
@@ -77,11 +63,17 @@ export class NavTitle {
     }
 
     public toggleExpend(): void {
+        let width: number = this._element.offsetWidth;
+        let textWidth: number = String.width(this._element);
+        if (width >= textWidth) {
+            return;
+        }
         if (this._expend) {
             this.collapse();
         } else {
             this.expend();
         }
+        this._animate.bounceIn('jelly');
     }
 
     public expend(): void {

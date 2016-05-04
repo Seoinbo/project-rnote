@@ -62,7 +62,6 @@ export class ViewObject {
     }
 
     set editing(value: boolean) {
-        console.log(this.id, value);
         this._editing = value;
     }
 

@@ -27,26 +27,26 @@ export class Animate {
 
     public static intervalTime = 25;
 
-    @HostListener('transitionend', ['$event.target'])
-    onTransitionEnd (target: any) {
-        target.classList.forEach( (cls: string) => {
-            if (cls.indexOf("-in") > -1) {
-                this._event.fireEvent(this.animateid + "-in");
-            }
-            if (cls.indexOf("-out") > -1) {
-                this._event.fireEvent(this.animateid + "-out");
-            }
-        });
-    }
-
-    @HostListener('animationend', ['$event.target'])
-    onAnimationEnd (target: any) {
-        target.classList.forEach( (cls: string) => {
-            if (cls.indexOf("-in-bounce") > -1) {
-                this._event.fireEvent(this.animateid + "-in-bounce");
-            }
-        });
-    }
+    // @HostListener('transitionend', ['$event.target'])
+    // onTransitionEnd (target: any) {
+    //     target.classList.forEach( (cls: string) => {
+    //         if (cls.indexOf("-in") > -1) {
+    //             this._event.fireEvent(this.animateid + "-in");
+    //         }
+    //         if (cls.indexOf("-out") > -1) {
+    //             this._event.fireEvent(this.animateid + "-out");
+    //         }
+    //     });
+    // }
+    // @HostListener('animationend', ['$event.target'])
+    // onAnimationEnd (target: any) {
+    //     console.log("evt: " + target);
+    //     target.classList.forEach( (cls: string) => {
+    //         if (cls.indexOf("-in-bounce") > -1) {
+    //             this._event.fireEvent(this.animateid + "-in-bounce");
+    //         }
+    //     });
+    // }
 
 
     public constructor(elementRef: ElementRef) {
@@ -54,6 +54,27 @@ export class Animate {
         this._element = elementRef.nativeElement;
         this._event = new EventManager();
         this.animateid = "ani" + Util.uniqID(Config.now()) + Math.round(Math.random() * 1000);
+        
+        // Add animation-events
+        this._element.addEventListener('transitionend', (e: Event) => {
+            let target: any = e.target;
+            target.classList.forEach( (cls: string) => {
+                if (cls.indexOf("-in") > -1) {
+                    this._event.fireEvent(this.animateid + "-in");
+                }
+                if (cls.indexOf("-out") > -1) {
+                    this._event.fireEvent(this.animateid + "-out");
+                }
+            });
+        }, true);
+        this._element.addEventListener('animationend', (e: Event) => {
+            let target: any = e.target;
+            target.classList.forEach( (cls: string) => {
+                if (cls.indexOf("-in-bounce") > -1) {
+                    this._event.fireEvent(this.animateid + "-in-bounce");
+                }
+            });
+        }, true);
     }
 
     get elementRef(): ElementRef {
@@ -111,7 +132,10 @@ export class Animate {
     }
 
     public bounceIn(type: string, complete?: Function) {
-        this._element.classList.add(type + '-in-bounce');
+        this._element.classList.remove(type + '-in-bounce');
+        window.setTimeout( () => {
+            this._element.classList.add(type + '-in-bounce');
+        }, 25);
         this._event.addEvent(this.animateid + "-in-bounce", () => {
             this._element.classList.remove(type + '-in-bounce');
             if (complete) {

@@ -70,7 +70,6 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                         return this._editing;
                     },
                     set: function (value) {
-                        console.log(this.id, value);
                         this._editing = value;
                     },
                     enumerable: true,

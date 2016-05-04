@@ -20,16 +20,6 @@ System.register(['./db'], function(exports_1, context_1) {
                 function RecipeDB() {
                     _super.call(this);
                 }
-                RecipeDB.prototype.init = function () {
-                    if (this.isOpen()) {
-                        this.close();
-                    }
-                    this.version(RecipeDB.VERSION).stores({
-                        recipes: "id",
-                        recipe_items: "id, parent",
-                        labels: "id"
-                    });
-                };
                 return RecipeDB;
             }(db_1.DB));
             exports_1("RecipeDB", RecipeDB);

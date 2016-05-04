@@ -65,8 +65,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                             id: this._userid + '-r' + util_1.Util.uniqID(config_1.Config.now()),
                             owner: this._userid,
                             name: 'untitled',
+                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
                             removed: false,
-                            updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                            source: []
                         };
                     }
                     var recipe = new Recipe();
@@ -173,10 +174,11 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                     var child = {
                         id: this.id + '-i' + util_1.Util.uniqID(config_1.Config.now()),
                         index: 0,
-                        type: type,
                         parent: this.id,
+                        type: type,
+                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
                         removed: false,
-                        updated: util_1.Util.toUnixTimestamp(config_1.Config.now())
+                        source: []
                     };
                     return child;
                 };

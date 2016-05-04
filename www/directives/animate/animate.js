@@ -28,31 +28,53 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
             }],
         execute: function() {
             Animate = (function () {
+                // @HostListener('transitionend', ['$event.target'])
+                // onTransitionEnd (target: any) {
+                //     target.classList.forEach( (cls: string) => {
+                //         if (cls.indexOf("-in") > -1) {
+                //             this._event.fireEvent(this.animateid + "-in");
+                //         }
+                //         if (cls.indexOf("-out") > -1) {
+                //             this._event.fireEvent(this.animateid + "-out");
+                //         }
+                //     });
+                // }
+                // @HostListener('animationend', ['$event.target'])
+                // onAnimationEnd (target: any) {
+                //     console.log("evt: " + target);
+                //     target.classList.forEach( (cls: string) => {
+                //         if (cls.indexOf("-in-bounce") > -1) {
+                //             this._event.fireEvent(this.animateid + "-in-bounce");
+                //         }
+                //     });
+                // }
                 function Animate(elementRef) {
+                    var _this = this;
                     this._elementRef = elementRef;
                     this._element = elementRef.nativeElement;
                     this._event = new event_manager_1.EventManager();
                     this.animateid = "ani" + util_1.Util.uniqID(config_1.Config.now()) + Math.round(Math.random() * 1000);
+                    // Add animation-events
+                    this._element.addEventListener('transitionend', function (e) {
+                        var target = e.target;
+                        target.classList.forEach(function (cls) {
+                            if (cls.indexOf("-in") > -1) {
+                                _this._event.fireEvent(_this.animateid + "-in");
+                            }
+                            if (cls.indexOf("-out") > -1) {
+                                _this._event.fireEvent(_this.animateid + "-out");
+                            }
+                        });
+                    }, true);
+                    this._element.addEventListener('animationend', function (e) {
+                        var target = e.target;
+                        target.classList.forEach(function (cls) {
+                            if (cls.indexOf("-in-bounce") > -1) {
+                                _this._event.fireEvent(_this.animateid + "-in-bounce");
+                            }
+                        });
+                    }, true);
                 }
-                Animate.prototype.onTransitionEnd = function (target) {
-                    var _this = this;
-                    target.classList.forEach(function (cls) {
-                        if (cls.indexOf("-in") > -1) {
-                            _this._event.fireEvent(_this.animateid + "-in");
-                        }
-                        if (cls.indexOf("-out") > -1) {
-                            _this._event.fireEvent(_this.animateid + "-out");
-                        }
-                    });
-                };
-                Animate.prototype.onAnimationEnd = function (target) {
-                    var _this = this;
-                    target.classList.forEach(function (cls) {
-                        if (cls.indexOf("-in-bounce") > -1) {
-                            _this._event.fireEvent(_this.animateid + "-in-bounce");
-                        }
-                    });
-                };
                 Object.defineProperty(Animate.prototype, "elementRef", {
                     get: function () {
                         return this._elementRef;
@@ -114,7 +136,10 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
                 };
                 Animate.prototype.bounceIn = function (type, complete) {
                     var _this = this;
-                    this._element.classList.add(type + '-in-bounce');
+                    this._element.classList.remove(type + '-in-bounce');
+                    window.setTimeout(function () {
+                        _this._element.classList.add(type + '-in-bounce');
+                    }, 25);
                     this._event.addEvent(this.animateid + "-in-bounce", function () {
                         _this._element.classList.remove(type + '-in-bounce');
                         if (complete) {
@@ -140,18 +165,6 @@ System.register(['angular2/core', '../../services/util', '../../services/config'
                     core_1.Input(), 
                     __metadata('design:type', String)
                 ], Animate.prototype, "id", void 0);
-                __decorate([
-                    core_1.HostListener('transitionend', ['$event.target']), 
-                    __metadata('design:type', Function), 
-                    __metadata('design:paramtypes', [Object]), 
-                    __metadata('design:returntype', void 0)
-                ], Animate.prototype, "onTransitionEnd", null);
-                __decorate([
-                    core_1.HostListener('animationend', ['$event.target']), 
-                    __metadata('design:type', Function), 
-                    __metadata('design:paramtypes', [Object]), 
-                    __metadata('design:returntype', void 0)
-                ], Animate.prototype, "onAnimationEnd", null);
                 Animate = __decorate([
                     core_1.Directive({
                         selector: '[animate]'

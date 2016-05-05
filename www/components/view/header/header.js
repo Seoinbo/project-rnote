@@ -47,8 +47,12 @@ System.register(['angular2/core', '../../../services/platform', '../view-item'],
                         selector: 'h1',
                         templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
                         styleUrls: [
+                            platform_1.Platform.prependBaseURL('components/view/view-item.css'),
                             platform_1.Platform.prependBaseURL('components/view/header/header.css')
-                        ]
+                        ],
+                        host: {
+                            "[attr.editing]": "editing"
+                        }
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], ViewHeader);

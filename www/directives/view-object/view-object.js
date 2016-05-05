@@ -172,7 +172,7 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                 ], ViewObject.prototype, "id", void 0);
                 ViewObject = __decorate([
                     core_1.Directive({
-                        selector: '.view-object',
+                        selector: ".view-object"
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], ViewObject);

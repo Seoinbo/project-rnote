@@ -1,1 +1,2 @@
-<input type="text" [(ngModel)]="heading" />
+<button name="move" title="::"
+<input type="text" [(ngModel)]="heading" (focus)="enterEditMode()" (focusout)="exitEditMode()"/>

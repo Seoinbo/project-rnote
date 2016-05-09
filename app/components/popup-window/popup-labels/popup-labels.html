@@ -27,7 +27,7 @@
             </multi-panel>
         </nav> -->
         <section class="content">
-            <ul>
+            <ul [dragula]='"bag-one"'>
                 <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
                     <span class="chkwrap"><input name="chk-label" type="checkbox" [ngModel]="labelData.inRecipes(_currentRecipeID)" (change)="_onChangeCheckbox($event, labelData)"/></span>
                     <span class="title"><input type="text" [(ngModel)]="labelData.name" (focus)="_onFocusName(index)" (focusout)="_onFocusOutName(index, labelData)"></span>

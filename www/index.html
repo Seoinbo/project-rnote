@@ -34,6 +34,8 @@
     <!-- IBRoller -->
     <script src="statics/ibr/ibr.js"></script>
     <link rel="stylesheet" type="text/css" href="statics/ibr/ibr.css">
+    <!-- Dragula -->
+    <link rel="stylesheet" href="modules/dragula/dist/dragula.css">
 
     <base href="/" />
     <script>
@@ -44,7 +46,9 @@
             "baseURL": "",
             "paths": {
                  "*": "modules/*",
-                 "dexie": "modules/dexie/dist/dexie.min"
+                 "dexie": "modules/dexie/dist/dexie.min",
+                 'dragula': 'modules/dragula/dist/dragula.js',
+                 'ng2-dragula/*': 'modules/ng2-dragula/ng2-dragula.js'
             }
         });
 

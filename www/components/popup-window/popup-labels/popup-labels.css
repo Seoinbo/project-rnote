@@ -20,11 +20,13 @@
       min-height: 45px;
       padding: 0; }
       :host .box section.content ul li .title {
+        flex: 1 1 auto;
         width: 100%; }
         :host .box section.content ul li .title input[type=text] {
           border: none;
           background-color: transparent; }
       :host .box section.content ul li .chkwrap {
+        flex: 1 0 auto;
         display: none;
         width: 45px;
         min-width: 45px;
@@ -32,6 +34,7 @@
         line-height: 50px;
         text-align: center; }
       :host .box section.content ul li button[name=remove] {
+        flex: 1 0 auto;
         line-height: 45px;
         width: 45px;
         opacity: 0;

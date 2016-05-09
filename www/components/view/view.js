@@ -167,11 +167,19 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                     // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
                     var target = this.baseline;
                     var component = viewComponentObject(data.type);
-                    // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
                     var componentRef = this._getViewComponentByID(data.id);
+                    // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
                     if (componentRef) {
                         console.log("already displayed: ", data.id);
                         componentRef.instance.import(data);
+                        if (complete) {
+                            complete.apply(null, [componentRef]);
+                        }
+                        return true;
+                    }
+                    // 삭제된 뷰-오브젝트는 제외.
+                    if (data.removed) {
+                        console.log("pass removed view-object: ", data.id);
                         if (complete) {
                             complete.apply(null, [componentRef]);
                         }
@@ -189,6 +197,7 @@ System.register(['angular2/core', '../../services/util', '../../services/platfor
                         console.log("append new component to display: ", data.id);
                         var item = cref.instance;
                         item.viewid = data.id;
+                        item.cref = cref;
                         item.import(data);
                         // 중간에 아이템이 추가되면 인덱스 번호 재정렬
                         // if (headIndex) {

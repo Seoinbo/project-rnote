@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild, ViewChildren, QueryList, Input} from 'angular2/core';
+import {Dragula, DragulaService} from 'ng2-dragula/ng2-dragula';
 import {Platform} from '../../../services/platform';
 import {Config} from '../../../services/config';
 import {Util, exceptRemoved} from '../../../services/util';
@@ -11,6 +12,7 @@ import {PopupWindow} from '../popup-window';
 import {ILinkedListNode, LinkedList} from '../../../services/collections/LinkedList';
 import {LabelService, Label, ILabel} from '../../../services/label';
 import {UserAccount, User} from '../../../services/user-account';
+
 
 declare var $: any;
 
@@ -25,12 +27,16 @@ declare var $: any;
         Platform.prependBaseURL('components/panel/panel.css')
     ],
     directives: [
+        Dragula,
         Animate,
         Nav,
         NavTitle,
         Panel,
         Button,
         ViewObject
+    ],
+    viewProviders: [
+        DragulaService
     ],
     pipes: [
         exceptRemoved
@@ -46,10 +52,51 @@ export class PopupLabels extends PopupWindow {
 
     constructor(
         elementRef: ElementRef,
-        private _labelService: LabelService
+        private _labelService: LabelService,
+        private _dragulaService: DragulaService
     ) {
         super(elementRef);
+        console.log(this._dragulaService.setOptions);
+        this._dragulaService.setOptions('bag-one', {
+            direction: 'vertical'
+        });
+        this._dragulaService.drag.subscribe((value: any) => {
+          console.log(`drag: ${value[0]}`);
+          this.onDrag(value.slice(1));
+        });
+        this._dragulaService.drop.subscribe((value: any) => {
+          console.log(`drop: ${value[0]}`);
+          this.onDrop(value.slice(1));
+        });
+        this._dragulaService.over.subscribe((value: any) => {
+          console.log(`over: ${value[0]}`);
+          this.onOver(value.slice(1));
+        });
+        this._dragulaService.out.subscribe((value: any) => {
+          console.log(`out: ${value[0]}`);
+          this.onOut(value.slice(1));
+        });
     }
+    
+    private onDrag(args: any) {
+        let [e, el] = args;
+        // do something
+      }
+
+  private onDrop(args: any) {
+    let [e, el] = args;
+    // do something
+  }
+
+  private onOver(args: any) {
+    let [e, el, container] = args;
+    // do something
+  }
+
+  private onOut(args: any) {
+    let [e, el, container] = args;
+    // do something
+  }
 
     public ngAfterViewInit() {
     }

@@ -80,6 +80,8 @@ gulp.task('copymodules', function() {
     gulp.src('node_modules/dexie/dist/*.js').pipe(gulp.dest('www/modules/dexie/dist'));
     gulp.src('node_modules/jquery/dist/*.js').pipe(gulp.dest('www/modules/jquery/dist'));
     gulp.src('node_modules/bounce.js/*.js').pipe(gulp.dest('www/modules/bounce.js'));
+    gulp.src('node_modules/dragula/dist/*').pipe(gulp.dest('www/modules/dragula/dist'));
+    gulp.src('node_modules/ng2-dragula/**/*').pipe(gulp.dest('www/modules/ng2-dragula/'));
 });
 
 gulp.task('build-browser', function() {

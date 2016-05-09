@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../../../services/util', '../../../directives/view-object/view-object', '../../../directives/animate/animate', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
+System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/platform', '../../../services/util', '../../../directives/view-object/view-object', '../../../directives/animate/animate', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,12 +15,15 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, util_1, view_object_1, animate_1, nav_1, panel_1, button_1, popup_window_1, label_1;
+    var core_1, ng2_dragula_1, platform_1, util_1, view_object_1, animate_1, nav_1, panel_1, button_1, popup_window_1, label_1;
     var PopupLabels;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (ng2_dragula_1_1) {
+                ng2_dragula_1 = ng2_dragula_1_1;
             },
             function (platform_1_1) {
                 platform_1 = platform_1_1;
@@ -52,13 +55,51 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
         execute: function() {
             PopupLabels = (function (_super) {
                 __extends(PopupLabels, _super);
-                function PopupLabels(elementRef, _labelService) {
+                function PopupLabels(elementRef, _labelService, _dragulaService) {
+                    var _this = this;
                     _super.call(this, elementRef);
                     this._labelService = _labelService;
+                    this._dragulaService = _dragulaService;
                     this._currentFocusIndex = 0;
                     this._editingStates = [];
                     this._mode = 'view'; // 'view'|'select'
+                    console.log(this._dragulaService.setOptions);
+                    this._dragulaService.setOptions('bag-one', {
+                        direction: 'vertical'
+                    });
+                    this._dragulaService.drag.subscribe(function (value) {
+                        console.log("drag: " + value[0]);
+                        _this.onDrag(value.slice(1));
+                    });
+                    this._dragulaService.drop.subscribe(function (value) {
+                        console.log("drop: " + value[0]);
+                        _this.onDrop(value.slice(1));
+                    });
+                    this._dragulaService.over.subscribe(function (value) {
+                        console.log("over: " + value[0]);
+                        _this.onOver(value.slice(1));
+                    });
+                    this._dragulaService.out.subscribe(function (value) {
+                        console.log("out: " + value[0]);
+                        _this.onOut(value.slice(1));
+                    });
                 }
+                PopupLabels.prototype.onDrag = function (args) {
+                    var e = args[0], el = args[1];
+                    // do something
+                };
+                PopupLabels.prototype.onDrop = function (args) {
+                    var e = args[0], el = args[1];
+                    // do something
+                };
+                PopupLabels.prototype.onOver = function (args) {
+                    var e = args[0], el = args[1], container = args[2];
+                    // do something
+                };
+                PopupLabels.prototype.onOut = function (args) {
+                    var e = args[0], el = args[1], container = args[2];
+                    // do something
+                };
                 PopupLabels.prototype.ngAfterViewInit = function () {
                 };
                 // Add a new label.
@@ -133,6 +174,7 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                             platform_1.Platform.prependBaseURL('components/panel/panel.css')
                         ],
                         directives: [
+                            ng2_dragula_1.Dragula,
                             animate_1.Animate,
                             nav_1.Nav,
                             nav_1.NavTitle,
@@ -140,11 +182,14 @@ System.register(['angular2/core', '../../../services/platform', '../../../servic
                             button_1.Button,
                             view_object_1.ViewObject
                         ],
+                        viewProviders: [
+                            ng2_dragula_1.DragulaService
+                        ],
                         pipes: [
                             util_1.exceptRemoved
                         ]
                     }), 
-                    __metadata('design:paramtypes', [core_1.ElementRef, label_1.LabelService])
+                    __metadata('design:paramtypes', [core_1.ElementRef, label_1.LabelService, ng2_dragula_1.DragulaService])
                 ], PopupLabels);
                 return PopupLabels;
             }(popup_window_1.PopupWindow));

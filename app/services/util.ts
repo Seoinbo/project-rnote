@@ -15,10 +15,10 @@ export class exceptRemoved implements PipeTransform {
 }
 
 export module Util {
-    export function extractViewChildren(parent: any, arr: Array<any>): void {
+    export function extractViewChildren(parent: any, arr: Array<any>, postfix: string = ''): void {
         arr.forEach( (list: any) => {
             list.forEach( (item: any) => {
-                parent[String.toCamelCase(item.id)] = item;
+                parent[String.toCamelCase(item.id)+postfix] = item;
             });
         });
     }

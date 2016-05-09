@@ -52,6 +52,10 @@ System.register(['angular2/core', '../../services/platform', '../../directives/v
                     __metadata('design:type', String)
                 ], Button.prototype, "name", void 0);
                 __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', String)
+                ], Button.prototype, "id", void 0);
+                __decorate([
                     core_1.Output(), 
                     __metadata('design:type', core_1.EventEmitter)
                 ], Button.prototype, "btnClick", void 0);

@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../../services/platform', '../view-item'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../../services/platform', '../../../services/util', '../view-item', '../../button/button', '../../../directives/animate/animate'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', '../../../services/platform', '../view-item'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_1, view_item_1;
+    var core_1, platform_1, util_1, view_item_1, button_1, animate_1;
     var ViewHeader;
     return {
         setters:[
@@ -25,8 +25,17 @@ System.register(['angular2/core', '../../../services/platform', '../view-item'],
             function (platform_1_1) {
                 platform_1 = platform_1_1;
             },
+            function (util_1_1) {
+                util_1 = util_1_1;
+            },
             function (view_item_1_1) {
                 view_item_1 = view_item_1_1;
+            },
+            function (button_1_1) {
+                button_1 = button_1_1;
+            },
+            function (animate_1_1) {
+                animate_1 = animate_1_1;
             }],
         execute: function() {
             ViewHeader = (function (_super) {
@@ -34,21 +43,60 @@ System.register(['angular2/core', '../../../services/platform', '../view-item'],
                 function ViewHeader(elementRef) {
                     _super.call(this, elementRef);
                     this.heading = 'Heading';
-                    this.editing = true;
                 }
+                ViewHeader.prototype.ngAfterViewInit = function () {
+                    this.initDefault();
+                    util_1.Util.extractViewChildren(this, [
+                        this.arrButton
+                    ]);
+                    util_1.Util.extractViewChildren(this, [this.arrAnimate], 'Ani');
+                    this._headerMoveButton.visibility = false;
+                    this._headerTrashButton.visibility = false;
+                };
+                ViewHeader.prototype.initDefault = function () {
+                    this.source = $.extend({
+                        heading: "New Heading"
+                    }, this.source);
+                };
                 ViewHeader.prototype.enterEditMode = function () {
                     this.editing = true;
+                    this._headerMoveButton.show();
+                    this._headerTrashButton.show();
                 };
                 ViewHeader.prototype.exitEditMode = function () {
                     this.editing = false;
+                    this._headerMoveButton.hide();
+                    this._headerTrashButton.hide();
+                    this.touch().syncIDB();
                 };
+                ViewHeader.prototype.trash = function () {
+                    var _this = this;
+                    this.remove();
+                    this.touch().syncIDB();
+                    window.setTimeout(function () {
+                        _this.cref.dispose();
+                    }, 0);
+                };
+                __decorate([
+                    core_1.ViewChildren(button_1.Button), 
+                    __metadata('design:type', core_1.QueryList)
+                ], ViewHeader.prototype, "arrButton", void 0);
+                __decorate([
+                    core_1.ViewChildren(animate_1.Animate), 
+                    __metadata('design:type', core_1.QueryList)
+                ], ViewHeader.prototype, "arrAnimate", void 0);
                 ViewHeader = __decorate([
                     core_1.Component({
                         selector: 'h1',
                         templateUrl: platform_1.Platform.prependBaseURL('components/view/header/header.html'),
                         styleUrls: [
                             platform_1.Platform.prependBaseURL('components/view/view-item.css'),
-                            platform_1.Platform.prependBaseURL('components/view/header/header.css')
+                            platform_1.Platform.prependBaseURL('components/view/header/header.css'),
+                            platform_1.Platform.prependBaseURL('directives/animate/animate.css')
+                        ],
+                        directives: [
+                            animate_1.Animate,
+                            button_1.Button
                         ],
                         host: {
                             "[attr.editing]": "editing"

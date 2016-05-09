@@ -1,0 +1,12 @@
+button {
+  flex: 1 0 auto;
+  width: 45px;
+  font-size: 13px;
+  font-weight: 300; }
+
+button[name=move] {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  padding: 0;
+  font-size: inherit; }

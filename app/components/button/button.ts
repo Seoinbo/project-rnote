@@ -14,6 +14,7 @@ import {ClickEffect} from './click-effect/click-effect';
 export class Button extends ViewObject {
     @Input() title: string = '';
     @Input() name: string = '';
+    @Input() id: string;
     @Output() btnClick: EventEmitter<any> = new EventEmitter();
 
     protected _element: HTMLElement;

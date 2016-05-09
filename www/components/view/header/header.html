@@ -1,2 +1,3 @@
-<button name="move" title="::"
-<input type="text" [(ngModel)]="heading" (focus)="enterEditMode()" (focusout)="exitEditMode()"/>
+<button animate id="_header-move-button" name="move" title="::"></button>
+<input type="text" [(ngModel)]="source.heading" (focus)="enterEditMode()" (focusout)="exitEditMode()"/>
+<button animate id="_header-trash-button" name="trash" title="X" (click)="trash()"></button>

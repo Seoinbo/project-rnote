@@ -159,6 +159,9 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         var store = _this._db.table("recipe_items");
                         if (_this.children.size() <= 0) {
                             store.where('parent').equals(_this.id).each(function (item) {
+                                if (item.index < 0) {
+                                    item.index = _this.children.size();
+                                }
                                 _this.children.add(item, item.index);
                             }).then(function () {
                                 complete.apply(null, [_this.children]);
@@ -167,13 +170,14 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                         else {
                             complete.apply(null, [_this.children]);
                         }
+                        console.log(_this.children);
                     });
                 };
                 // 새로운 자식 아이템을 생성한다.
                 Recipe.prototype.createChild = function (type) {
                     var child = {
                         id: this.id + '-i' + util_1.Util.uniqID(config_1.Config.now()),
-                        index: 0,
+                        index: this.children.size(),
                         parent: this.id,
                         type: type,
                         updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
@@ -259,6 +263,16 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 RecipeItem.prototype.remove = function () {
                     this.removed = true;
                 };
+                Object.defineProperty(RecipeItem.prototype, "cref", {
+                    get: function () {
+                        return this._cref;
+                    },
+                    set: function (r) {
+                        this._cref = r;
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
                 return RecipeItem;
             }(view_object_1.ViewObject));
             exports_1("RecipeItem", RecipeItem);

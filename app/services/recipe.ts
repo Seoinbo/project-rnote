@@ -1,4 +1,4 @@
-import {Injectable, ElementRef} from 'angular2/core';
+import {Injectable, ElementRef, ComponentRef} from 'angular2/core';
 import {Util} from './util';
 import {Config} from './config';
 import {LinkedList, ILinkedListNode} from './collections/LinkedList';
@@ -162,6 +162,9 @@ export class Recipe implements IRecipe, DBObject {
             let store = this._db.table("recipe_items");
             if (this.children.size() <= 0) {
                 store.where('parent').equals(this.id).each( (item: IRecipeItem) => {
+                    if (item.index < 0) {
+                        item.index = this.children.size();
+                    }
                     this.children.add(item, item.index);
                 }).then( () => {
                     complete.apply(null, [this.children]);
@@ -169,6 +172,7 @@ export class Recipe implements IRecipe, DBObject {
             } else {
                 complete.apply(null, [this.children]);
             }
+            console.log(this.children);
         });
     }
 
@@ -176,7 +180,7 @@ export class Recipe implements IRecipe, DBObject {
     public createChild(type?: string): IRecipeItem {
         let child: IRecipeItem = {
             id: this.id + '-i' + Util.uniqID(Config.now()),
-            index: 0,
+            index: this.children.size(),
             parent: this.id,
             type: type,
             updated: Util.toUnixTimestamp(Config.now()),
@@ -206,6 +210,7 @@ export class Recipe implements IRecipe, DBObject {
 
 export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
     private _db: RecipeDB;
+    private _cref: ComponentRef;
     public origin: any = {};
 
     public id: string;
@@ -273,5 +278,13 @@ export class RecipeItem extends ViewObject implements IRecipeItem, DBObject {
 
     public remove() {
         this.removed = true;
+    }
+    
+    set cref(r: ComponentRef) {
+        this._cref = r;
+    }
+    
+    get cref(): ComponentRef {
+        return this._cref;
     }
 }

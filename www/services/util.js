@@ -45,10 +45,11 @@ System.register(['angular2/core'], function(exports_1, context_1) {
             }());
             exports_1("exceptRemoved", exceptRemoved);
             (function (Util) {
-                function extractViewChildren(parent, arr) {
+                function extractViewChildren(parent, arr, postfix) {
+                    if (postfix === void 0) { postfix = ''; }
                     arr.forEach(function (list) {
                         list.forEach(function (item) {
-                            parent[String.toCamelCase(item.id)] = item;
+                            parent[String.toCamelCase(item.id) + postfix] = item;
                         });
                     });
                 }

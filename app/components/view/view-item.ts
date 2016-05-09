@@ -5,7 +5,8 @@ import {Directive,
     Output,
     Query,
     QueryList,
-    ViewChildren
+    ViewChildren,
+    ComponentRef
 } from 'angular2/core';
 
 import {Animate} from "../../directives/animate/animate";
@@ -13,8 +14,10 @@ import {Util, String} from "../../services/util";
 import {IRecipeItem, RecipeItem} from '../../services/recipe';
 
 export interface IViewItem {
+    initDefault(): void,
     enterEditMode(): void,
-    exitEditMode(): void
+    exitEditMode(): void,
+    trash(): void
 }
 
 @Directive({
@@ -32,5 +35,6 @@ export class ViewItem extends RecipeItem {
     ngAfterViewInit() {
         // this.initEvent();
     }
+    
 
 }

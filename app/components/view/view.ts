@@ -162,12 +162,21 @@ export class View extends ViewObject {
         // 뷰 페이지가 빈 상태이면 이 것을 기준으로 아이템을 append 한다.
         let target: any = this.baseline;
         let component: any = viewComponentObject(data.type);
+        let componentRef: ComponentRef = this._getViewComponentByID(data.id);
 
         // 이미 뷰에 존재한다면, 데이터만 업데이트한다.
-        let componentRef: ComponentRef = this._getViewComponentByID(data.id);
         if (componentRef) {
             console.log("already displayed: ", data.id);
             componentRef.instance.import(data);
+            if (complete) {
+                complete.apply(null, [componentRef]);
+            }
+            return true;
+        }
+        
+        // 삭제된 뷰-오브젝트는 제외.
+        if (data.removed) {
+            console.log("pass removed view-object: ", data.id);
             if (complete) {
                 complete.apply(null, [componentRef]);
             }
@@ -187,13 +196,13 @@ export class View extends ViewObject {
             console.log("append new component to display: ", data.id);
             let item: RecipeItem = cref.instance;
             item.viewid = data.id;
+            item.cref = cref;
             item.import(data);
 
             // 중간에 아이템이 추가되면 인덱스 번호 재정렬
             // if (headIndex) {
             //     this._sortIndex(this.items);
             // }
-
             item.syncIDB();
             this.viewComponents.add(cref);
             if (complete) {

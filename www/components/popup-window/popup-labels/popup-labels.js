@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/platform', '../../../services/util', '../../../directives/view-object/view-object', '../../../directives/animate/animate', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
+System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/platform', '../../../services/util', '../../../directives/view-object/view-object', '../../../directives/animate/animate', '../../../directives/slip-sortable/slip-sortable', '../../nav/nav', '../../panel/panel', '../../button/button', '../popup-window', '../../../services/label'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __extends = (this && this.__extends) || function (d, b) {
@@ -15,7 +15,7 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, ng2_dragula_1, platform_1, util_1, view_object_1, animate_1, nav_1, panel_1, button_1, popup_window_1, label_1;
+    var core_1, ng2_dragula_1, platform_1, util_1, view_object_1, animate_1, slip_sortable_1, nav_1, panel_1, button_1, popup_window_1, label_1;
     var PopupLabels;
     return {
         setters:[
@@ -37,6 +37,9 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
             function (animate_1_1) {
                 animate_1 = animate_1_1;
             },
+            function (slip_sortable_1_1) {
+                slip_sortable_1 = slip_sortable_1_1;
+            },
             function (nav_1_1) {
                 nav_1 = nav_1_1;
             },
@@ -56,50 +59,13 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
             PopupLabels = (function (_super) {
                 __extends(PopupLabels, _super);
                 function PopupLabels(elementRef, _labelService, _dragulaService) {
-                    var _this = this;
                     _super.call(this, elementRef);
                     this._labelService = _labelService;
                     this._dragulaService = _dragulaService;
                     this._currentFocusIndex = 0;
                     this._editingStates = [];
                     this._mode = 'view'; // 'view'|'select'
-                    console.log(this._dragulaService.setOptions);
-                    this._dragulaService.setOptions('bag-one', {
-                        direction: 'vertical'
-                    });
-                    this._dragulaService.drag.subscribe(function (value) {
-                        console.log("drag: " + value[0]);
-                        _this.onDrag(value.slice(1));
-                    });
-                    this._dragulaService.drop.subscribe(function (value) {
-                        console.log("drop: " + value[0]);
-                        _this.onDrop(value.slice(1));
-                    });
-                    this._dragulaService.over.subscribe(function (value) {
-                        console.log("over: " + value[0]);
-                        _this.onOver(value.slice(1));
-                    });
-                    this._dragulaService.out.subscribe(function (value) {
-                        console.log("out: " + value[0]);
-                        _this.onOut(value.slice(1));
-                    });
                 }
-                PopupLabels.prototype.onDrag = function (args) {
-                    var e = args[0], el = args[1];
-                    // do something
-                };
-                PopupLabels.prototype.onDrop = function (args) {
-                    var e = args[0], el = args[1];
-                    // do something
-                };
-                PopupLabels.prototype.onOver = function (args) {
-                    var e = args[0], el = args[1], container = args[2];
-                    // do something
-                };
-                PopupLabels.prototype.onOut = function (args) {
-                    var e = args[0], el = args[1], container = args[2];
-                    // do something
-                };
                 PopupLabels.prototype.ngAfterViewInit = function () {
                 };
                 // Add a new label.
@@ -107,6 +73,7 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                     var label = this._labelService.create();
                     label.syncIDB();
                     this._labelService.add(label);
+                    this._focusNext(this._labelService.labels.size() - 1);
                 };
                 PopupLabels.prototype.removeLabel = function (id) {
                     this._labelService.remove(id);
@@ -121,12 +88,15 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                     this._mode = 'view';
                     this.open();
                 };
-                PopupLabels.prototype._focusNext = function () {
+                PopupLabels.prototype._focusNext = function (prevIndex) {
                     var _this = this;
                     window.setTimeout(function () {
                         var children = _this._element.querySelectorAll('.content li.label .title input[type=text]');
                         var length = children.length;
                         var current = _this._currentFocusIndex;
+                        if (prevIndex) {
+                            current = prevIndex;
+                        }
                         if (current > length - 1) {
                             current = length - 1;
                         }
@@ -136,7 +106,7 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                                 break;
                             }
                         }
-                    }, 100);
+                    }, 0);
                 };
                 PopupLabels.prototype._onFocusName = function (index) {
                     this._editingStates[index] = true;
@@ -162,6 +132,27 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                         label.touch().syncIDB();
                     }
                 };
+                PopupLabels.prototype._reorderList = function (e) {
+                    var index = Array.prototype.indexOf.call(e.target.parentNode.children, e.target);
+                    e.target.parentNode.insertBefore(e.target, e.detail.insertBefore);
+                    var nextIndex = Array.prototype.indexOf.call(e.target.parentNode.children, e.target);
+                    var temp = this._labelService.labels.elementAtIndex(index);
+                    this._labelService.labels.removeElementAtIndex(index);
+                    this._labelService.labels.add(temp, nextIndex);
+                    var i = 0;
+                    this._labelService.labels.forEach(function (item) {
+                        item.index = i++;
+                        item.touch().syncIDB();
+                    });
+                    console.log("reorderEvent: ", index, nextIndex);
+                    return false;
+                };
+                PopupLabels.prototype._beforewait = function (e) {
+                };
+                __decorate([
+                    core_1.ViewChildren(animate_1.Animate), 
+                    __metadata('design:type', core_1.QueryList)
+                ], PopupLabels.prototype, "arrAnimate", void 0);
                 PopupLabels = __decorate([
                     core_1.Component({
                         selector: 'popup-window[labels]',
@@ -171,10 +162,12 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                             platform_1.Platform.prependBaseURL('components/popup-window/popup-window.css'),
                             platform_1.Platform.prependBaseURL('components/popup-window/popup-labels/popup-labels.css'),
                             platform_1.Platform.prependBaseURL('components/nav/nav.css'),
-                            platform_1.Platform.prependBaseURL('components/panel/panel.css')
+                            platform_1.Platform.prependBaseURL('components/panel/panel.css'),
+                            platform_1.Platform.prependBaseURL('directives/slip-sortable/slip-sortable.css'),
                         ],
                         directives: [
                             ng2_dragula_1.Dragula,
+                            slip_sortable_1.SlipSortable,
                             animate_1.Animate,
                             nav_1.Nav,
                             nav_1.NavTitle,

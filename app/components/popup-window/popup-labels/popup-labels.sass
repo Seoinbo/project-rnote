@@ -11,7 +11,7 @@
             ul
                 box-sizing: border-box
                 list-style-type: none
-                padding: 6px 24px
+                padding: $popup_win_padding_top 0 $popup_win_padding_bottom 0
                 margin: 0
                 background-color: #fff
                 li
@@ -23,11 +23,14 @@
                     box-sizing: border-box
                     width: 100%
                     min-height: 45px
-                    padding: 0
+                    padding: 0 $popup_win_padding_right 0 $popup_win_padding_left
+                    background-color: #fff
                     .title
                         flex: 1 1 auto
                         width: 100%
+                        transition: all 200ms
                         input[type=text]
+                            width: 100%
                             border: none
                             background-color: transparent
                     .chkwrap
@@ -44,11 +47,25 @@
                         width: 45px
                         opacity: 0
                         transform: scale(0)
-                        transition: all 300ms
+                        transition: all 200ms
+                    button[name=move]
+                        flex: 1 0 auto
+                        position: absolute
+                        width: 35px
+                        left: 0
+                        padding: 0
+                        opacity: 0
+                        transform: scale(0)
+                        transition: all 200ms
                 li[editing=true]
                     button[name=remove]
                         opacity: 1
                         transform: scale(1)
+                    button[name=move]
+                        opacity: 1
+                        transform: scale(1)
+                    .title
+                        margin-left: 20px
                         
     .box[mode=select]
         section.content
@@ -56,3 +73,7 @@
                 li
                     .chkwrap
                         display: inline-block
+                    .title
+                        margin-left: 0
+                    button[name=move]
+                        left: 20px

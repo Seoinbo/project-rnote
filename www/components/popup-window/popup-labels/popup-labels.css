@@ -6,7 +6,7 @@
   :host .box section.content ul {
     box-sizing: border-box;
     list-style-type: none;
-    padding: 6px 24px;
+    padding: 6px 0 6px 0;
     margin: 0;
     background-color: #fff; }
     :host .box section.content ul li {
@@ -18,11 +18,14 @@
       box-sizing: border-box;
       width: 100%;
       min-height: 45px;
-      padding: 0; }
+      padding: 0 15px 0 15px;
+      background-color: #fff; }
       :host .box section.content ul li .title {
         flex: 1 1 auto;
-        width: 100%; }
+        width: 100%;
+        transition: all 200ms; }
         :host .box section.content ul li .title input[type=text] {
+          width: 100%;
           border: none;
           background-color: transparent; }
       :host .box section.content ul li .chkwrap {
@@ -39,9 +42,27 @@
         width: 45px;
         opacity: 0;
         transform: scale(0);
-        transition: all 300ms; }
+        transition: all 200ms; }
+      :host .box section.content ul li button[name=move] {
+        flex: 1 0 auto;
+        position: absolute;
+        width: 35px;
+        left: 0;
+        padding: 0;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 200ms; }
     :host .box section.content ul li[editing=true] button[name=remove] {
       opacity: 1;
       transform: scale(1); }
+    :host .box section.content ul li[editing=true] button[name=move] {
+      opacity: 1;
+      transform: scale(1); }
+    :host .box section.content ul li[editing=true] .title {
+      margin-left: 20px; }
   :host .box[mode=select] section.content ul li .chkwrap {
     display: inline-block; }
+  :host .box[mode=select] section.content ul li .title {
+    margin-left: 0; }
+  :host .box[mode=select] section.content ul li button[name=move] {
+    left: 20px; }

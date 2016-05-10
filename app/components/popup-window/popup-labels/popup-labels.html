@@ -27,8 +27,9 @@
             </multi-panel>
         </nav> -->
         <section class="content">
-            <ul [dragula]='"bag-one"'>
-                <li class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
+            <ul slip (reorder)="_reorderList($event)" (beforewait)="_beforewait($event)">
+                <li animate class="label" *ngFor="#labelData of (_labelService.labels.toArray() | exceptRemoved); #index=index" [attr.editing]="_editingStates[index]">
+                    <button class="mover" name="move" title="::"></button>
                     <span class="chkwrap"><input name="chk-label" type="checkbox" [ngModel]="labelData.inRecipes(_currentRecipeID)" (change)="_onChangeCheckbox($event, labelData)"/></span>
                     <span class="title"><input type="text" [(ngModel)]="labelData.name" (focus)="_onFocusName(index)" (focusout)="_onFocusOutName(index, labelData)"></span>
                     <button name="remove" title="X" (click)="removeLabel(labelData.id); _focusNext();"></button>

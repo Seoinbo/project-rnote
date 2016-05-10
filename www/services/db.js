@@ -32,8 +32,8 @@ System.register(['./util', 'dexie'], function(exports_1, context_1) {
                     }
                     this.version(DB.VERSION).stores({
                         recipes: "id",
-                        recipe_items: "id, parent",
-                        labels: "id"
+                        recipe_items: "id, parent, index",
+                        labels: "id, index"
                     });
                 };
                 // src - local data

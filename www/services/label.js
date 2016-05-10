@@ -41,7 +41,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 LabelService.prototype.downloadAll = function (complete) {
                     var _this = this;
                     this._db.open().then(function () {
-                        _this._db.table("labels").each(function (item) {
+                        _this._db.table("labels").orderBy("index").each(function (item) {
                             _this.add(_this.create(item));
                         }).then(function () {
                             complete.apply(null);
@@ -54,6 +54,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                     if (!data) {
                         data = {
                             id: this._userid + '-l' + util_1.Util.uniqID(config_1.Config.now()),
+                            index: this._labels.size(),
                             owner: this._userid,
                             name: 'New label',
                             updated: util_1.Util.toUnixTimestamp(config_1.Config.now()),
@@ -166,6 +167,7 @@ System.register(['angular2/core', './util', './config', './collections/LinkedLis
                 Label.prototype.export = function () {
                     return {
                         id: this.id,
+                        index: this.index,
                         owner: this.owner,
                         name: this.name,
                         updated: this.updated,

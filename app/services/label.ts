@@ -9,6 +9,7 @@ declare var $: any;
 
 export interface ILabel {
     id: string;
+    index: number;
     owner: string;
     name: string;
     updated: number;
@@ -33,7 +34,7 @@ export class LabelService {
 
     public downloadAll (complete?: Function) {
         this._db.open().then( () => {
-            this._db.table("labels").each( (item: ILabel) => {
+            this._db.table("labels").orderBy("index").each( (item: ILabel) => {
                 this.add(this.create(item));
             }).then( () => {
                 complete.apply(null);
@@ -47,6 +48,7 @@ export class LabelService {
         if (!data) {
             data = {
                 id: this._userid + '-l' + Util.uniqID(Config.now()),
+                index: this._labels.size(),
                 owner: this._userid,
                 name: 'New label',
                 updated: Util.toUnixTimestamp(Config.now()),
@@ -124,6 +126,7 @@ export class Label implements ILabel, DBObject {
     public origin: any;
 
     public id: string;
+    public index: number;
     public owner: string;
     public name: string;
     public updated: number;
@@ -160,6 +163,7 @@ export class Label implements ILabel, DBObject {
     public export(): ILabel {
         return {
             id: this.id,
+            index: this.index,
             owner: this.owner,
             name: this.name,
             updated: this.updated,

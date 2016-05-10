@@ -30,8 +30,8 @@ export class DB extends Dexie {
         }
         this.version(DB.VERSION).stores({
             recipes: "id",
-            recipe_items: "id, parent",
-            labels: "id"
+            recipe_items: "id, parent, index",
+            labels: "id, index"
         });
     }
 

@@ -49,8 +49,8 @@
         width: 35px;
         left: 0;
         padding: 0;
-        opacity: 0;
-        transform: scale(0);
+        opacity: 1;
+        transform: scale(1);
         transition: all 200ms; }
     :host .box section.content ul li[editing=true] button[name=remove] {
       opacity: 1;

@@ -112,6 +112,16 @@ export class PopupLabels extends PopupWindow {
             }
         }, 0);
     }
+    
+    private _focusOut() {
+        let children: NodeListOf<any> = this._element.querySelectorAll('.content li.label .title input[type=text]');
+        let length: number = children.length;
+        let current: number = this._currentFocusIndex;
+        for (let i = 0; i <= length; i++) {
+            console.log($(children[i]));
+            $(children[i]).blur();
+        }
+    }
 
     private _onFocusName(index: number) {
         this._editingStates[index] = true;
@@ -162,6 +172,7 @@ export class PopupLabels extends PopupWindow {
     }
     
     private _beforewait(e: any) {
-        
+        console.log(1);
+        this._focusOut();
     }
 }

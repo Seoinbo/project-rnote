@@ -108,6 +108,15 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                         }
                     }, 0);
                 };
+                PopupLabels.prototype._focusOut = function () {
+                    var children = this._element.querySelectorAll('.content li.label .title input[type=text]');
+                    var length = children.length;
+                    var current = this._currentFocusIndex;
+                    for (var i = 0; i <= length; i++) {
+                        console.log($(children[i]));
+                        $(children[i]).blur();
+                    }
+                };
                 PopupLabels.prototype._onFocusName = function (index) {
                     this._editingStates[index] = true;
                     this._currentFocusIndex = index;
@@ -148,6 +157,8 @@ System.register(['angular2/core', 'ng2-dragula/ng2-dragula', '../../../services/
                     return false;
                 };
                 PopupLabels.prototype._beforewait = function (e) {
+                    console.log(1);
+                    this._focusOut();
                 };
                 __decorate([
                     core_1.ViewChildren(animate_1.Animate), 
